@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ActiLife</string>
+    <string name="desc_img_soleil">image de soleil</string>
+    <string name="desc_img_lune">image de lune</string>
+    <string name="text_notif_reveil">C’est l’heure de se réveillez</string>
+    <string name="text_notif_couchez">C’est l’heure de se couchez</string>
 </resources>
