@@ -11,6 +11,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -40,6 +42,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+        } else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
+            idAndName = "Sport";
+            createChannel(notif_manager, idAndName, idAndName);
+        }
+
+        Intent intentActivity = new Intent();
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        Log.d("test", " " + R.layout.notifications_prochaine_activite);
         RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
 
         //Ne devrai jamais arriver théoriquement
@@ -54,9 +65,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setCustomContentView(layout_notif)
                 .setContentIntent(pendingIntent)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
+                .setContentIntent(pendingIntent);
 
         notif_manager.notify(type_notif.ordinal(), builder.build());
-    }
+    
 
     public void createChannel(NotificationManager manager, String nameChannel, String idChannel){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -100,6 +112,14 @@ public class AlarmReceiver extends BroadcastReceiver {
                 layout = R.layout.notification_hydratation;
                 break;
 
+
+            case BIENTOT_HEURE_SPORT:
+                layout = R.layout.notifications_faire_sport;
+                break;
+
+            case PROCHAINE_ACTIVITE_SPORTIF:
+                layout = R.layout.notifications_prochaine_activite;
+                break;
 
             default:
                 layout = -1;
