@@ -33,6 +33,7 @@
         android:textSize="20sp"
         android:textColor="@color/white"
         android:text="@string/text_notif_reveil"
+        android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/image_lune1"
