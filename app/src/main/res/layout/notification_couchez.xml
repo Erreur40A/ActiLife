@@ -37,6 +37,7 @@
     <TextView
         android:id="@+id/text_notification"
         android:layout_width="0dp"
+<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="20sp"
@@ -61,10 +62,15 @@
     <TextView
         android:id="@+id/text_notification"
         android:layout_width="wrap_content"
+=======
+>>>>>>> 97b996a (ajout son et vibration pour les notifications)
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:textSize="20sp"
         android:textColor="@color/white"
         android:text="@string/text_notif_reveil"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

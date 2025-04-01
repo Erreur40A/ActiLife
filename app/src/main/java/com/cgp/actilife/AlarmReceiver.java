@@ -12,7 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.os.Build;
-import android.util.Log;
+import android.provider.Settings;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -50,7 +50,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent intentActivity = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        Log.d("test", " " + R.layout.notifications_prochaine_activite);
         RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
 
         //Ne devrai jamais arriver théoriquement
@@ -117,8 +116,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 layout = R.layout.notifications_faire_sport;
                 break;
 
-            case PROCHAINE_ACTIVITE_SPORTIF:
-                layout = R.layout.notifications_prochaine_activite;
+            case RAPPEL_HEURE_REVEIL:
+                layout = R.layout.notifcation_reveil;
+                break;
+
+            case RAPPEL_MEDICAMENT:
+                layout = R.layout.notification_medicament;
                 break;
 
             default:
