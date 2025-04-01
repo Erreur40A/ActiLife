@@ -33,6 +33,7 @@
         android:textColor="@color/white"
         android:text="@string/text_notif_reveil"
         app:layout_constraintTop_toTopOf="parent"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/image_soleil1"
         app:layout_constraintRight_toLeftOf="@id/image_soleil2"
