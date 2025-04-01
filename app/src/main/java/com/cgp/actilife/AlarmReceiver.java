@@ -6,8 +6,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
+import android.provider.Settings;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -25,15 +28,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(idLayout == -1){
             //Ne devrai jamais arriver théoriquement
             throw new InternalError("Le type de notifications spécifier n'existe pas");
-        } else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
-            idAndName = "Sport";
+        } else if (idLayout == R.layout.notifcation_reveil || idLayout == R.layout.notification_couchez) {
+            idAndName = "Rappel Sommeil";
             createChannel(notif_manager, idAndName, idAndName);
         }
 
         Intent intentActivity = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        Log.d("test", " " + R.layout.notifications_prochaine_activite);
         RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
 
         //Ne devrai jamais arriver théoriquement
@@ -46,7 +48,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setCustomContentView(layout_notif)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL);
 
         notif_manager.notify(type_notif.ordinal(), builder.build());
     }
@@ -54,6 +57,20 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void createChannel(NotificationManager manager, String nameChannel, String idChannel){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(idChannel, nameChannel, NotificationManager.IMPORTANCE_HIGH);
+
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            AudioAttributes attribut_audio = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+
+            //{pause à 0ms, vibration à 500ms, pause à 1000ms}
+            long[] vibration = {0, 500, 1000};
+
+            channel.enableVibration(true);
+            channel.setVibrationPattern(vibration);
+            channel.setSound(sound, attribut_audio);
+
             manager.createNotificationChannel(channel);
         }
     }
@@ -63,12 +80,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // A compléter dans les autres branches
         switch (type) {
-            case BIENTOT_HEURE_SPORT:
-                layout = R.layout.notifications_faire_sport;
+            case RAPPEL_HEURE_COUCHER:
+                layout = R.layout.notification_couchez;
                 break;
 
-            case PROCHAINE_ACTIVITE_SPORTIF:
-                layout = R.layout.notifications_prochaine_activite;
+            case RAPPEL_HEURE_REVEIL:
+                layout = R.layout.notifcation_reveil;
+                break;
+
+            case RAPPEL_MEDICAMENT:
+                layout = R.layout.notification_medicament;
                 break;
 
             default:
