@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -33,7 +34,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent intentActivity = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        Log.d("test", " " + R.layout.notifications_prochaine_activite);
         RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
 
         //Ne devrai jamais arriver théoriquement
@@ -42,9 +42,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, idAndName);
 
-        builder.setSmallIcon(R.drawable.logoactilife)
+        builder.setContentTitle("ActiLife")
+                .setSmallIcon(R.drawable.logoactilife)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(layout_notif)
                 .setContentIntent(pendingIntent);
 
