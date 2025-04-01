@@ -1,0 +1,10 @@
+package com.cgp.actilife;
+
+public enum LesNotifications {
+    RAPPEL_MEDICAMENT,
+    PROCHAINE_ACTIVITE_SPORTIF,
+    BIENTOT_HEURE_SPORT,
+    RAPPEL_HYDRATATION,
+    RAPPEL_HEURE_COUCHER,
+    RAPPEL_HEURE_REVEIL;
+}
