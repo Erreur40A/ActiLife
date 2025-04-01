@@ -33,4 +33,7 @@
     <string name="btnRetour_desc">Bouton retour</string>
     <string name="logo_app_desc">logo de l\'apk</string>
     <string name="motivation_sommeil">motivation_sommeil</string>
+    <string name="desc_img_faire_exo">image humain qui fait du sport</string>
+    <string name="text_notification_prochaine_activite">C\'est bientôt l\'heure de passer à la prochaine activité</string>
+    <string name="text_notification_faire_sport">C\'est bientôt l\'heure de votre séance de sport</string>
 </resources>
