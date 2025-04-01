@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ActiLife</string>
+    <string name="desc_img_faire_exo">image humain qui fait du sport</string>
+    <string name="text_notification_prochaine_activite">C\'est bientôt l\'heure de passer à la prochaine activité</string>
+    <string name="text_notification_faire_sport">C\'est bientôt l\'heure de votre séance de sport</string>
 </resources>
