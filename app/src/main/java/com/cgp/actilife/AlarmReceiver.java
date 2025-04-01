@@ -13,6 +13,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.os.Build;
 import android.provider.Settings;
+import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -38,9 +40,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             createChannel(notif_manager, idAndName, idAndName);
         }
 
-        Intent intentActivity = new Intent(context, MainActivity.class);
-        intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        // Intent intentActivity = new Intent(context, MainActivity.class);
+        // intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        // PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         } else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
             idAndName = "Sport";
@@ -50,6 +52,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent intentActivity = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+        Log.d("test", " " + R.layout.notifications_prochaine_activite);
         RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
 
         //Ne devrai jamais arriver théoriquement
@@ -64,6 +67,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setCustomContentView(layout_notif)
                 .setContentIntent(pendingIntent)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
+                .setContentIntent(pendingIntent);
+
+        notif_manager.notify(type_notif.ordinal(), builder.build());
+    
                 .setContentIntent(pendingIntent);
 
         notif_manager.notify(type_notif.ordinal(), builder.build());
@@ -99,9 +106,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 layout = R.layout.notification_couchez;
                 break;
 
-            case RAPPEL_HEURE_REVEIL:
-                layout = R.layout.notifcation_reveil;
-                break;
 
             case RAPPEL_MEDICAMENT:
                 layout = R.layout.notification_medicament;
@@ -122,6 +126,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             case RAPPEL_MEDICAMENT:
                 layout = R.layout.notification_medicament;
+            case PROCHAINE_ACTIVITE_SPORTIF:
+                layout = R.layout.notifications_prochaine_activite;
                 break;
 
             default:

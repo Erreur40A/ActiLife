@@ -30,10 +30,13 @@ public class AlarmScheduler {
 
         Calendar date = Calendar.getInstance();
 
+<<<<<<< HEAD
         if (date.get(Calendar.DAY_OF_MONTH) + jour > date.getActualMaximum(Calendar.DAY_OF_MONTH)){
             date.add(Calendar.MONTH, 1);
         }
 
+=======
+>>>>>>> 1a2f7dd (ajout back-end notifications planning_sport)
         date.set(Calendar.DAY_OF_MONTH, jour);
         date.set(Calendar.HOUR_OF_DAY, heure);
         date.set(Calendar.MINUTE, minute);
