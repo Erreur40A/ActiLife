@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ActiLife</string>
+<<<<<<< HEAD
     <string name="icon_settings">Icon settings</string>
     <string name="bienvenue_sur_actilife">Bienvenue sur ActiLife</string>
     <string name="icone_de_l_activite">Icone de l\'activite</string>
@@ -13,4 +14,10 @@
     <string name="text_notif_hydratation">Toc toc, c\'est l\'heure de s\'hydrater</string>
     <string name="hello_with_name">Hello %1$s</string>
     <string name="param_tres">Paramètres</string>
+=======
+    <string name="desc_img_soleil">image de soleil</string>
+    <string name="desc_img_lune">image de lune</string>
+    <string name="text_notif_reveil">C’est l’heure de se réveillez</string>
+    <string name="text_notif_couchez">C’est l’heure de se couchez</string>
+>>>>>>> a53b07a (ajout notifications reveil + couchez)
 </resources>

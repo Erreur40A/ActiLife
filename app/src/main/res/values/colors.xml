@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="grey">#D3D3D3</color>
     <color name="white">#FFFFFFFF</color>
+<<<<<<< HEAD
     <color name="blueColor">#033C75</color>
     <color name="secondBlue">#284444</color>
     <color name="red">#0055CCFF</color>
@@ -17,3 +18,9 @@
         <color name="switch_thumb">#FFFFFF</color> <!-- Votre couleur pour le bouton (thumb) -->
 
 </resources>
+=======
+    <color name="jaune">#E88D00</color>
+    <color name="bleu_nuit">#003366</color>
+    <color name="bleu_clair">#007aff</color>
+    </resources>
+>>>>>>> a53b07a (ajout notifications reveil + couchez)
