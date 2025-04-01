@@ -6,9 +6,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
+import android.provider.Settings;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -26,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(idLayout == -1){
             //Ne devrai jamais arriver théoriquement
             throw new InternalError("Le type de notifications spécifier n'existe pas");
-        } else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
+        } else if (idLayout == R.layout.notifications_faire_sport || idLayout == R.layout.notifications_prochaine_activite) {
             idAndName = "Sport";
             createChannel(notif_manager, idAndName, idAndName);
         }
@@ -42,13 +44,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, idAndName);
 
-        builder.setContentTitle("ActiLife")
-                .setSmallIcon(R.drawable.logoactilife)
+        builder.setSmallIcon(R.drawable.logoactilife)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
-                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(layout_notif)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL);
 
         notif_manager.notify(type_notif.ordinal(), builder.build());
     }
@@ -56,6 +57,20 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void createChannel(NotificationManager manager, String nameChannel, String idChannel){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(idChannel, nameChannel, NotificationManager.IMPORTANCE_HIGH);
+
+            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            AudioAttributes attribut_audio = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+
+            //{pause à 0ms, vibration à 500ms, pause à 1000ms}
+            long[] vibration = {0, 500, 1000};
+
+            channel.enableVibration(true);
+            channel.setVibrationPattern(vibration);
+            channel.setSound(sound, attribut_audio);
+
             manager.createNotificationChannel(channel);
         }
     }
