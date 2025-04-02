@@ -3,4 +3,10 @@
     <string name="icon_settings">Icon settings</string>
     <string name="bienvenue_sur_actilife">Bienvenue sur ActiLife</string>
     <string name="icone_de_l_activite">Icone de l\'activite</string>
+    <string name="icone_retour">Icone retour</string>
+    <string name="edit_icon">edit-icon</string>
+    <string name="nom">Nom</string>
+    <string name="edit">Edit</string>
+    <string name="ok">OK</string>
+    <string name="rappel_hydratation">Rappel Hydratation</string>
 </resources>
