@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- En-tête personnalisé -->
+    <include
+        android:id="@+id/headerSuppression"
+        layout="@layout/entete_supprimer_medoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Liste des médicaments à supprimer -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMedicaments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerSuppression"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:contentDescription="@string/text_suppr_medoc" />
+
+</RelativeLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/main"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Inclure l'en-tête -->
+    <include
+        android:id="@+id/enteteAjoutMedicament"
+        layout="@layout/entete_ajout_medicament"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- LinearLayout pour les champs de texte et le bouton -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/enteteAjoutMedicament"
+        android:layout_marginTop="20dp">
+
+        <!-- Champ de texte pour le nom du médicament -->
+        <EditText
+            android:id="@+id/nomMedicament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/border_edittext"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:hint="@string/nom_medoc"
+            android:autofillHints="name"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textSize="23sp"
+            android:textStyle="normal" />
+
+        <!-- Champ de texte pour le type de médicament -->
+        <EditText
+            android:id="@+id/typeMedicament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/border_edittext"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:hint="@string/type_medoc"
+            android:autofillHints="name"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textSize="23sp"
+            android:textStyle="normal" />
+
+        <!-- Champ de texte pour l'heure du médicament -->
+        <EditText
+            android:id="@+id/heureMedicament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/border_edittext"
+            android:hint="@string/heure_prise_medoc"
+            android:autofillHints="time"
+            android:inputType="time"
+            android:padding="16dp"
+            android:textSize="23sp"
+            android:textStyle="normal" />
+
+        <!-- Bouton Ajouter -->
+        <Button
+            android:id="@+id/btnAjouterMedicament2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/text_ajout_medoc"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="30sp"
+            android:backgroundTint="@color/hello_red"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</android.widget.RelativeLayout>

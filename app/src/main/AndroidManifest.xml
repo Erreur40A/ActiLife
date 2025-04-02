@@ -20,7 +20,17 @@
             android:exported="false" />
         <activity
             android:name=".RappelMedicamentActivity"
-            android:exported="false" />
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+
         <activity
             android:name=".PlanningSportActivity"
             android:exported="false" />
@@ -36,6 +46,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity android:name=".SupprimmerMedicamentActivity">
+
+        </activity>
+
+
+        <activity android:name=".AjoutMedicamentActivity">
+            <!-- Configuration pour RappelMedicamentActivity -->
+        </activity>
     </application>
 
 </manifest>
