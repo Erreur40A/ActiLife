@@ -10,11 +10,10 @@ import androidx.core.view.WindowInsetsCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.os.Bundle;
 import android.content.Intent;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
 
