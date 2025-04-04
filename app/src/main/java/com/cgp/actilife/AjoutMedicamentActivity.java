@@ -1,67 +1,101 @@
-package com.cgp.actilife; // Remplacez par le nom de votre package
+package com.cgp.actilife;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class AjoutMedicamentActivity extends AppCompatActivity {
+
     private ImageView btnRetour;
     private EditText editTextNom, editTextType, editTextHeure;
     private Button btnAjouterMedicament2;
+    private LinearLayout layoutHeuresAjoutees;
+
+    private ArrayList<String> heures = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajout_medicament); // Raccorde le layout XML
+        setContentView(R.layout.activity_ajout_medicament);
 
-        // Trouver l'ImageView du bouton retour
-        this.editTextNom = findViewById(R.id.nomMedicament);
-        this.editTextType = findViewById(R.id.typeMedicament);
-        this.editTextHeure = findViewById(R.id.heureMedicament);
-        this.btnAjouterMedicament2 = findViewById(R.id.btnAjouterMedicament2);
-        this.btnRetour = (ImageView) findViewById(R.id.btnRetour1) ;
-        btnRetour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Créer une intention pour ouvrir la page RappelMedicamentActivity
-                //Intent intent = new Intent(getApplicationContext(), RappelMedicamentActivity.class);
-                //startActivity(intent); // Lance l'activité
-                finish(); // Optionnel : pour fermer l'activité actuelle et ne pas revenir à celle-ci
+        editTextNom = findViewById(R.id.nomMedicament);
+        editTextType = findViewById(R.id.typeMedicament);
+        editTextHeure = findViewById(R.id.heureMedicament);
+        btnAjouterMedicament2 = findViewById(R.id.btnAjouterMedicament2);
+        layoutHeuresAjoutees = findViewById(R.id.layoutHeuresAjoutees);
+        btnRetour = findViewById(R.id.btnRetour1);
+
+        // Retour
+        btnRetour.setOnClickListener(v -> finish());
+
+        // Click sur champ heure → ouvre un TimePicker
+        editTextHeure.setOnClickListener(v -> showTimePicker());
+
+        // Ajouter médicament
+        btnAjouterMedicament2.setOnClickListener(v -> {
+            String nom = editTextNom.getText().toString();
+            String type = editTextType.getText().toString();
+
+            if (TextUtils.isEmpty(nom) || TextUtils.isEmpty(type) || heures.isEmpty()) {
+                Toast.makeText(this, "Remplissez tous les champs et ajoutez au moins une heure", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-        btnAjouterMedicament2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Récupération des données saisies dans les champs de texte
-                String nom = editTextNom.getText().toString();
-                String type = editTextType.getText().toString();
-                String heure = editTextHeure.getText().toString();
 
-                // Vérification que les champs sont remplis
-                if (TextUtils.isEmpty(nom) || TextUtils.isEmpty(type) || TextUtils.isEmpty(heure)) {
-                    Toast.makeText(AjoutMedicamentActivity.this, "Tous les champs doivent être remplis", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Créer un objet Medicament avec les valeurs récupérées
-                    Medicament nouveauMedicament = new Medicament(nom, type, heure);
-
-                    // Créer un intent pour retourner les données à l'activité appelante
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("nom", nom);
-                    resultIntent.putExtra("type", type);
-                    resultIntent.putExtra("heure", heure);
-                    setResult(RESULT_OK, resultIntent);
-                    finish(); // Ferme cette activité et retourne à la précédente
-                }
+            ArrayList<Medicament> resultList = new ArrayList<>();
+            for (String heure : heures) {
+                resultList.add(new Medicament(nom, type, heure));
             }
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("liste_medocs", resultList);
+            setResult(RESULT_OK, resultIntent);
+            finish();
         });
+    }
 
+    private void showTimePicker() {
+        int hour = 12;
+        int minute = 0;
 
+        // TimePicker en mode spinner avec style Holo
+        TimePickerDialog timePicker = new TimePickerDialog(
+                this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                (view, selectedHour, selectedMinute) -> {
+                    String heureFormattee = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute);
+                    if (!heures.contains(heureFormattee)) {
+                        heures.add(heureFormattee);
+                        afficherHeureDansLayout(heureFormattee);
+                    } else {
+                        Toast.makeText(this, "Heure déjà ajoutée", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                hour,
+                minute,
+                true
+        );
+
+        // Fond transparent pour un look propre
+        timePicker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        timePicker.show();
+    }
+
+    private void afficherHeureDansLayout(String heure) {
+        TextView tv = new TextView(this);
+        tv.setText("• " + heure);
+        tv.setTextSize(18);
+        layoutHeuresAjoutees.addView(tv);
     }
 }
