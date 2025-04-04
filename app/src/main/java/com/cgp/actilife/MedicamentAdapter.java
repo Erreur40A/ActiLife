@@ -19,17 +19,16 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
 
     @Override
     public MedicamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Crée une vue à partir du layout
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_medicament, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_medicament, parent, false);
         return new MedicamentViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MedicamentViewHolder holder, int position) {
-        // Récupère le médicament à la position donnée
         Medicament medicament = medicamentList.get(position);
 
-        // Lie les données du médicament aux vues du layout
+        // On affiche une seule prise ici : exemple "Doliprane (Comprimé) à 08:00"
         holder.nomTextView.setText(medicament.getNom());
         holder.typeTextView.setText("(" + medicament.getType() + ")");
         holder.heureTextView.setText(medicament.getHeure());
@@ -37,11 +36,10 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
 
     @Override
     public int getItemCount() {
-        // Retourne le nombre d'éléments dans la liste
         return medicamentList.size();
     }
 
-    public class MedicamentViewHolder extends RecyclerView.ViewHolder {
+    public static class MedicamentViewHolder extends RecyclerView.ViewHolder {
         public TextView nomTextView, typeTextView, heureTextView;
 
         public MedicamentViewHolder(View view) {

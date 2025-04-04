@@ -25,4 +25,3 @@ public class Medicament implements Serializable {
         return heure;
     }
 }
-
