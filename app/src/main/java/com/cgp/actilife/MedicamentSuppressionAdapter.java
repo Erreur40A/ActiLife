@@ -31,9 +31,9 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Medicament m = medicamentList.get(position);
 
-        holder.nomTextView.setText("Nom : " + m.getNom());
-        holder.typeTextView.setText("Type : " + m.getType());
-        holder.heureTextView.setText("Heure : " + m.getHeure());
+        holder.nomTextView.setText(m.getNom());
+        holder.typeTextView.setText(" - " + m.getType());
+        holder.heureTextView.setText(" - " + m.getHeure());
 
         holder.btnSupprimer.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();

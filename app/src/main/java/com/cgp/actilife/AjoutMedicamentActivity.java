@@ -4,8 +4,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,9 +16,8 @@ import java.util.Locale;
 
 public class AjoutMedicamentActivity extends AppCompatActivity {
 
-    private ImageView btnRetour;
-    private EditText editTextNom, editTextType, editTextHeure;
-    private Button btnAjouterMedicament2;
+    private EditText editTextNom;
+    private EditText editTextType;
     private LinearLayout layoutHeuresAjoutees;
 
     private ArrayList<String> heures = new ArrayList<>();
@@ -32,10 +29,10 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
 
         editTextNom = findViewById(R.id.nomMedicament);
         editTextType = findViewById(R.id.typeMedicament);
-        editTextHeure = findViewById(R.id.heureMedicament);
-        btnAjouterMedicament2 = findViewById(R.id.btnAjouterMedicament2);
+        EditText editTextHeure = findViewById(R.id.heureMedicament);
+        Button btnAjouterMedicament2 = findViewById(R.id.btnAjouterMedicament2);
         layoutHeuresAjoutees = findViewById(R.id.layoutHeuresAjoutees);
-        btnRetour = findViewById(R.id.btnRetour1);
+        ImageView btnRetour = findViewById(R.id.btnRetour1);
 
         // Retour
         btnRetour.setOnClickListener(v -> finish());
