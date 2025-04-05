@@ -7,19 +7,12 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Inclure l'en-tête -->
-    <include
-        android:id="@+id/enteteAjoutMedicament"
-        layout="@layout/entete_ajout_medicament"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <!-- Contenu principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/enteteAjoutMedicament"
         android:layout_marginTop="20dp">
 
         <!-- Champ : Nom du médicament -->
@@ -82,18 +75,43 @@
             android:dividerPadding="4dp" />
 
         <!-- Bouton Ajouter -->
-        <Button
-            android:id="@+id/btnAjouterMedicament2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/rounded_button"
-            android:text="@string/text_ajout_medoc"
-            android:textColor="@android:color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:weightSum="2">
+
+            <!-- Bouton Annuler -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRetour1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_button"
+                android:text="@string/annuler_medoc"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Bouton Ajouter -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAjouterMedicament2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/rounded_button"
+                android:text="@string/text_ajout_medoc"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
 
     </LinearLayout>
 </RelativeLayout>

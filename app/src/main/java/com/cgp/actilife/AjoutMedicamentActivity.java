@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
+import androidx.appcompat.widget.AppCompatButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
     private EditText editTextType;
     private LinearLayout layoutHeuresAjoutees;
 
+
     private ArrayList<String> heures = new ArrayList<>();
 
     @Override
@@ -32,12 +34,14 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
         EditText editTextHeure = findViewById(R.id.heureMedicament);
         Button btnAjouterMedicament2 = findViewById(R.id.btnAjouterMedicament2);
         layoutHeuresAjoutees = findViewById(R.id.layoutHeuresAjoutees);
-        ImageView btnRetour = findViewById(R.id.btnRetour1);
 
-        // Retour
-        btnRetour.setOnClickListener(v -> finish());
 
-        // Click sur champ heure → ouvre un TimePicker
+        // Retour ie annuler et fermer la pop up
+        AppCompatButton btnAnnuler = findViewById(R.id.btnRetour1);
+        btnAnnuler.setOnClickListener(v -> finish());
+
+
+
         editTextHeure.setOnClickListener(v -> showTimePicker());
 
         // Ajouter médicament
@@ -66,7 +70,7 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
         int hour = 12;
         int minute = 0;
 
-        // TimePicker en mode spinner avec style Holo
+
         TimePickerDialog timePicker = new TimePickerDialog(
                 this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
@@ -84,7 +88,7 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
                 true
         );
 
-        // Fond transparent pour un look propre
+
         timePicker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         timePicker.show();
     }

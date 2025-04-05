@@ -32,7 +32,7 @@
         layout="@layout/liste_medicaments"/>
 
     <!-- Bouton Supprimer : tout en bas -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSupprimerMedicament"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         android:layout_marginBottom="16dp" />
 
     <!-- Bouton Ajouter : juste au-dessus -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAjouterMedicament"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
