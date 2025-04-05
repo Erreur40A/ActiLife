@@ -99,8 +99,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:thumbTint="@color/secondBlue"
-                    android:trackTint="@color/grey"
+                    app:thumbTint="@color/secondBlue"
+                    app:trackTint="@color/grey"
                     android:trackTintMode="src_in" />
 
             </LinearLayout>
@@ -111,8 +111,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                app:backgroundTint="@color/blueColor"
                 android:background="@drawable/button_contour"
-
                 android:gravity="center"
                 android:text="@string/ok"
                 android:textColor="@android:color/white"
