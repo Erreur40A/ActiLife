@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ public class SupprimmerMedicamentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MedicamentSuppressionAdapter adapter;
     private ArrayList<Medicament> listeMedocs;
+    private int tailleAvantSuppression;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +25,21 @@ public class SupprimmerMedicamentActivity extends AppCompatActivity {
         // Utilisation directe de la liste partagée depuis RappelMedicamentActivity
         listeMedocs = (ArrayList<Medicament>) RappelMedicamentActivity.medicamentList;
 
+        // On garde une trace de la taille initiale pour détecter une suppression
+        tailleAvantSuppression = listeMedocs.size();
+
         recyclerView = findViewById(R.id.recyclerViewMedicaments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MedicamentSuppressionAdapter(listeMedocs);
         recyclerView.setAdapter(adapter);
 
         // Bouton retour (depuis l'en-tête)
-        ImageView btnRetour = findViewById(R.id.btnRetourDeSuppression);
+        AppCompatButton btnRetour = findViewById(R.id.btnRetourDeSuppression);
         if (btnRetour != null) {
             btnRetour.setOnClickListener(v -> {
-                setResult(RESULT_OK); // Indique qu'il y a eu une modification
+                if (listeMedocs.size() < tailleAvantSuppression) {
+                    setResult(RESULT_OK); // Il y a eu des suppressions
+                }
                 finish();
             });
         }

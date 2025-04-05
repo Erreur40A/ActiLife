@@ -18,7 +18,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
     private RecyclerView recyclerViewMedicaments;
     private MedicamentAdapter medicamentAdapter;
 
-    // Liste rendue publique et statique pour être partagée
+
     public static List<Medicament> medicamentList = new ArrayList<>();
 
     private Button btnAjouterMedicament;
@@ -60,7 +60,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
                         medicamentList.addAll(nouveaux);
                         medicamentAdapter.notifyItemRangeInserted(debut, nouveaux.size());
 
-                        Log.d("DEBUG_MEDICAMENT", "Ajout groupé de " + nouveaux.size() + " éléments.");
+                        Log.d("DEBUG_MEDICAMENT", "Ajout graupé de " + nouveaux.size() + " éléments.");
                         Log.d("DEBUG_MEDICAMENT", "Nouvelle taille totale : " + medicamentList.size());
                     }
                 }

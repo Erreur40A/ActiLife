@@ -1,23 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <!-- En-tête personnalisé -->
-    <include
-        android:id="@+id/headerSuppression"
-        layout="@layout/entete_supprimer_medoc"
+    <!-- Bouton Fermer simple -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRetourDeSuppression"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Fermer"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <!-- Liste des médicaments à supprimer -->
+    <!-- Liste des médicaments -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMedicaments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/headerSuppression"
-        android:padding="16dp"
+        android:layout_below="@id/btnRetourDeSuppression"
         android:clipToPadding="false"
-        android:contentDescription="@string/text_suppr_medoc" />
-
+        android:contentDescription="@string/text_suppr_medoc"
+        android:layout_marginTop="8dp"/>
 </RelativeLayout>

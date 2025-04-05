@@ -19,25 +19,36 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnSupprimerItem"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:adjustViewBounds="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/bouton_suppr_meoc"
+                android:scaleType="fitCenter"
+                android:src="@drawable/poubelle1" />
 
             <TextView
                 android:id="@+id/nomMedicament"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text=" "
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="8dp" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/typeMedicament"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text=" "
-                android:textSize="16sp"
-                android:layout_marginEnd="8dp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/heureMedicament"
@@ -48,16 +59,6 @@
         </LinearLayout>
 
         <!-- Bouton de suppression -->
-        <ImageButton
-            android:id="@+id/btnSupprimerItem"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/bouton_suppr_meoc"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:src="@drawable/poubelle1" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

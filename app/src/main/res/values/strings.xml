@@ -11,4 +11,5 @@
     <string name="text_suppr_medoc">Supprimer un Medicament</string>
     <string name="liste_medicaments_a_prendre">La liste des medicaments a prendre</string>
     <string name="bouton_suppr_meoc">Supprimer un medicament</string>
+    <string name="annuler_medoc">Annuler</string>
 </resources>
