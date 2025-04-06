@@ -32,7 +32,6 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
         Medicament m = medicamentList.get(position);
 
         holder.nomTextView.setText(m.getNom());
-        holder.typeTextView.setText(" - " + m.getType());
         holder.heureTextView.setText(" - " + m.getHeure());
 
         holder.btnSupprimer.setOnClickListener(v -> {
@@ -54,7 +53,6 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
         ViewHolder(View itemView) {
             super(itemView);
             nomTextView = itemView.findViewById(R.id.nomMedicament);
-            typeTextView = itemView.findViewById(R.id.typeMedicament);
             heureTextView = itemView.findViewById(R.id.heureMedicament);
             btnSupprimer = itemView.findViewById(R.id.btnSupprimerItem);
         }
