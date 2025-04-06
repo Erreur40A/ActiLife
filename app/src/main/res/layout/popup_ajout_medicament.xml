@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/main"
     android:layout_height="match_parent"
+    android:background="@drawable/background_pop_up"
     android:padding="16dp">
 
 
@@ -31,21 +32,6 @@
             android:textSize="23sp"
             android:textStyle="normal" />
 
-        <!-- Champ : Type du médicament -->
-        <EditText
-            android:id="@+id/typeMedicament"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/border_edittext"
-            android:hint="@string/type_medoc"
-            android:autofillHints="name"
-            android:inputType="text"
-            android:padding="16dp"
-            android:textSize="23sp"
-            android:textStyle="normal" />
 
         <!-- Champ : Heure (choix via TimePicker) -->
         <EditText

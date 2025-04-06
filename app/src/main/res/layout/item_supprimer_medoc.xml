@@ -43,14 +43,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/typeMedicament"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text=" "
-                android:textSize="16sp" />
-
-            <TextView
                 android:id="@+id/heureMedicament"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

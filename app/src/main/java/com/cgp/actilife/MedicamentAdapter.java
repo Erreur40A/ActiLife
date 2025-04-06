@@ -30,7 +30,6 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
 
         // On affiche une seule prise ici : exemple "Doliprane (Comprimé) à 08:00"
         holder.nomTextView.setText(medicament.getNom());
-        holder.typeTextView.setText("(" + medicament.getType() + ")");
         holder.heureTextView.setText(medicament.getHeure());
     }
 
@@ -40,12 +39,11 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
     }
 
     public static class MedicamentViewHolder extends RecyclerView.ViewHolder {
-        public TextView nomTextView, typeTextView, heureTextView;
+        public TextView nomTextView, heureTextView;
 
         public MedicamentViewHolder(View view) {
             super(view);
             nomTextView = view.findViewById(R.id.nomMedicament);
-            typeTextView = view.findViewById(R.id.typeMedicament);
             heureTextView = view.findViewById(R.id.heureMedicament);
         }
     }

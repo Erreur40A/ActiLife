@@ -1,7 +1,11 @@
 package com.cgp.actilife;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -20,28 +24,39 @@ public class SupprimmerMedicamentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suppression_medoc);
 
-        // Utilisation directe de la liste partagée depuis RappelMedicamentActivity
+        // Crée une fenêtre de type Dialog au lieu de setContentView classique
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.PopUpArrondi);
+        LayoutInflater inflater = getLayoutInflater();
+        View popupView = inflater.inflate(R.layout.popup_suppression_medoc, null);
+        builder.setView(popupView);
+
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        // Récupération de la liste partagée
         listeMedocs = (ArrayList<Medicament>) RappelMedicamentActivity.medicamentList;
-
-        // On garde une trace de la taille initiale pour détecter une suppression
         tailleAvantSuppression = listeMedocs.size();
 
-        recyclerView = findViewById(R.id.recyclerViewMedicaments);
+        recyclerView = popupView.findViewById(R.id.recyclerViewMedicaments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MedicamentSuppressionAdapter(listeMedocs);
         recyclerView.setAdapter(adapter);
 
-        // Bouton retour (depuis l'en-tête)
-        AppCompatButton btnRetour = findViewById(R.id.btnRetourDeSuppression);
+        AppCompatButton btnRetour = popupView.findViewById(R.id.btnRetourDeSuppression);
         if (btnRetour != null) {
             btnRetour.setOnClickListener(v -> {
                 if (listeMedocs.size() < tailleAvantSuppression) {
-                    setResult(RESULT_OK); // Il y a eu des suppressions
+                    setResult(RESULT_OK);
                 }
-                finish();
+                dialog.dismiss();
+                finish(); // termine l'activité
             });
         }
+
+        dialog.show();
+
     }
 }
