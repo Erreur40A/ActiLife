@@ -1,8 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="#003375"/> <!-- Couleur personnalisée -->
-<<<<<<< HEAD
     <corners android:radius="26dp"/>
-=======
-    <corners android:radius="16dp"/>
->>>>>>> 5f76123 (update de plat calorie)
 </shape>

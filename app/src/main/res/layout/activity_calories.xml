@@ -42,7 +42,8 @@
             android:id="@+id/HeadTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ActiLife"
+            android:text="@string/actilife"
+            android:textColor="@color/bleu"
             android:textSize="50sp"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -64,8 +65,8 @@
             android:id="@+id/btnAjouterPlat"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Ajouter un plat"
-            android:textColor="#FFFFFF"
+            android:text="@string/ajouter_un_plat"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bouton" />
@@ -77,7 +78,6 @@
             android:padding="16dp"
             android:elevation="2dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#DDDDDD"
             android:background="@drawable/rounded_box">
 
             <RelativeLayout
@@ -100,7 +100,7 @@
                     android:layout_alignBottom="@id/text_defil"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/chevron"
+                    android:src="@drawable/chevron_down_solid"
                     android:contentDescription="Clipboard" />
             </RelativeLayout>
 
@@ -131,7 +131,7 @@
                     android:layout_alignBottom="@id/inputQuantite"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/clipboard"
+                    android:src="@drawable/pen_to_square_regular"
                     android:contentDescription="Clipboard" />
             </RelativeLayout>
 
@@ -168,14 +168,14 @@
                 android:layout_height="20dp"
                 android:progress="26"
                 android:max="100"
-                android:progressTint="#B30000"
+                android:progressDrawable="@drawable/custom_bar"
                 android:layout_marginTop="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="26%"
-                android:textColor="#B30000"
+                android:textColor="@color/bleu"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
