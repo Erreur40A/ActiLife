@@ -3,15 +3,9 @@ package com.cgp.actilife;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.widget.EditText;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import android.widget.EditText;
 import android.os.Bundle;
 import android.view.View;

@@ -91,6 +91,7 @@
             android:background="@drawable/rounded_box">
 
             <TextView
+                android:id="@+id/text_bar_pas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vous avez fait 100 pas sur 500"
@@ -99,7 +100,7 @@
                 android:textSize="20sp"/>
 
             <ProgressBar
-                android:id="@+id/progressCalories"
+                android:id="@+id/bar_pas"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -109,6 +110,7 @@
                 android:layout_marginTop="8dp" />
 
             <TextView
+                android:id="@+id/pct_bar_pas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20%"
@@ -135,7 +137,7 @@
                 android:textSize="20dp"/>
 
             <EditText
-                android:id="@+id/inputQuantite"
+                android:id="@+id/inputQuantite_pas"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:gravity="center"
@@ -150,7 +152,7 @@
                 android:background="@drawable/pas_edittext" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnAjouterPlat"
+                android:id="@+id/btn_para_pas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="OK"
