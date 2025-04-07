@@ -65,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (etPoidsLayout != null) {
             EditText etPoids = etPoidsLayout.findViewById(R.id.edit_text);
             if (etPoids != null) {
-                etPoids.setHint("Poids");
+                etPoids.setHint("Taille");
                 etPoids.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             }
         }

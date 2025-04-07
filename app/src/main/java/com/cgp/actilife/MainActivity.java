@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 new MenuItem(R.id.menu3, R.drawable.weight_hanging_solid, "Suivi du poids", SettingsActivity.class),
                 new MenuItem(R.id.menu4, R.drawable.person_running_solid, "Planning de sport", SettingsActivity.class),
                 new MenuItem(R.id.menu5, R.drawable.prescription_bottle_medical_solid, "Rappel medocs", SettingsActivity.class),
-                new MenuItem(R.id.menu6, R.drawable.bed_solid, "Rappel sommeil", SettingsActivity.class),
+                new MenuItem(R.id.menu6, R.drawable.bed_solid, "Rappel sommeil", RappelSommeilActivity.class),
                 new MenuItem(R.id.menu7, R.drawable.bottle_water_solid, "Rappel hydratation", SettingsActivity.class)
         );
 
