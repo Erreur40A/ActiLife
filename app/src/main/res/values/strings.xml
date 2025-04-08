@@ -68,4 +68,7 @@
     <string name="calories_ing_r_s_aujourd_hui">calories ingérés aujourd’hui</string>
     <string name="_26">26%</string>
     <string name="actilife">ActiLife</string>
+    <string name="quantit">Quantité</string>
+    <string name="annuler">Annuler</string>
+    <string name="ajouter">Ajouter</string>
 </resources>
