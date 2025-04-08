@@ -16,14 +16,7 @@
         android:textSize="20sp"
         android:layout_marginEnd="8dp" />
 
-    <!-- Type du médicament (comprimé, gélule, etc.) -->
-    <TextView
-        android:id="@+id/typeMedicament"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Type"
-        android:textSize="20sp"
-        android:layout_marginEnd="8dp" />
+
 
     <!-- Heure à laquelle il faut prendre le médicament -->
     <TextView
