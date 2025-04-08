@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical">
+
+    <!-- Nom du médicament et type en une seule ligne -->
+    <TextView
+        android:id="@+id/nomMedicament"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nom du médicament"
+        android:textSize="20sp"
+        android:layout_marginEnd="8dp" />
+
+
+
+    <!-- Heure à laquelle il faut prendre le médicament -->
+    <TextView
+        android:id="@+id/heureMedicament"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Heure"
+        android:textSize="20sp" />
+
+</LinearLayout>

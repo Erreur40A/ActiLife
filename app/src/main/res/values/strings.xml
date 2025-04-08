@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">ActiLife</string>
+    <string name="btnRetour_desc">le bouton de retour</string>
+    <string name="logo_app_desc">le logo de l\'appli</string>
+    <string name="titre_liste_medocs">Rappel de medicaments</string>
+    <string name="heure_prise_medoc">heure de prise</string>
+    <string name="nom_medoc">nom du medicament</string>
+    <string name="text_ajout_medoc">Ajouter</string>
+    <string name="type_medoc">type du medicament</string>
+    <string name="text_ajout_medicament">Ajouter un Medicament</string>
+    <string name="text_suppr_medoc">Supprimer un Medicament</string>
+    <string name="liste_medicaments_a_prendre">La liste des medicaments a prendre</string>
+    <string name="bouton_suppr_meoc">Supprimer un medicament</string>
+    <string name="annuler_medoc">Annuler</string>
     <string name="desc_img_faire_exo">image humain qui fait du sport</string>
     <string name="text_notification_prochaine_activite">C\'est bientôt l\'heure de passer à la prochaine activité</string>
     <string name="text_notification_faire_sport">C\'est bientôt l\'heure de votre séance de sport</string>
