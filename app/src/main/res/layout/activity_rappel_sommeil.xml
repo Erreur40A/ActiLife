@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RappelSommeilActivity">
-
+<!--en tete ici-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -61,6 +61,8 @@
                             android:rowCount="2" />
             </HorizontalScrollView>
         </LinearLayout>
+
+<!--   Message de motivation ici     -->
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
