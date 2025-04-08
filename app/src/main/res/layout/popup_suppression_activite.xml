@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="@drawable/background_pop_up"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Bouton Fermer simple -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRetourDeSuppressionActivite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fermer"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Liste des médicaments -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewActivitesSportives"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/btnRetourDeSuppressionActivite"
+        android:clipToPadding="false"
+        android:contentDescription="@string/texte_suppr_activites"
+        android:layout_marginTop="8dp"/>
+</RelativeLayout>
