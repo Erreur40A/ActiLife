@@ -1,6 +1,7 @@
 package com.cgp.actilife;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,14 @@ public class PlanningSportActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        PopUp pop_up_ajout_activite = new
+        PopUp pop_up_ajout_activite = new PopUp(this, R.layout.popup_ajout_activite);
+
+        pop_up_ajout_activite.setOnClickListener(R.id.btnAjouterAcivite2, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 }
