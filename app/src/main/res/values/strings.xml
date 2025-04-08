@@ -4,4 +4,10 @@
     <string name="calories_ing_r_s_aujourd_hui">calories ingérés aujourd’hui</string>
     <string name="_26">26%</string>
     <string name="actilife">ActiLife</string>
+    <string name="saisisez_votre_nouvelle_objectif_du_jour">Saisisez votre nouvelle objectif du jour</string>
+    <string name="_0">0</string>
+    <string name="ok">OK</string>
+    <string name="motivation">Motivation</string>
+    <string name="logo_actilife">Logo ActiLife</string>
+    <string name="retour">Retour</string>
 </resources>
