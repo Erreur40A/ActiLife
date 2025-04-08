@@ -1,6 +1,12 @@
 package com.cgp.actilife;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.view.LayoutInflater;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +26,18 @@ public class CaloriesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        PopUp popUp = new PopUp(this, R.layout.test_pop_up);
+
+        popUp.setOnClickListener(R.id.text_pop_up, new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "TextView appuyer", Toast.LENGTH_LONG).show();
+                popUp.dismiss();
+            }
+        });
+
+        popUp.show();
     }
 }

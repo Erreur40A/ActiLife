@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PopUpArrondi">
+        <item name="android:windowBackground">@drawable/background_pop_up</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+</resources>
