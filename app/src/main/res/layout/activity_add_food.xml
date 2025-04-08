@@ -9,6 +9,7 @@
     tools:context=".CaloriesActivity">
 
     <LinearLayout
+        android:id="@+id/contenu_popup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
