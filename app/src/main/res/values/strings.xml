@@ -28,4 +28,6 @@
         <item>Homme</item>
         <item>Femme</item>
     </string-array>
+    <string name="rappel_de_coucher">Rappel de coucher</string>
+    <string name="rappel_de_r_veil">Rappel de réveil</string>
 </resources>
