@@ -22,18 +22,7 @@ public class PlanningSportActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        PopUp pop_up_ajout_activite = new
 
-        //Exemple d'initialisation d'une notification
-        Calendar dateDuJour = Calendar.getInstance();
-        //la notif arrive 1min après le lancement de l'app
-        dateDuJour.add(Calendar.MINUTE, 1);
-
-        AlarmScheduler.setAlarm(
-                this,
-                dateDuJour.get(Calendar.DAY_OF_MONTH),
-                dateDuJour.get(Calendar.HOUR_OF_DAY),
-                dateDuJour.get(Calendar.MINUTE),
-                LesNotifications.PROCHAINE_ACTIVITE_SPORTIF);
     }
-    /*--------Fin exemple---------*/
 }

@@ -15,4 +15,14 @@
     <string name="desc_img_faire_exo">image humain qui fait du sport</string>
     <string name="text_notification_prochaine_activite">C\'est bientôt l\'heure de passer à la prochaine activité</string>
     <string name="text_notification_faire_sport">C\'est bientôt l\'heure de votre séance de sport</string>
+    <string name="listes_activites_sportives">La liste des activites a effetuer </string>
+    <string name="titre_liste_activites">Planning des Activités</string>
+    <string name="texte_suppr_activites">Supprimer une Activité</string>
+    <string name="texte_ajout_activite">Ajouter une Activité</string>
+    <string name="nom_activite">nom de l\'activite</string>
+    <string name="heure_debut_activite">heure de début</string>
+    <string name="heure_fin_activite">heure de fin</string>
+    <string name="annuler_activite">Annuler</string>
+    <string name="ajouter_activite">Ajouter</string>
+
 </resources>
