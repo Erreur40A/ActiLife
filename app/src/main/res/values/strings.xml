@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ActiLife</string>
+    <string name="rappel_de_coucher">Rappel de coucher</string>
+    <string name="rappel_de_r_veil">Rappel de réveil</string>
 </resources>
