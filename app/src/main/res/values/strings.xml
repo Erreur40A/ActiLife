@@ -9,4 +9,6 @@
     <string name="edit">Edit</string>
     <string name="ok">OK</string>
     <string name="rappel_hydratation">Rappel Hydratation</string>
+    <string name="dsec_img_bouteille_d_eau">Bouteille d\'eau</string>
+    <string name="text_notif_hydratation">Toc toc, c\'est l\'heure de s\'hydrater</string>
 </resources>
