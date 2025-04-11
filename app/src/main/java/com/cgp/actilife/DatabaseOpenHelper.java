@@ -1,11 +1,14 @@
 package com.cgp.actilife;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DatabaseOpenHelper extends SQLiteAssetHelper {
@@ -128,4 +131,120 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
             db.close();
         }
     }
+
+
+    public List<Map<String, String>> getAll(String tableName) {
+        List<Map<String, String>> records = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM " + tableName, null);
+
+            while (cursor.moveToNext()) {
+                Map<String, String> record = new HashMap<>();
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
+                    record.put(cursor.getColumnName(i), cursor.getString(i));
+                }
+                records.add(record);
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("DatabaseError", "Error retrieving all from " + tableName, e);
+        } finally {
+            db.close();
+        }
+
+        return records;
+    }
+
+    public Map<String, String> getOneWithId(String tableName, long id) {
+        Map<String, String> record = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM " + tableName + " WHERE id = ?", new String[]{String.valueOf(id)});
+
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
+                    record.put(cursor.getColumnName(i), cursor.getString(i));
+                }
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("DatabaseError", "Error retrieving one from " + tableName + " with ID " + id, e);
+        } finally {
+            db.close();
+        }
+
+        return record;
+    }
+
+    public Map<String, String> getOneWithoutId(String tableName) {
+        Map<String, String> record = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM " + tableName + " LIMIT 1", null);
+
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
+                    record.put(cursor.getColumnName(i), cursor.getString(i));
+                }
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("DatabaseError", "Error retrieving one from " + tableName, e);
+        } finally {
+            db.close();
+        }
+
+        return record;
+    }
+
+    public String getAttributeWithId(String tableName, String attribute, long id) {
+        String value = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT " + attribute + " FROM " + tableName + " WHERE id = ?", new String[]{String.valueOf(id)});
+
+            if (cursor.moveToFirst()) {
+                value = cursor.getString(0);
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("DatabaseError", "Error retrieving attribute " + attribute + " from " + tableName + " with ID " + id, e);
+        } finally {
+            db.close();
+        }
+
+        return value;
+    }
+
+    public String getAttributeWithoutId(String tableName, String attribute) {
+        String value = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT " + attribute + " FROM " + tableName + " LIMIT 1", null);
+
+            if (cursor.moveToFirst()) {
+                value = cursor.getString(0);
+            }
+
+            cursor.close();
+        } catch (Exception e) {
+            Log.e("DatabaseError", "Error retrieving attribute " + attribute + " from " + tableName, e);
+        } finally {
+            db.close();
+        }
+
+        return value;
+    }
+
+
 }
