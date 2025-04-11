@@ -6,5 +6,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RappelSommeilActivity">
+<!--en tete ici-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
+            android:gravity="center">
+
+            <TextView
+                android:text="@string/rappel_de_coucher"
+                android:textSize="18sp"
+                android:textColor="@color/blueColor"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp">
+                <GridLayout
+                    android:id="@+id/bedGrid"
+                    android:columnCount="7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alignmentMode="alignMargins"
+                    android:rowCount="2"/>
+            </HorizontalScrollView>
+
+            <TextView
+                android:text="@string/rappel_de_r_veil"
+                android:textSize="18sp"
+                android:textColor="@color/blueColor"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                        <GridLayout
+                            android:id="@+id/wakeGrid"
+                            android:columnCount="7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:rowCount="2" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+<!--   Message de motivation ici     -->
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

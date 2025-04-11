@@ -1,12 +1,27 @@
 package com.cgp.actilife;
 
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class RappelSommeilActivity extends AppCompatActivity {
 
@@ -20,5 +35,87 @@ public class RappelSommeilActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+        GridLayout bedGrid = findViewById(R.id.bedGrid);
+        GridLayout wakeGrid = findViewById(R.id.wakeGrid);
+
+       // bedGrid.setBackground(R.drawable.cell_background);
+
+        String[] days = {"L", "Ma", "Me", "J", "V", "S", "D"};
+        String[] bedtime = {"22h30", "20h", "21h", "22h", "23h", "21h", "2h"};
+        String[] waketime = {"8h30", "9h", "7h", "6h45", "10h", "12h", "13h"};
+
+        addRowToGrid(this, bedGrid, days, false);
+        addRowToGrid(this, bedGrid, bedtime, true);
+
+        addRowToGrid(this, wakeGrid, days, false);
+        addRowToGrid(this, wakeGrid, waketime, true);
     }
+
+    private void addRowToGrid(Context context, GridLayout grid, String[] values, boolean clickable) {
+        int columns = values.length;
+        int row = grid.getChildCount() / columns;
+        int totalRows = 2; // car tu ajoutes 2 lignes : jours et heures
+
+        for (int i = 0; i < columns; i++) {
+            TextView tv = new TextView(context);
+            tv.setText(values[i]);
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextColor(ContextCompat.getColor(this, R.color.blueColor));
+            tv.setTypeface(null, Typeface.BOLD);
+            tv.setPadding(2, 24, 2, 24);
+            int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
+            tv.setWidth(widthInDp);
+
+            // Déterminer quelle cellule c’est
+            boolean isTop = row == 0;
+            boolean isBottom = row == totalRows - 1;
+            boolean isLeft = i == 0;
+            boolean isRight = i == columns - 1;
+
+            Drawable bg;
+
+            if (row == 0 && i == 0) {
+                bg = ContextCompat.getDrawable(context, R.drawable.cell_corner_top_left);
+            } else if (row == 0 && i == values.length - 1) {
+                bg = ContextCompat.getDrawable(context, R.drawable.cell_corner_top_right);
+            } else if (row == 1 && i == 0) {
+                bg = ContextCompat.getDrawable(context, R.drawable.cell_corner_bottom_left);
+            } else if (row == 1 && i == values.length - 1) {
+                bg = ContextCompat.getDrawable(context, R.drawable.cell_corner_bottom_right);
+            } else {
+                bg = ContextCompat.getDrawable(context, R.drawable.cell_middle);
+            }
+
+            tv.setBackground(bg);
+
+            // Positionnement dans la grille
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.columnSpec = GridLayout.spec(i);
+            params.rowSpec = GridLayout.spec(row);
+            tv.setLayoutParams(params);
+
+            // Si cliquable, ajouter l'action de TimePicker
+            if (clickable) {
+                final int index = i;
+                tv.setOnClickListener(v -> {
+                    String[] parts = values[index].split("h");
+                    int hour = Integer.parseInt(parts[0]);
+                    int minute = (parts.length > 1) ? Integer.parseInt(parts[1]) : 0;
+
+                    TimePickerDialog tpd = new TimePickerDialog(context,
+                            (view, hourOfDay, minute1) -> {
+                                String time = hourOfDay + "h" + (minute1 < 10 ? "0" : "") + minute1;
+                                tv.setText(time);
+                            }, hour, minute, true);
+                    tpd.show();
+                });
+            }
+
+            grid.addView(tv);
+        }
+    }
+
+
 }
