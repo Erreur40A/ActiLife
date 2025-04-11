@@ -59,6 +59,12 @@ public final class ConstDB {
     public static final String RAPPELS_SOMMEIL_HEURE_REVEIL = "heure_reveil";
     public static final String RAPPELS_SOMMEIL_HEURE_COUCHER = "heure_coucher";
 
+    // ==================== TABLE: motivations ====================
+    public static final String MOTIVATIONS = "motivations";
+    public static final String MOTIVATIONS_ID = "id";
+    public static final String MOTIVATIONS_TYPE = "type";
+    public static final String MOTIVATIONS_MESSAGE = "message";
+
     private ConstDB() {
         // Classe utilitaire non instanciable
     }
