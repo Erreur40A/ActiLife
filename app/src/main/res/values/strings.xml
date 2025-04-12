@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">ActiLife</string>
+    <string name="icon_settings">Icon settings</string>
+    <string name="bienvenue_sur_actilife">Bienvenue sur ActiLife</string>
+    <string name="icone_de_l_activite">Icone de l\'activite</string>
+    <string name="icone_retour">Icone retour</string>
+    <string name="edit_icon">edit-icon</string>
+    <string name="nom">Nom</string>
+    <string name="edit">Edit</string>
+    <string name="ok">OK</string>
+    <string name="rappel_hydratation">Rappel Hydratation</string>
+    <string name="dsec_img_bouteille_d_eau">Bouteille d\'eau</string>
+    <string name="text_notif_hydratation">Toc toc, c\'est l\'heure de s\'hydrater</string>
+    <string name="rappel_de_coucher">Rappel de coucher</string>
+    <string name="rappel_de_r_veil">Rappel de réveil</string>
+    <string name="hello_with_name">Hello %1$s</string>
 </resources>

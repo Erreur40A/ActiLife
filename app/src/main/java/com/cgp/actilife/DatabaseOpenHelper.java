@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class DatabaseOpenHelper extends SQLiteAssetHelper {
     private static final String DATABASE_NAME = "ActiLife.db";
+    private static final Random RANDOM = new Random();
     public DatabaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -37,6 +39,7 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
             // Exécution de la requête
             db.execSQL(updateQuery.toString(), params.toArray(new String[0]));
+            Log.i("Update - "+tableName, "Maj reussie" );
         } catch (Exception e) {
             Log.e("DatabaseError", "Error updating table " + tableName + " with id " + id, e);
         } finally {
@@ -62,6 +65,7 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
             // Exécution de la requête
             db.execSQL(updateQuery.toString(), params.toArray(new String[0]));
+            Log.i("Update - "+tableName, "Maj reussie" );
         } catch (Exception e) {
             Log.e("DatabaseError", "Error updating table " + tableName, e);
         } finally {
@@ -95,6 +99,7 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
 
             // Exécution de la requête d'insertion
             db.execSQL(query.toString(), params.toArray(new String[0]));
+            Log.i("Insertion - "+tableName, "Insertion reussie" );
         } catch (Exception e) {
             Log.e("DatabaseError", "Error inserting data into table " + tableName, e);
         } finally {
@@ -246,5 +251,35 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
         return value;
     }
 
+    public String getMotivation(String type){
+        long id;
+
+        switch (type) {
+            case ConstDB.MOTIVATIONS_TYPE_SPORT:
+                id = generateRandomLong(1, 10);
+                break;
+            case ConstDB.MOTIVATIONS_TYPE_SOMMEIL:
+                id = generateRandomLong(11, 20);
+                break;
+            case ConstDB.MOTIVATIONS_TYPE_PAS:
+                id = generateRandomLong(21, 30);
+                break;
+            case ConstDB.MOTIVATIONS_TYPE_USER_CALORIES:
+                id = generateRandomLong(31, 40);
+                break;
+            default:
+                throw new IllegalArgumentException("Type de motivation invalide : " + type);
+        }
+
+        return getAttributeWithId(ConstDB.MOTIVATIONS, ConstDB.MOTIVATIONS_MESSAGE, id);
+
+    }
+
+    public static long generateRandomLong(long a, long b) {
+        if (a > b) {
+            throw new IllegalArgumentException("a doit être inférieur ou égal à b");
+        }
+        return a + (long) (RANDOM.nextDouble() * (b - a + 1));
+    }
 
 }

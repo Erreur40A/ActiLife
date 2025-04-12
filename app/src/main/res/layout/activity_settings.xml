@@ -31,9 +31,10 @@
             android:src="@drawable/arrow_left_long_solid" />
 
         <TextView
+            android:id="@+id/hello_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello Adam"
+            android:text="@string/hello_with_name"
             android:textColor="@color/blueColor"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -101,7 +102,7 @@
                     android:layout_marginEnd="10dp"
                     app:thumbTint="@color/blueColor"
                     app:trackTint="@color/grey"
-                    android:trackTintMode="src_in" />
+                    android:trackTintMode="src_in"/>
 
             </LinearLayout>
 

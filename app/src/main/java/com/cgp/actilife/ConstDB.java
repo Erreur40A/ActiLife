@@ -63,6 +63,11 @@ public final class ConstDB {
     public static final String MOTIVATIONS = "motivations";
     public static final String MOTIVATIONS_ID = "id";
     public static final String MOTIVATIONS_TYPE = "type";
+
+    public static final String MOTIVATIONS_TYPE_SPORT = "sport";
+    public static final String MOTIVATIONS_TYPE_SOMMEIL = "sommeil";
+    public static final String MOTIVATIONS_TYPE_PAS = "pas";
+    public static final String MOTIVATIONS_TYPE_USER_CALORIES = "user_calories";
     public static final String MOTIVATIONS_MESSAGE = "message";
 
     private ConstDB() {

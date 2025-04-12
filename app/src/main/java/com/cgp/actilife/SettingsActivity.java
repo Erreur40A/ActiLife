@@ -5,13 +5,24 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.text.InputType;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -27,48 +38,125 @@ public class SettingsActivity extends AppCompatActivity {
             return insets;
         });
 
-
         ImageView btnRetour = findViewById(R.id.iconBack);
         btnRetour.setOnClickListener(v -> finish());
 
 
-        LinearLayout etNomLayout = (LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etNom);
-        if (etNomLayout != null) {
-            EditText etNom = etNomLayout.findViewById(R.id.edit_text);
-            if (etNom != null) {
+        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
+        Map<String, String> userdata = db.getOneWithoutId(ConstDB.USERDATA);
+
+        // =================== Récupération des champs ===================
+        EditText etNom = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etNom)).findViewById(R.id.edit_text);
+        EditText etPrenom = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etPrenom)).findViewById(R.id.edit_text);
+        EditText etAge = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etAge)).findViewById(R.id.edit_text);
+        EditText etPoids = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etPoids)).findViewById(R.id.edit_text);
+        SwitchCompat switchHydratation = findViewById(R.id.switch_hydratation);
+
+        if (etNom != null) {
+            if (userdata.containsKey(ConstDB.USERDATA_NOM) && userdata.get(ConstDB.USERDATA_NOM) != null) {
+                etNom.setText(userdata.get(ConstDB.USERDATA_NOM));
+            } else {
                 etNom.setHint("Nom");
             }
         }
 
-       LinearLayout etPrenomLayout = (LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etPrenom);
-       if (etPrenomLayout != null) {
-            EditText etPrenom = etPrenomLayout.findViewById(R.id.edit_text);
-           if (etPrenom != null) {
+        if (etPrenom != null) {
+            if (userdata.containsKey(ConstDB.USERDATA_PRENOM) && userdata.get(ConstDB.USERDATA_PRENOM) != null) {
+                etPrenom.setText(userdata.get(ConstDB.USERDATA_PRENOM));
+            } else {
                 etPrenom.setHint("Prénom");
-          }
-       }
+            }
+        }
 
-        LinearLayout etAgeLayout = findViewById(R.id.formCont).findViewById(R.id.etAge);
-        if (etAgeLayout != null) {
-            EditText etAge = etAgeLayout.findViewById(R.id.edit_text);
-            if (etAge != null) {
+        if (etAge != null) {
+            if (userdata.containsKey(ConstDB.USERDATA_DATE_NAISSANCE) && userdata.get(ConstDB.USERDATA_DATE_NAISSANCE) != null) {
+                etAge.setText(userdata.get(ConstDB.USERDATA_DATE_NAISSANCE));
+            } else {
                 etAge.setHint("Date de naissance");
-                etAge.setInputType(InputType.TYPE_NULL);  // Désactive le clavier
-
-                etAge.setOnClickListener(v -> {
-                    showDatePickerDialog(etAge);
-                });
             }
+            etAge.setInputType(InputType.TYPE_NULL);
+            etAge.setOnClickListener(v -> showDatePickerDialog(etAge));
         }
 
-        LinearLayout etPoidsLayout = (LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etPoids);
-        if (etPoidsLayout != null) {
-            EditText etPoids = etPoidsLayout.findViewById(R.id.edit_text);
-            if (etPoids != null) {
+        if (etPoids != null) {
+            if (userdata.containsKey(ConstDB.USERDATA_TAILLE_CM) && userdata.get(ConstDB.USERDATA_TAILLE_CM) != null) {
+                etPoids.setText(userdata.get(ConstDB.USERDATA_TAILLE_CM));
+            } else {
                 etPoids.setHint("Taille");
-                etPoids.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            }
+            etPoids.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        }
+
+        if (switchHydratation != null) {
+            if (userdata.containsKey(ConstDB.USERDATA_RAPPEL_HYDRATATION_ACTIVE)) {
+                String val = userdata.get(ConstDB.USERDATA_RAPPEL_HYDRATATION_ACTIVE);
+                switchHydratation.setChecked("1".equals(val) || "true".equalsIgnoreCase(val));
+            } else {
+                switchHydratation.setChecked(false);  // ou true si tu veux activer par défaut
             }
         }
+
+        String prenomValue = etPrenom.getText().toString().trim();
+        TextView helloText = findViewById(R.id.hello_name);
+        if (!prenomValue.isEmpty()) {
+            String helloMessage = getString(R.string.hello_with_name, prenomValue);
+            helloText.setText(helloMessage);
+        }
+
+        Button confirmBtn = findViewById((R.id.btn_ok));
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText etNom = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etNom)).findViewById(R.id.edit_text);
+                EditText etPrenom = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etPrenom)).findViewById(R.id.edit_text);
+                EditText etAge = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etAge)).findViewById(R.id.edit_text);
+                EditText etPoids = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etPoids)).findViewById(R.id.edit_text);
+                SwitchCompat switchHydratation = findViewById(R.id.switch_hydratation);
+
+                boolean isHydratationActive = switchHydratation.isChecked();
+                boolean hasError = false;
+
+                if (etNom.getText().toString().trim().isEmpty()) {
+                    etNom.setError("Ce champ est requis");
+                    hasError = true;
+                }
+                if (etPrenom.getText().toString().trim().isEmpty()) {
+                    etPrenom.setError("Ce champ est requis");
+                    hasError = true;
+                }
+                if (etAge.getText().toString().trim().isEmpty()) {
+                    etAge.setError("Ce champ est requis");
+                    hasError = true;
+                }
+                if (etPoids.getText().toString().trim().isEmpty()) {
+                    etPoids.setError("Ce champ est requis");
+                    hasError = true;
+                }
+
+                if (!hasError) {
+                    // Crée le dictionnaire pour la mise à jour
+                    Map<String, Object> fields = new HashMap<>();
+                    fields.put(ConstDB.USERDATA_NOM, etNom.getText().toString().trim());
+                    fields.put(ConstDB.USERDATA_PRENOM, etPrenom.getText().toString().trim());
+                    fields.put(ConstDB.USERDATA_DATE_NAISSANCE, etAge.getText().toString().trim());
+                    fields.put(ConstDB.USERDATA_TAILLE_CM, etPoids.getText().toString().trim());
+                    fields.put(ConstDB.USERDATA_RAPPEL_HYDRATATION_ACTIVE, isHydratationActive);
+                    Map<String, String> userdata = db.getOneWithoutId(ConstDB.USERDATA);
+
+                    // test getMotivation
+                    // String mot = db.getMotivation(ConstDB.MOTIVATIONS_TYPE_SPORT);
+                    // Log.i("test-motivation", mot);
+                    if (userdata != null && ! userdata.isEmpty()){
+                        db.updateTableWithoutId(ConstDB.USERDATA, fields);
+                    }
+                    else{
+                        db.insertData(ConstDB.USERDATA, fields);
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Informations enregistrées", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void showDatePickerDialog(EditText etAge) {
