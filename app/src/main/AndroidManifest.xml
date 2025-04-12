@@ -49,20 +49,7 @@
 
         <activity
             android:name=".RappelMedicamentActivity"
-<<<<<<< HEAD
             android:exported="false" />
-=======
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
->>>>>>> ed6c29d (premiere version de rappel medicament y compris ajout suppression des medicaments)
 
         <activity
             android:name=".PlanningSportActivity"
@@ -82,22 +69,11 @@
 
         <activity
             android:name=".MainActivity"
-<<<<<<< HEAD
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-=======
-            android:exported="false" />
-        <activity android:name=".SupprimmerMedicamentActivity">
-
-        </activity>
-
-
-        <activity android:name=".AjoutMedicamentActivity">
-            <!-- Configuration pour RappelMedicamentActivity -->
->>>>>>> ed6c29d (premiere version de rappel medicament y compris ajout suppression des medicaments)
         </activity>
     </application>
 

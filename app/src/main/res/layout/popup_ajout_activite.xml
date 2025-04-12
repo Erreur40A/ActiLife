@@ -1,72 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/main"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/background_pop_up"
     android:padding="16dp">
 
-
-    <!-- Contenu principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp">
 
-        <!-- Champ : Nom du médicament -->
-        <EditText
-            android:id="@+id/nomActivite"
+        <!-- Bloc : Nom de l’activité -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:background="@drawable/border_edittext"
-            android:hint="@string/nom_activite"
-            android:autofillHints="name"
-            android:inputType="text"
-            android:padding="16dp"
-            android:textSize="23sp"
-            android:textStyle="normal" />
+            android:orientation="vertical"
+            android:padding="18dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Entrez le nom de la nouvelle activité :"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
-        <!-- Champ : Heure (choix via TimePicker) -->
-        <EditText
-            android:id="@+id/heureDebutActivite"
+            <EditText
+                android:id="@+id/nomActivite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="ecrire ici..."
+                android:inputType="text"
+                android:textColorHint="@android:color/darker_gray"
+
+                android:paddingTop="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <!-- Bloc : Heure de début -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="1dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:orientation="vertical"
             android:background="@drawable/border_edittext"
-            android:hint="@string/heure_debut_activite"
-            android:focusable="false"
-            android:clickable="true"
-            android:padding="16dp"
-            android:textSize="23sp"
-            android:textStyle="normal" />
+            android:padding="18dp">
 
-        <EditText
-            android:id="@+id/heureFinActivite"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Entrez l’heure de début de l’activité :"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/heureDebutActivite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ecrire ici..."
+                android:focusable="false"
+                android:clickable="true"
+                android:textColorHint="@android:color/darker_gray"
+
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:paddingTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Bloc : Heure de fin -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="1dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:orientation="vertical"
             android:background="@drawable/border_edittext"
-            android:hint="@string/heure_fin_activite"
-            android:focusable="false"
-            android:clickable="true"
-            android:padding="16dp"
-            android:textSize="23sp"
-            android:textStyle="normal" />
+            android:padding="18dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Entrez l’heure de fin de l’activité :"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
+            <EditText
+                android:id="@+id/heureFinActivite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ecrire ici"
+                android:focusable="false"
+                android:textColorHint="@android:color/darker_gray"
 
-        <!-- Bouton Ajouter -->
+                android:clickable="true"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:paddingTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Boutons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,7 +120,6 @@
             android:gravity="center"
             android:weightSum="2">
 
-            <!-- Bouton Annuler -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRetour2"
                 android:layout_width="0dp"
@@ -90,7 +132,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Bouton Ajouter -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAjouterAcivite2"
                 android:layout_width="0dp"
@@ -103,7 +144,5 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
-
     </LinearLayout>
 </RelativeLayout>

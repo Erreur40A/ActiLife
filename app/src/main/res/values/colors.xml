@@ -8,7 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="grey">#D3D3D3</color>
     <color name="white">#FFFFFFFF</color>
-<<<<<<< HEAD
     <color name="blueColor">#033C75</color>
     <color name="secondBlue">#284444</color>
     <color name="red">#0055CCFF</color>
@@ -20,10 +19,9 @@
     <color name="jaune">#E88D00</color>
     <color name="bleu_nuit">#003366</color>
     <color name="bleu_clair">#007aff</color>
-</resources>
-=======
     <color name="primaryColor">#033C75</color>
     <color name="hello_red">#FF0000</color>
     <color name="lightblue">#ADD8E6</color>
+    <color name="blue">#0080FF</color>
 </resources>
->>>>>>> ed6c29d (premiere version de rappel medicament y compris ajout suppression des medicaments)
+
