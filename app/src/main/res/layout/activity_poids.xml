@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         layout="@layout/entete_poids"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/graph"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -21,27 +20,36 @@
         android:id="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:layout_constraintBottom_toTopOf="@id/valeur_poids_restant"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header" />
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <include
+        android:id="@+id/valeur_poids_restant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/valeur_poids_restant"
         layout="@layout/poids_restant"
         app:layout_constraintTop_toBottomOf="@id/graph"
+        app:layout_constraintBottom_toTopOf="@id/saisi_poids_actuelle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <include
+        android:id="@+id/saisi_poids_actuelle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/saisie_poids_actuelle"
+        app:layout_constraintTop_toBottomOf="@id/valeur_poids_restant"
         app:layout_constraintBottom_toTopOf="@id/saisi_objectif"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
     <include
+        android:id="@+id/saisi_objectif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/saisi_objectif"
         layout="@layout/saisie_objectif_poids"
-        app:layout_constraintTop_toBottomOf="@id/valeur_poids_restant"
+        app:layout_constraintTop_toBottomOf="@id/saisi_poids_actuelle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
