@@ -17,4 +17,5 @@
     <string name="objectif_poids_initial">80</string>
     <string name="text_poids_restant2">de votre objectif</string>
     <string name="text_poids_restant1">Vous êtes à</string>
+    <string name="demande_poids_actuelle">Quelle est votre poids actuelle ?</string>
 </resources>

@@ -9,7 +9,7 @@
         android:id="@+id/demande_objectif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/demande_objectif_poids"
+        android:text="@string/demande_poids_actuelle"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
