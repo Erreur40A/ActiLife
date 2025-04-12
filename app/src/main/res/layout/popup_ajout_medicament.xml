@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,70 +7,97 @@
     android:background="@drawable/background_pop_up"
     android:padding="16dp">
 
-
-    <!-- Contenu principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp">
 
-        <!-- Champ : Nom du médicament -->
-        <EditText
-            android:id="@+id/nomMedicament"
+        <!-- Bloc : Nom du médicament -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/border_edittext"
-            android:hint="@string/nom_medoc"
-            android:autofillHints="name"
-            android:inputType="text"
-            android:padding="16dp"
-            android:textSize="23sp"
-            android:textStyle="normal" />
+            android:orientation="vertical"
+            android:background="@drawable/border_edittext_blue"
+            android:padding="18dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nom du médicament :"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
-        <!-- Champ : Heure (choix via TimePicker) -->
-        <EditText
-            android:id="@+id/heureMedicament"
+            <EditText
+                android:id="@+id/nomMedicament"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/nom_medoc"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="text"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:paddingTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Bloc : Heure de prise -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/border_edittext"
-            android:hint="@string/heure_prise_medoc"
-            android:focusable="false"
-            android:clickable="true"
-            android:padding="16dp"
-            android:textSize="23sp"
-            android:textStyle="normal" />
+            android:orientation="vertical"
+            android:background="@drawable/border_edittext_blue"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Heure de prise :"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/heureMedicament"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/heure_prise_medoc"
+                android:textColorHint="@android:color/darker_gray"
+                android:focusable="false"
+                android:clickable="true"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:paddingTop="8dp"/>
+        </LinearLayout>
 
         <!-- Liste des heures ajoutées dynamiquement -->
         <LinearLayout
             android:id="@+id/layoutHeuresAjoutees"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginTop="8dp"
             android:divider="?android:attr/dividerVertical"
             android:showDividers="middle"
             android:dividerPadding="4dp" />
 
-        <!-- Bouton Ajouter -->
+        <!-- Boutons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:gravity="center"
             android:weightSum="2">
 
-            <!-- Bouton Annuler -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRetour1"
                 android:layout_width="0dp"
@@ -84,7 +110,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Bouton Ajouter -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAjouterMedicament2"
                 android:layout_width="0dp"
@@ -97,7 +122,5 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
-
     </LinearLayout>
 </RelativeLayout>

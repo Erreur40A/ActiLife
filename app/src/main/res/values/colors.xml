@@ -10,4 +10,5 @@
     <color name="primaryColor">#033C75</color>
     <color name="hello_red">#FF0000</color>
     <color name="lightblue">#ADD8E6</color>
+    <color name="blue">#0080FF</color>
 </resources>

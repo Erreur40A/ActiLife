@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/item_medoc_background"
     android:gravity="center_vertical">
 
     <!-- Nom du médicament et type en une seule ligne -->
