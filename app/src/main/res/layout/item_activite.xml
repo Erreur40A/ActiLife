@@ -13,13 +13,14 @@
         android:id="@+id/heureDebutActivite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="Heure"
         android:textSize="20sp" />
     <TextView
         android:id="@+id/heureFinActivite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Heure"
+        android:text=""
         android:textSize="20sp" />
 
     <!-- Nom du médicament et type en une seule ligne -->
@@ -28,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nom du médicament"
+        android:textStyle="bold"
         android:textSize="20sp"
         android:layout_marginEnd="8dp" />
 
