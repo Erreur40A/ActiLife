@@ -5,6 +5,12 @@ public class Activite {
     private String heureDebut;
     private String heureFin;
 
+    public Activite(String nom, String heureDebut, String heureFin) {
+        this.nom = nom;
+        this.heureDebut = heureDebut;
+        this.heureFin = heureFin;
+    }
+
     public String getNom() {
         return nom;
     }

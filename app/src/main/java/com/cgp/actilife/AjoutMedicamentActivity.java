@@ -2,9 +2,10 @@ package com.cgp.actilife;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.text.TextUtils;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
 
 public class AjoutMedicamentActivity extends AppCompatActivity {
 
