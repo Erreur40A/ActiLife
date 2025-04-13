@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:background="@drawable/background_pop_up"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/background_pop_up">
 
     <!-- Bouton Fermer simple -->
     <androidx.appcompat.widget.AppCompatButton
@@ -17,13 +18,27 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <!-- Liste des médicaments -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewActivitesSportives"
+    <!-- CardView avec RecyclerView positionnée en dessous -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/conteneurRecyclerSuppression"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/btnRetourDeSuppressionActivite"
-        android:clipToPadding="false"
-        android:contentDescription="@string/texte_suppr_activites"
-        android:layout_marginTop="8dp"/>
+        android:layout_margin="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        android:background="@android:color/white">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewSuppressionActivitesSportives"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:contentDescription="@string/texte_suppr_activites"/>
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>
