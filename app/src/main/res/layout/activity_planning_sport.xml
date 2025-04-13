@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/main"
     android:layout_height="match_parent">
 
     <!-- En-tête -->
@@ -47,7 +48,7 @@
 
     <!-- Bouton Ajouter : juste au-dessus -->
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAjouterMedicament"
+        android:id="@+id/btnAjouterActivite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texte_ajout_activite"
