@@ -54,6 +54,7 @@
 </androidx.cardview.widget.CardView>
 
 
+    <!-- Bouton Supprimer : tout en bas -->
     <TextView
         android:id="@+id/messageMotivation"
         android:layout_width="match_parent"
@@ -61,16 +62,14 @@
         android:layout_above="@id/btnAjouterActivite"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/gris_clair"
         android:gravity="center"
-        android:text="Message de motivation"
+        android:text="@string/mdm"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:background="@color/gris_clair"
-    android:textStyle="normal" />
+        android:textStyle="italic" />
 
-
-    <!-- Bouton Supprimer : tout en bas -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSupprimerActivites"
         android:layout_width="match_parent"
@@ -89,15 +88,14 @@
         android:id="@+id/btnAjouterActivite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texte_ajout_activite"
-        android:textColor="@android:color/white"
-        android:background="@drawable/rounded_button"
         android:layout_above="@id/btnSupprimerActivites"
-        android:textSize="20sp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp" />
-
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/texte_ajout_activite"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

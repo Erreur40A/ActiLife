@@ -109,7 +109,47 @@
                 android:paddingTop="8dp"/>
         </LinearLayout>
 
-        <!-- Boutons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical"
+            android:background="@drawable/border_edittext"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Entrez un jour pour l'activité"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/jourActivite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ecrire ici"
+                android:focusable="false"
+                android:textColorHint="@android:color/darker_gray"
+                android:clickable="true"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:paddingTop="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutJoursAjoutees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:divider="?android:attr/dividerVertical"
+            android:showDividers="middle"
+            android:dividerPadding="4dp" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,6 +159,8 @@
             android:layout_marginEnd="15dp"
             android:gravity="center"
             android:weightSum="2">
+
+            <!-- Boutons -->
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRetour2"
