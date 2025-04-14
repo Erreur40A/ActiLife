@@ -9,7 +9,7 @@
 
 
     <!-- Heure à laquelle il faut debuter l'activité -->
-    <TextView
+    <!--<TextView
         android:id="@+id/heureDebutActivite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:text=""
         android:textSize="20sp" />
 
-    <!-- Nom du médicament et type en une seule ligne -->
+
     <TextView
         android:id="@+id/nomActivite"
         android:layout_width="wrap_content"
@@ -32,6 +32,24 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:layout_marginEnd="8dp" />
+    <TextView
+        android:id="@+id/jourActivite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jour"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        /> -->
+    <!-- Ce conteneur servira à afficher les lignes dynamiquement -->
+    <LinearLayout
+        android:id="@+id/layoutJours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="4dp"
+        android:divider="?android:attr/dividerHorizontal"
+        android:showDividers="middle" />
+
 
 
 </LinearLayout>

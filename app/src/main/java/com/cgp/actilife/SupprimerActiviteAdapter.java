@@ -1,5 +1,6 @@
 package com.cgp.actilife;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,19 +9,22 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class SupprimerActiviteAdapter extends RecyclerView.Adapter<SupprimerActiviteAdapter.ViewHolder> {
 
-    private final ArrayList<Activite> activites;
+    private final List<Pair<Activite, String>> activitesAvecJour;
     private final OnDeleteClickListener deleteListener;
 
     public interface OnDeleteClickListener {
-        void onDeleteClick(int position);
+        void onDeleteClick(Activite activite, String jour);
     }
 
-    public SupprimerActiviteAdapter(ArrayList<Activite> activites, OnDeleteClickListener listener) {
-        this.activites = activites;
+    public SupprimerActiviteAdapter(List<Pair<Activite, String>> activitesAvecJour, OnDeleteClickListener listener) {
+        this.activitesAvecJour = activitesAvecJour;
         this.deleteListener = listener;
     }
 
@@ -44,18 +48,38 @@ public class SupprimerActiviteAdapter extends RecyclerView.Adapter<SupprimerActi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Activite a = activites.get(position);
-        holder.txtActivite.setText(a.getHeureDebut() + "-" + a.getHeureFin() + " : " + a.getNom());
+        Pair<Activite, String> pair = activitesAvecJour.get(position);
+        Activite a = pair.first;
+        String jour = pair.second;
+
+        // Format du jour : "Lundi 08/04"
+        String jourFormate = jour;
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
+            Date date = inputFormat.parse(jour);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("EEEE dd/MM", Locale.FRENCH);
+            jourFormate = outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        holder.txtActivite.setText(a.getHeureDebut() + " - " + a.getHeureFin() + " : " + a.getNom() + " " + jourFormate);
 
         holder.btnDelete.setOnClickListener(v -> {
-            if (deleteListener != null) {
-                deleteListener.onDeleteClick(position);
+            int currentPosition = holder.getAdapterPosition();
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                // Informer la liste principale
+                deleteListener.onDeleteClick(a, jour);
+
+                // Supprimer localement pour mise à jour visuelle
+                activitesAvecJour.remove(currentPosition);
+                notifyItemRemoved(currentPosition);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return activites.size();
+        return activitesAvecJour.size();
     }
 }

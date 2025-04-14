@@ -25,5 +25,6 @@
     <string name="annuler_activite">Annuler</string>
     <string name="ajouter_activite">Ajouter</string>
     <string name="boutton_suppr_activite">Supprimer activite</string>
+    <string name="mdm">Chaque petit effort te rapproche de la meilleure version de toi-même.</string>
 
 </resources>
