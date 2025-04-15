@@ -21,3 +21,6 @@
 
 
 </resources>
+    <color name="primaryColor">#033C75</color>
+    <color name="gris">#DCDCDC</color>
+</resources>

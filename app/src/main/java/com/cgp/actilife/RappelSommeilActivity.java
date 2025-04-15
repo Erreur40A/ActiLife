@@ -7,8 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -38,6 +40,14 @@ public class RappelSommeilActivity extends AppCompatActivity {
             return insets;
         });
 
+        // fermer lorsqu'on clique sur le bouton retour
+        View header = findViewById(R.id.header);
+        ImageView btnRetour = header.findViewById(R.id.btnRetour);
+        btnRetour.setOnClickListener(v -> finish());
+
+        TextView motivation = findViewById(R.id.motivation_sommeil);
+        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
+        motivation.setText(db.getMotivation(ConstDB.MOTIVATIONS_TYPE_SOMMEIL));
 
         GridLayout bedGrid = findViewById(R.id.bedGrid);
         GridLayout wakeGrid = findViewById(R.id.wakeGrid);
