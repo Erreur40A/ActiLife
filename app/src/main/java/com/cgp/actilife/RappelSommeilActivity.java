@@ -42,7 +42,6 @@ public class RappelSommeilActivity extends AppCompatActivity {
         GridLayout bedGrid = findViewById(R.id.bedGrid);
         GridLayout wakeGrid = findViewById(R.id.wakeGrid);
 
-       // bedGrid.setBackground(R.drawable.cell_background);
 
         String[] days = {"L", "Ma", "Me", "J", "V", "S", "D"};
         String[] bedtime = {"22h30", "20h", "21h", "22h", "23h", "21h", "2h"};
@@ -58,7 +57,6 @@ public class RappelSommeilActivity extends AppCompatActivity {
     private void addRowToGrid(Context context, GridLayout grid, String[] values, boolean clickable) {
         int columns = values.length;
         int row = grid.getChildCount() / columns;
-        int totalRows = 2; // car tu ajoutes 2 lignes : jours et heures
 
         for (int i = 0; i < columns; i++) {
             TextView tv = new TextView(context);
@@ -69,12 +67,6 @@ public class RappelSommeilActivity extends AppCompatActivity {
             tv.setPadding(2, 24, 2, 24);
             int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
             tv.setWidth(widthInDp);
-
-            // Déterminer quelle cellule c’est
-            boolean isTop = row == 0;
-            boolean isBottom = row == totalRows - 1;
-            boolean isLeft = i == 0;
-            boolean isRight = i == columns - 1;
 
             Drawable bg;
 
