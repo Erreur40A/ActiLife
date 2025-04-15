@@ -77,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (etPoids != null) {
             if (userdata.containsKey(ConstDB.USERDATA_TAILLE_CM) && userdata.get(ConstDB.USERDATA_TAILLE_CM) != null) {
-                etPoids.setText(userdata.get(ConstDB.USERDATA_TAILLE_CM));
+                etPoids.setText(userdata.get(ConstDB.USERDATA_TAILLE_CM ) + " cm");
             } else {
                 etPoids.setHint("Taille");
             }
