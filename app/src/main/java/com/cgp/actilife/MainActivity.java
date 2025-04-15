@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         // Liste des menus avec leur activité associée
         // TODO changer par l'activite correspondante
         List<MenuItem> menuItems = Arrays.asList(
-                new MenuItem(R.id.menu1, R.drawable.fire_solid, "Calories", SettingsActivity.class),
-                new MenuItem(R.id.menu2, R.drawable.shoe_prints_solid, "Nombre de pas", SettingsActivity.class),
-                new MenuItem(R.id.menu3, R.drawable.weight_hanging_solid, "Suivi du poids", SettingsActivity.class),
-                new MenuItem(R.id.menu4, R.drawable.person_running_solid, "Planning de sport", SettingsActivity.class),
-                new MenuItem(R.id.menu5, R.drawable.prescription_bottle_medical_solid, "Rappel medocs", SettingsActivity.class),
-                new MenuItem(R.id.menu6, R.drawable.bed_solid, "Rappel sommeil", SettingsActivity.class),
-                new MenuItem(R.id.menu7, R.drawable.bottle_water_solid, "Rappel hydratation", SettingsActivity.class)
+                new MenuItem(R.id.menu1, R.drawable.fire_solid, "Calories", CaloriesActivity.class),
+                new MenuItem(R.id.menu2, R.drawable.shoe_prints_solid, "Nombre de pas", PasActivity.class),
+                new MenuItem(R.id.menu3, R.drawable.weight_hanging_solid, "Suivi du poids", PoidsActivity.class),
+                new MenuItem(R.id.menu4, R.drawable.person_running_solid, "Planning de sport", PlanningSportActivity.class),
+                new MenuItem(R.id.menu5, R.drawable.prescription_bottle_medical_solid, "Rappel medocs", RappelMedicamentActivity.class),
+                new MenuItem(R.id.menu6, R.drawable.bed_solid, "Rappel sommeil", RappelSommeilActivity.class),
+                new MenuItem(R.id.menu7, R.drawable.bottle_water_solid, "Rappel hydratation", RappelHydratationActivity.class)
         );
 
         // Boucle pour configurer les menus dynamiquement
