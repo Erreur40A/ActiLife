@@ -1,12 +1,13 @@
     package com.cgp.actilife;
 
-    import android.util.Pair;
     import android.app.DatePickerDialog;
     import android.app.TimePickerDialog;
     import android.os.Bundle;
+    import android.util.Pair;
     import android.view.View;
     import android.widget.Button;
     import android.widget.EditText;
+    import android.widget.ImageView;
     import android.widget.LinearLayout;
     import android.widget.TextView;
     import android.widget.Toast;
@@ -45,6 +46,9 @@
 
             Button btnAjouter = findViewById(R.id.btnAjouterActivite);
             Button btnSupprimer = findViewById(R.id.btnSupprimerActivites);
+            ImageView btnRetour = findViewById(R.id.btnRetour);
+
+            btnRetour.setOnClickListener(view -> {finish();});
 
             //pour l'ajout d'une activte dans la liste
 
