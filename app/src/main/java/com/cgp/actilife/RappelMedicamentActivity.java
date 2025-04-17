@@ -2,16 +2,18 @@ package com.cgp.actilife;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RappelMedicamentActivity extends AppCompatActivity {
 
@@ -24,10 +26,36 @@ public class RappelMedicamentActivity extends AppCompatActivity {
     private Button btnAjouterMedicament;
     private Button btnSupprimerMedicamen;
 
+
+    private List<Medicament> chargerMedicamentsDepuisBDD() {
+        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
+        List<Map<String, String>> enregistrements = db.getAll(ConstDB.MEDICAMENTS);
+
+        List<Medicament> liste = new ArrayList<>();
+
+        for (Map<String, String> ligne : enregistrements) {
+            String nom = ligne.get(ConstDB.MEDICAMENTS_NOM);
+            String heuresConcatenees = ligne.get(ConstDB.MEDICAMENTS_HEURES_PRISE);
+
+            if (heuresConcatenees != null && !heuresConcatenees.isEmpty()) {
+                String[] heures = heuresConcatenees.split(",");
+
+                for (String heure : heures) {
+                    liste.add(new Medicament(nom, heure.trim()));
+                }
+            }
+        }
+
+        return liste;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rappel_medicament);
+
+        medicamentList = chargerMedicamentsDepuisBDD();
 
         recyclerViewMedicaments = findViewById(R.id.recyclerViewMedicaments);
         btnAjouterMedicament = findViewById(R.id.btnAjouterMedicament);
@@ -56,12 +84,45 @@ public class RappelMedicamentActivity extends AppCompatActivity {
                     ArrayList<Medicament> nouveaux = (ArrayList<Medicament>) result.getData().getSerializableExtra("liste_medocs");
 
                     if (nouveaux != null && !nouveaux.isEmpty()) {
-                        int debut = medicamentList.size();
-                        medicamentList.addAll(nouveaux);
-                        medicamentAdapter.notifyItemRangeInserted(debut, nouveaux.size());
+                            //  Enregistrement dans la BDD
+                        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
 
-                        Log.d("DEBUG_MEDICAMENT", "Ajout graupé de " + nouveaux.size() + " éléments.");
-                        Log.d("DEBUG_MEDICAMENT", "Nouvelle taille totale : " + medicamentList.size());
+                        // Regrouper les heures par nom
+                        Map<String, List<String>> mapNomVersHeures = new HashMap<>();
+
+                        for (Medicament medicament : nouveaux) {
+                            String nom = medicament.getNom();
+                            String heure = medicament.getHeure();
+
+                            if (!mapNomVersHeures.containsKey(nom)) {
+                                mapNomVersHeures.put(nom, new ArrayList<>());
+                            }
+
+                            mapNomVersHeures.get(nom).add(heure);
+                        }
+
+                        // ✅ Insérer une seule fois chaque médicament avec ses heures concaténées
+                        for (Map.Entry<String, List<String>> entry : mapNomVersHeures.entrySet()) {
+                            String nom = entry.getKey();
+                            String heuresConcat = TextUtils.join(",", entry.getValue());
+
+                            Map<String, Object> fields = new HashMap<>();
+                            fields.put(ConstDB.MEDICAMENTS_NOM, nom);
+                            fields.put(ConstDB.MEDICAMENTS_HEURES_PRISE, heuresConcat);
+
+                            db.insertData(ConstDB.MEDICAMENTS, fields);
+                        }
+
+                        // Vider l'ancienne liste d'affichage
+                        medicamentList.clear();
+
+                        //  Recharger depuis la BDD en splittant les heures
+                        medicamentList.addAll(chargerMedicamentsDepuisBDD());
+
+                        // Notifier le RecyclerView
+                        medicamentAdapter.notifyDataSetChanged();
+
+
                     }
                 }
             });
