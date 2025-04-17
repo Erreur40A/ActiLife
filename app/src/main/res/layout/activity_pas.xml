@@ -73,6 +73,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:id="@+id/texte_moitivation_pas"
                 android:layout_height="wrap_content"
                 android:text="@string/motivation"
                 android:textAlignment="center"
