@@ -2,18 +2,24 @@ package com.cgp.actilife;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
-import android.text.TextUtils;
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class AjoutMedicamentActivity extends AppCompatActivity {
@@ -55,10 +61,34 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     (view, selectedHour, selectedMinute) -> {
                         String heure = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute);
+                        String nomMedoc = editNom.getText().toString().trim();
+
+                        if (TextUtils.isEmpty(nomMedoc)) {
+                            Toast.makeText(this, "Entrez le nom du médicament d'abord", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // 🔍 Vérification dans la BDD si le médicament avec cette heure existe déjà
+                        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
+                        List<Map<String, String>> enregistrements = db.getAll(ConstDB.MEDICAMENTS);
+                        for (Map<String, String> ligne : enregistrements) {
+                            String nomExistant = ligne.get(ConstDB.MEDICAMENTS_NOM);
+                            String heuresEnregistrees = ligne.get(ConstDB.MEDICAMENTS_HEURES_PRISE); // ex: 08:00,12:00
+
+                            if (nomExistant.equalsIgnoreCase(nomMedoc) && heuresEnregistrees != null) {
+                                String[] heuresDeja = heuresEnregistrees.split(",");
+                                for (String h : heuresDeja) {
+                                    if (h.trim().equals(heure)) {
+                                        Toast.makeText(this, "Ce médicament est déjà prévu à cette heure", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        // 🟢 Vérification dans la liste temporaire
                         if (!heures.contains(heure)) {
                             heures.add(heure);
-
-                            // Ajoute visuellement l’heure à la liste
                             TextView tv = new TextView(this);
                             tv.setText("• " + heure);
                             tv.setTextSize(18);
@@ -71,6 +101,7 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
                     minute,
                     true
             );
+
 
             // Important : applique un fond transparent pour un effet plus fluide
             picker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
