@@ -1,5 +1,11 @@
+
 package com.cgp.actilife;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class PasActivity extends AppCompatActivity {
+public class PasActivity extends AppCompatActivity implements SensorEventListener {
 
     private EditText inputQuantite_pas;
     private DatabaseOpenHelper db;
@@ -23,8 +29,14 @@ public class PasActivity extends AppCompatActivity {
     private Button btnAjouterPas;
     private TextView texte_motivation_pas;
 
-    private int currentSteps = 100; // valeur simulée (pas capteur)
+    private SensorManager sensorManager;
+    private Sensor stepCounterSensor;
+
+    private int baseSteps = -1; // Nombre de pas total au lancement
+    private int currentSteps = 0;
     private String dateAujourdhui;
+    private int objectifDuJour = 500;
+    private TextView tester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +44,8 @@ public class PasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pas);
 
         db = new DatabaseOpenHelper(this);
-
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 
         inputQuantite_pas = findViewById(R.id.inputQuantite_pas);
         bar_pas = findViewById(R.id.bar_pas);
@@ -40,23 +53,20 @@ public class PasActivity extends AppCompatActivity {
         text_bar_pas = findViewById(R.id.text_bar_pas);
         texte_motivation_pas = findViewById(R.id.texte_moitivation_pas);
         btnAjouterPas = findViewById(R.id.btn_para_pas);
+        ImageView backArrow = findViewById(R.id.backArrow);
+        //tester = findViewById(R.id.tester);
 
         dateAujourdhui = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        int objectifDuJour = 500; // valeur par défaut si rien dans la base
-
-        // 🔍 On vérifie s'il existe une ligne pour aujourd'hui
         List<Map<String, String>> enregistrements = db.getAll(ConstDB.PAS);
         for (Map<String, String> ligne : enregistrements) {
             if (dateAujourdhui.equals(ligne.get(ConstDB.PAS_DATE_DU_JOUR))) {
                 try {
                     String objectifStr = ligne.get(ConstDB.PAS_OBJECTIF_PAS);
-                    if (objectifStr != null && !objectifStr.isEmpty()) {
-                        objectifDuJour = Integer.parseInt(objectifStr);
-                    }
-                } catch (Exception e) {
-                    objectifDuJour = 500;
-                }
+                    if (objectifStr != null) objectifDuJour = Integer.parseInt(objectifStr);
+                    String pasStr = ligne.get(ConstDB.PAS_NB_PAS_AUJOURDHUI);
+                    if (pasStr != null) currentSteps = Integer.parseInt(pasStr);
+                } catch (Exception ignored) {}
                 break;
             }
         }
@@ -67,58 +77,71 @@ public class PasActivity extends AppCompatActivity {
             String quantiteStr = inputQuantite_pas.getText().toString();
             if (!quantiteStr.isEmpty()) {
                 int newGoal = Integer.parseInt(quantiteStr);
+                objectifDuJour = newGoal;
 
-                // Réinitialisation du nombre de pas à 0 lors de mise à jour de l'objectif
-                currentSteps = 0;
+                currentSteps = 0; // Reset à chaque nouvel objectif
 
-                boolean dejaExistant = false;
-                long idExistant = -1;
-
-                // Vérifie si une ligne existe déjà pour aujourd’hui
-                for (Map<String, String> ligne : enregistrements) {
-                    if (dateAujourdhui.equals(ligne.get(ConstDB.PAS_DATE_DU_JOUR))) {
-                        String idStr = ligne.get("id");
-                        if (idStr != null && !idStr.isEmpty()) {
-                            try {
-                                idExistant = Long.parseLong(idStr);
-                                dejaExistant = true;
-                            } catch (NumberFormatException ignored) {}
-                        }
-                        break;
-                    }
-                }
-
-                // Mise à jour ou insertion avec pas = 0
                 Map<String, Object> fields = new HashMap<>();
                 fields.put(ConstDB.PAS_DATE_DU_JOUR, dateAujourdhui);
                 fields.put(ConstDB.PAS_OBJECTIF_PAS, newGoal);
-                fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps); // 🔁 reset des pas
+                fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, 0);
 
-                if (dejaExistant && idExistant != -1) {
-                    db.updateTableWithId(ConstDB.PAS, fields, (int) idExistant);
-                } else {
-                    db.insertData(ConstDB.PAS, fields);
-                }
-
+                db.updateTableWithoutId(ConstDB.PAS, fields);
                 updateUI(currentSteps, newGoal);
             } else {
-                Toast.makeText(this, "Veuillez entrer un nombre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Veuillez entrer un objectif", Toast.LENGTH_SHORT).show();
             }
         });
 
-
-        ImageView backArrow = findViewById(R.id.backArrow);
         backArrow.setOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stepCounterSensor != null)
+            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            int totalSteps = (int) event.values[0];
+
+            if (baseSteps == -1) baseSteps = totalSteps; // Initialisation au 1er appel
+
+            currentSteps = totalSteps - baseSteps;
+
+            Map<String, Object> fields = new HashMap<>();
+            fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps);
+            db.updateTableWithoutId(ConstDB.PAS, fields);
+
+            runOnUiThread(() -> updateUI(currentSteps, objectifDuJour)); // ✅ Sécurisé pour l’UI
+
+            //tester la detection de pas
+            //tester.setText("Total capteur : " + totalSteps + "\nPas aujourd'hui : " + currentSteps);
+
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Ignoré ici
     }
 
     private void updateUI(int steps, int goal) {
         text_bar_pas.setText(String.format("Vous avez fait %d pas sur %d", steps, goal));
-        int percentage = (int) (((float) steps / goal) * 100);
+        int percent = goal > 0 ? (steps * 100) / goal : 0;
         bar_pas.setMax(100);
-        bar_pas.setProgress(percentage);
-        pct_bar_pas.setText(String.format("%d%%", percentage));
+        bar_pas.setProgress(percent);
+        pct_bar_pas.setText(percent + "%");
 
-        // 💬 Motivation
         String motivation = db.getMotivation(ConstDB.MOTIVATIONS_TYPE_PAS);
         texte_motivation_pas.setText(motivation);
     }
