@@ -49,7 +49,15 @@
 
         <activity
             android:name=".RappelMedicamentActivity"
+<<<<<<< HEAD
             android:exported="false" />
+=======
+            android:exported="true">
+
+        </activity>
+
+
+>>>>>>> 85237a8 (maj planning sport)
 
         <activity
             android:name=".PlanningSportActivity"

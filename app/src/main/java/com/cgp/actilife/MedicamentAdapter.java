@@ -28,9 +28,13 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
     public void onBindViewHolder(MedicamentViewHolder holder, int position) {
         Medicament medicament = medicamentList.get(position);
 
-        // On affiche une seule prise ici : exemple "Doliprane (Comprimé) à 08:00"
+        // ✅ Nom du médicament
         holder.nomTextView.setText(medicament.getNom());
-        holder.heureTextView.setText(medicament.getHeure());
+
+        // ✅ Format de l'heure : 08:30 → 08h30
+        String heureOriginale = medicament.getHeure(); // Ex: "08:30"
+        String heureFormatee = heureOriginale.replace(":", "h");
+        holder.heureTextView.setText(heureFormatee);
     }
 
     @Override

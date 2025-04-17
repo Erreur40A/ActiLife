@@ -32,14 +32,17 @@
         android:layout_height="300dp"
         android:maxHeight="300dp"
         android:layout_below="@id/titreActivitesSportives"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:visibility="gone"
         app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@android:color/white">
+        app:cardElevation="0dp"
+        android:background="@drawable/card_border"
+        app:cardBackgroundColor="@android:color/transparent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewActivitesSportives"
