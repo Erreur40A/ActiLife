@@ -1,88 +1,77 @@
 package com.cgp.actilife;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class ActiviteAdapter extends RecyclerView.Adapter<ActiviteAdapter.ViewHolder> {
 
-    private final ArrayList<Activite> liste;
+    private final List<Pair<Activite, String>> activitesAvecJours;
 
-    public ActiviteAdapter(ArrayList<Activite> liste) {
-        this.liste = liste;
+    public ActiviteAdapter(List<Pair<Activite, String>> activitesAvecJours) {
+        this.activitesAvecJours = activitesAvecJours;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nomActivite, heureDebut, heureFin;
-        LinearLayout layoutJours;
+        TextView textActivite;
+        View separateur;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            nomActivite = itemView.findViewById(R.id.nomActivite);
-            heureDebut = itemView.findViewById(R.id.heureDebutActivite);
-            heureFin = itemView.findViewById(R.id.heureFinActivite);
-            layoutJours = itemView.findViewById(R.id.layoutJours);
+            textActivite = itemView.findViewById(R.id.textActivite);
+            separateur = itemView.findViewById(R.id.separateur);
         }
     }
 
     @Override
-    public ActiviteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activite, parent, false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_activite, parent, false);
         return new ViewHolder(v);
     }
 
-
-
     @Override
-    public void onBindViewHolder(ActiviteAdapter.ViewHolder holder, int position) {
-        holder.layoutJours.removeAllViews();
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Pair<Activite, String> pair = activitesAvecJours.get(position);
+        Activite activite = pair.first;
+        String jour = pair.second;
 
-        Activite a = liste.get(position);
-        List<String> jours = a.getJours(); // Exemple : ["08/04/2025", "09/04/2025"]
+        try {
+            Date date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(jour);
+            String jourFormate = new SimpleDateFormat("dd/MM", Locale.FRENCH).format(date);
 
-        SimpleDateFormat formatBrut = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        SimpleDateFormat formatSouhaite = new SimpleDateFormat("EEEE dd/MM", Locale.FRENCH);
+            String ligne = jourFormate + " " + activite.getHeureDebut() + "h-" + activite.getHeureFin() + "h : " + activite.getNom();
+            holder.textActivite.setText(ligne);
+        } catch (Exception e) {
+            holder.textActivite.setText("Erreur de date");
+        }
 
-        for (String jour : jours) {
-            String jourFormate = jour;
-            try {
-                Date date = formatBrut.parse(jour);
-                jourFormate = formatSouhaite.format(date);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Exemple : 15h - 18h : Développé couché Lundi 08/04
-            String ligne = a.getHeureDebut() + " - " + a.getHeureFin() + " : " + a.getNom() + "    " + jourFormate;
-
-            TextView textViewLigne = new TextView(holder.itemView.getContext());
-            textViewLigne.setTypeface(null, Typeface.BOLD);
-            textViewLigne.setText(ligne);
-            textViewLigne.setTextSize(16);
-            textViewLigne.setTextColor(Color.BLACK);
-            textViewLigne.setPadding(8, 8, 8, 8);
-
-            holder.layoutJours.addView(textViewLigne);
+        // ✅ Cacher le séparateur uniquement pour le dernier
+        if (position == getItemCount() - 1) {
+            holder.separateur.setVisibility(View.GONE);
+        } else {
+            holder.separateur.setVisibility(View.VISIBLE);
         }
     }
 
-
-
     @Override
     public int getItemCount() {
-        return liste.size();
+        return activitesAvecJours.size();
+    }
+
+    // ✅ Méthode ajoutée pour mettre à jour les données dynamiquement
+    public void updateData(List<Pair<Activite, String>> nouvellesDonnees) {
+        activitesAvecJours.clear(); // Vide l’ancienne liste
+        activitesAvecJours.addAll(nouvellesDonnees); // Ajoute la nouvelle liste
+        notifyDataSetChanged(); // Rafraîchit l’affichage
     }
 }
-

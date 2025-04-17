@@ -1,55 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
 
-
-    <!-- Heure à laquelle il faut debuter l'activité -->
-    <!--<TextView
-        android:id="@+id/heureDebutActivite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="Heure"
-        android:textSize="20sp" />
+    <!-- Texte de l’activité (ligne) -->
     <TextView
-        android:id="@+id/heureFinActivite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="20sp" />
-
-
-    <TextView
-        android:id="@+id/nomActivite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nom du médicament"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginEnd="8dp" />
-    <TextView
-        android:id="@+id/jourActivite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jour"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
-        /> -->
-    <!-- Ce conteneur servira à afficher les lignes dynamiquement -->
-    <LinearLayout
-        android:id="@+id/layoutJours"
+        android:id="@+id/textActivite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="4dp"
-        android:divider="?android:attr/dividerHorizontal"
-        android:showDividers="middle" />
+        android:text="Activité"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
 
-
-
+    <!-- Ligne de séparation propre -->
+    <View
+        android:id="@+id/separateur"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
 </LinearLayout>

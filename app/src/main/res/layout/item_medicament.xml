@@ -1,29 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="@drawable/item_medoc_background"
-    android:gravity="center_vertical">
+    android:orientation="vertical">
 
-    <!-- Nom du médicament et type en une seule ligne -->
-    <TextView
-        android:id="@+id/nomMedicament"
-        android:layout_width="wrap_content"
+    <!-- Ligne avec nom + espace + heure -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nom du médicament"
-        android:textSize="20sp"
-        android:layout_marginEnd="8dp" />
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical">
+
+        <!-- Nom du médicament -->
+        <TextView
+            android:id="@+id/nomMedicament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom du médicament"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:layout_marginEnd="19dp"/>
 
 
+        <!-- Heure du médicament -->
+        <TextView
+            android:id="@+id/heureMedicament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="08:00"
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 
-    <!-- Heure à laquelle il faut prendre le médicament -->
-    <TextView
-        android:id="@+id/heureMedicament"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Heure"
-        android:textSize="20sp" />
-
+    <!-- Ligne de séparation -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
 </LinearLayout>
