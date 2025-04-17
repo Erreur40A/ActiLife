@@ -33,6 +33,7 @@ public class PasActivity extends AppCompatActivity {
 
         db = new DatabaseOpenHelper(this);
 
+
         inputQuantite_pas = findViewById(R.id.inputQuantite_pas);
         bar_pas = findViewById(R.id.bar_pas);
         pct_bar_pas = findViewById(R.id.pct_bar_pas);
@@ -67,6 +68,9 @@ public class PasActivity extends AppCompatActivity {
             if (!quantiteStr.isEmpty()) {
                 int newGoal = Integer.parseInt(quantiteStr);
 
+                // Réinitialisation du nombre de pas à 0 lors de mise à jour de l'objectif
+                currentSteps = 0;
+
                 boolean dejaExistant = false;
                 long idExistant = -1;
 
@@ -84,10 +88,11 @@ public class PasActivity extends AppCompatActivity {
                     }
                 }
 
+                // Mise à jour ou insertion avec pas = 0
                 Map<String, Object> fields = new HashMap<>();
                 fields.put(ConstDB.PAS_DATE_DU_JOUR, dateAujourdhui);
                 fields.put(ConstDB.PAS_OBJECTIF_PAS, newGoal);
-                fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps);
+                fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps); // 🔁 reset des pas
 
                 if (dejaExistant && idExistant != -1) {
                     db.updateTableWithId(ConstDB.PAS, fields, (int) idExistant);
@@ -100,6 +105,7 @@ public class PasActivity extends AppCompatActivity {
                 Toast.makeText(this, "Veuillez entrer un nombre", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         ImageView backArrow = findViewById(R.id.backArrow);
         backArrow.setOnClickListener(v -> finish());
