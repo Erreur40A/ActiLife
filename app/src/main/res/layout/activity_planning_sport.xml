@@ -4,7 +4,6 @@
     android:id="@+id/main"
     android:layout_height="match_parent">
 
-    <!-- En-tête -->
     <include
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -57,7 +56,7 @@
 </androidx.cardview.widget.CardView>
 
 
-    <!-- Bouton Supprimer : tout en bas -->
+
     <TextView
         android:id="@+id/messageMotivation"
         android:layout_width="match_parent"
@@ -72,7 +71,7 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="italic" />
-
+    <!--suppr une activite -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSupprimerActivites"
         android:layout_width="match_parent"
