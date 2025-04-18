@@ -116,6 +116,8 @@ public class PlanningSportActivity extends AppCompatActivity {
             ).show();
         });
 
+        //lorsqu'on valide les ajouts (backend a gerer ici)
+
         pop_up_ajout_activite.setOnClickListener(R.id.btnAjouterAcivite2, view -> {
             GridLayout layoutJoursAjoutees = pop_up_ajout_activite.getView(R.id.layoutJoursAjoutees);
             EditText nomInput = pop_up_ajout_activite.getView(R.id.nomActivite);
@@ -130,7 +132,7 @@ public class PlanningSportActivity extends AppCompatActivity {
                 Toast.makeText(PlanningSportActivity.this, "Tous les champs doivent être remplis", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            //traiter les jours ajoutés et les ajouter a une liste
             List<String> joursSelectionnes = new ArrayList<>();
             for (int i = 0; i < layoutJoursAjoutees.getChildCount(); i++) {
                 View child = layoutJoursAjoutees.getChildAt(i);
@@ -141,7 +143,7 @@ public class PlanningSportActivity extends AppCompatActivity {
                     }
                 }
             }
-
+            //verifier si un ajout y est déjà dans la liste
             for (Activite act : listeActivitesSportives) {
                 if (act.getNom().equalsIgnoreCase(nom)) {
                     for (String jour : joursSelectionnes) {
@@ -154,7 +156,7 @@ public class PlanningSportActivity extends AppCompatActivity {
                     }
                 }
             }
-
+            // dès que tout est bon ?
             Activite nouvelle = new Activite(nom, heureDebut, heureFin, joursSelectionnes);
             listeActivitesSportives.add(nouvelle);
 
@@ -187,13 +189,16 @@ public class PlanningSportActivity extends AppCompatActivity {
 
         pop_up_ajout_activite.setOnClickListener(R.id.btnRetour2, v -> pop_up_ajout_activite.dismiss());
 
+        //supimer une activité de la liste
+        //l'affichage du pop up de suppression est géré dans SupprimerActiviteAdapter, pas necessaire pour le backend
         btnSupprimer.setOnClickListener(v -> {
             PopUp popupSupprimer = new PopUp(this, R.layout.popup_suppression_activite);
             CardView conteneurRecyclerSuppr = popupSupprimer.getView(R.id.conteneurRecyclerSuppression);
 
             RecyclerView recyclerViewSupprimer = popupSupprimer.getView(R.id.recyclerViewSuppressionActivitesSportives);
             recyclerViewSupprimer.setLayoutManager(new LinearLayoutManager(this));
-
+            
+            //  On "déplie" les activités avec leurs jours (ex : activité A sur 3 jours = 3 lignes)
             ArrayList<Pair<Activite, String>> activitesAvecJours = new ArrayList<>();
             for (Activite act : listeActivitesSportives) {
                 for (String jour : act.getJours()) {
