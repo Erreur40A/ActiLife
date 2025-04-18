@@ -51,8 +51,7 @@ public class PlanningSportActivity extends AppCompatActivity {
 
        // btnRetour.setOnClickListener(view -> finish());
 
-        //test
-
+        //test de rappel medicament au btn retour
         btnRetour.setOnClickListener(view -> {
             Intent intent = new Intent(PlanningSportActivity.this, RappelMedicamentActivity.class);
             startActivity(intent);
@@ -159,7 +158,7 @@ public class PlanningSportActivity extends AppCompatActivity {
             Activite nouvelle = new Activite(nom, heureDebut, heureFin, joursSelectionnes);
             listeActivitesSportives.add(nouvelle);
 
-            // 🔁 Mise à jour du RecyclerView
+            // Mise à jour du RecyclerView
             ArrayList<Pair<Activite, String>> nouvelleListeAPlat = new ArrayList<>();
             for (Activite act : listeActivitesSportives) {
                 for (String jour : act.getJours()) {
@@ -168,7 +167,7 @@ public class PlanningSportActivity extends AppCompatActivity {
             }
             activiteAdapter.updateData(nouvelleListeAPlat);
 
-            // 🔄 Réinitialisation UI
+            // Réinitialisation UI
             nomInput.setText("");
             heureDebutInput.setText("");
             heureFinInput.setText("");

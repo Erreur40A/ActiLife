@@ -55,7 +55,7 @@ public class ActiviteAdapter extends RecyclerView.Adapter<ActiviteAdapter.ViewHo
             holder.textActivite.setText("Erreur de date");
         }
 
-        // ✅ Cacher le séparateur uniquement pour le dernier
+        // Cacher le séparateur uniquement pour le dernier
         if (position == getItemCount() - 1) {
             holder.separateur.setVisibility(View.GONE);
         } else {
@@ -68,7 +68,7 @@ public class ActiviteAdapter extends RecyclerView.Adapter<ActiviteAdapter.ViewHo
         return activitesAvecJours.size();
     }
 
-    // ✅ Méthode ajoutée pour mettre à jour les données dynamiquement
+    //Méthode ajoutée pour mettre à jour les données dynamiquement
     public void updateData(List<Pair<Activite, String>> nouvellesDonnees) {
         activitesAvecJours.clear(); // Vide l’ancienne liste
         activitesAvecJours.addAll(nouvellesDonnees); // Ajoute la nouvelle liste
