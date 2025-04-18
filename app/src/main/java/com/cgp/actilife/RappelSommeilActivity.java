@@ -52,10 +52,9 @@ public class RappelSommeilActivity extends AppCompatActivity {
         GridLayout bedGrid = findViewById(R.id.bedGrid);
         GridLayout wakeGrid = findViewById(R.id.wakeGrid);
 
-
         String[] days = {"L", "Ma", "Me", "J", "V", "S", "D"};
-        String[] bedtime = {"22h30", "20h", "21h", "22h", "23h", "21h", "2h"};
-        String[] waketime = {"8h30", "9h", "7h", "6h45", "10h", "12h", "13h"};
+        String[] bedtime = {"1", "1", "1", "1", "1", "1", "1"};
+        String[] waketime = {"1", "1", "1", "1", "1", "1", "1"};
 
         addRowToGrid(this, bedGrid, days, false);
         addRowToGrid(this, bedGrid, bedtime, true);
