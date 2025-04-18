@@ -119,6 +119,4 @@ public class RappelSommeilActivity extends AppCompatActivity {
             grid.addView(tv);
         }
     }
-
-
 }
