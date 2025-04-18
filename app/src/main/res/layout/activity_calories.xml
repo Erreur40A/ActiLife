@@ -161,6 +161,7 @@
                 android:layout_marginTop="8dp" />
 
             <TextView
+                android:id="@+id/textProgressPercentC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="26%"
@@ -185,6 +186,7 @@
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/nb_cal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2000"
