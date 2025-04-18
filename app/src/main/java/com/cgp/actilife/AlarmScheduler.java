@@ -30,6 +30,10 @@ public class AlarmScheduler {
 
         Calendar date = Calendar.getInstance();
 
+        if (date.get(Calendar.DAY_OF_MONTH) + jour > date.getActualMaximum(Calendar.DAY_OF_MONTH)){
+            date.add(Calendar.MONTH, 1);
+        }
+
         date.set(Calendar.DAY_OF_MONTH, jour);
         date.set(Calendar.HOUR_OF_DAY, heure);
         date.set(Calendar.MINUTE, minute);

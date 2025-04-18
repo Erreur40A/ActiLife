@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +28,12 @@ import java.util.Calendar;
 
 import java.util.Calendar;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RappelSommeilActivity extends AppCompatActivity {
+    private DatabaseOpenHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +46,17 @@ public class RappelSommeilActivity extends AppCompatActivity {
             return insets;
         });
 
+        db = new DatabaseOpenHelper(RappelSommeilActivity.this);
+
         // fermer lorsqu'on clique sur le bouton retour
         View header = findViewById(R.id.header);
         ImageView btnRetour = header.findViewById(R.id.btnRetour);
-        btnRetour.setOnClickListener(v -> finish());
+        btnRetour.setOnClickListener(v -> {
+            db.close();
+            finish();
+        });
 
         TextView motivation = findViewById(R.id.motivation_sommeil);
-        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
         motivation.setText(db.getMotivation(ConstDB.MOTIVATIONS_TYPE_SOMMEIL));
 
         GridLayout bedGrid = findViewById(R.id.bedGrid);
@@ -58,14 +66,14 @@ public class RappelSommeilActivity extends AppCompatActivity {
         String[] bedtime = {"1", "1", "1", "1", "1", "1", "1"};
         String[] waketime = {"1", "1", "1", "1", "1", "1", "1"};
 
-        addRowToGrid(this, bedGrid, days, false);
-        addRowToGrid(this, bedGrid, bedtime, true);
+        addRowToGrid(this, bedGrid, days, false, null);
+        addRowToGrid(this, bedGrid, bedtime, true, LesNotifications.RAPPEL_HEURE_COUCHER);
 
-        addRowToGrid(this, wakeGrid, days, false);
-        addRowToGrid(this, wakeGrid, waketime, true);
+        addRowToGrid(this, wakeGrid, days, false, null);
+        addRowToGrid(this, wakeGrid, waketime, true, LesNotifications.RAPPEL_HEURE_REVEIL);
     }
 
-    private void addRowToGrid(Context context, GridLayout grid, String[] values, boolean clickable) {
+    private void addRowToGrid(Context context, GridLayout grid, String[] values, boolean clickable, LesNotifications typeNotif) {
         int columns = values.length;
         int row = grid.getChildCount() / columns;
 
@@ -110,15 +118,44 @@ public class RappelSommeilActivity extends AppCompatActivity {
                     int minute = (parts.length > 1) ? Integer.parseInt(parts[1]) : 0;
 
                     TimePickerDialog tpd = new TimePickerDialog(context,
-                            (view, hourOfDay, minute1) -> {
-                                String time = hourOfDay + "h" + (minute1 < 10 ? "0" : "") + minute1;
-                                tv.setText(time);
-                            }, hour, minute, true);
+                            (view, h, m) -> setListenerRappelCoucher(h, m, index, tv, typeNotif)
+                            , hour, minute, true);
                     tpd.show();
                 });
             }
 
             grid.addView(tv);
         }
+    }
+
+    private void setListenerRappelCoucher(int heure, int minute, int jourChosit, TextView tv, LesNotifications typeNotif){
+        String time = heure + "h" + (minute < 10 ? "0" : "") + minute;
+        tv.setText(time);
+        Calendar date = Calendar.getInstance();
+
+        int jourCourantDeLaSemaine = date.get(Calendar.DAY_OF_WEEK);
+        int jourCible = jourChosit + 2; //Calendar.MONDAY vaut 2, puis mardi vaut 3... donc on ajoute 2
+        int jourRestant = jourCible + 7 - jourCourantDeLaSemaine;
+        jourRestant = jourRestant % 7;
+
+        if(jourRestant == 0){
+            jourRestant = 7;
+        }
+
+        date.add(Calendar.DAY_OF_MONTH, jourRestant);
+        int jour = date.get(Calendar.DAY_OF_MONTH);
+        int id = (date.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+        String h = heure + ":" + minute;
+
+        Map<String, Object> fields = new HashMap<>();
+        if(typeNotif == LesNotifications.RAPPEL_HEURE_COUCHER)
+            fields.put(ConstDB.RAPPELS_SOMMEIL_HEURE_COUCHER, h);
+
+        if (typeNotif == LesNotifications.RAPPEL_HEURE_REVEIL)
+            fields.put(ConstDB.RAPPELS_SOMMEIL_HEURE_REVEIL, h);
+
+        db.updateTableWithId(ConstDB.RAPPELS_SOMMEIL, fields, id);
+
+        AlarmScheduler.setAlarm(RappelSommeilActivity.this, jour, heure, minute, typeNotif);
     }
 }
