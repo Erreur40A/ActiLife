@@ -16,7 +16,7 @@ import java.util.Locale;
 public class ActiviteAdapter extends RecyclerView.Adapter<ActiviteAdapter.ViewHolder> {
 
     private final List<Pair<Activite, String>> activitesAvecJours;
-
+    //va contenir pour chaque activity  un jour dans la liste de jour
     public ActiviteAdapter(List<Pair<Activite, String>> activitesAvecJours) {
         this.activitesAvecJours = activitesAvecJours;
     }
