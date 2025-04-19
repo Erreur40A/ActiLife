@@ -24,12 +24,20 @@
         android:layout_marginBottom="8dp" />
 
     <!-- Liste des médicaments -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@drawable/card_border"
+        android:layout_below="@+id/titreMedicaments"
+        android:layout_marginStart="3dp"
+        android:layout_margin="8dp">
     <include
         android:id="@+id/medicamentList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/titreMedicaments"
         layout="@layout/liste_medicaments"/>
+    </FrameLayout>
 
     <!-- Bouton Supprimer : tout en bas -->
     <androidx.appcompat.widget.AppCompatButton

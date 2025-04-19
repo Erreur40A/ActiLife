@@ -6,25 +6,25 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- ✅ CardView contenant le RecyclerView -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewMedicaments"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewMedicaments"
+        <!-- ✅ CardView contenant le RecyclerView -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewMedicaments"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:clipToPadding="false"
-            android:scrollbars="vertical" />
-    </androidx.cardview.widget.CardView>
+            android:layout_height="400dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewMedicaments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:clipToPadding="false"
+                android:scrollbars="vertical" />
+        </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
