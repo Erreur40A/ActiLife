@@ -63,14 +63,13 @@ public class RappelSommeilActivity extends AppCompatActivity {
         GridLayout wakeGrid = findViewById(R.id.wakeGrid);
 
         String[] days = {"L", "Ma", "Me", "J", "V", "S", "D"};
-        String[] bedtime = {"1", "1", "1", "1", "1", "1", "1"};
-        String[] waketime = {"1", "1", "1", "1", "1", "1", "1"};
+        String[] bedAndWakeTime = {"", "", "", "", "", "", ""};
 
         addRowToGrid(this, bedGrid, days, false, null);
-        addRowToGrid(this, bedGrid, bedtime, true, LesNotifications.RAPPEL_HEURE_COUCHER);
+        addRowToGrid(this, bedGrid, bedAndWakeTime, true, LesNotifications.RAPPEL_HEURE_COUCHER);
 
         addRowToGrid(this, wakeGrid, days, false, null);
-        addRowToGrid(this, wakeGrid, waketime, true, LesNotifications.RAPPEL_HEURE_REVEIL);
+        addRowToGrid(this, wakeGrid, bedAndWakeTime, true, LesNotifications.RAPPEL_HEURE_REVEIL);
     }
 
     private void addRowToGrid(Context context, GridLayout grid, String[] values, boolean clickable, LesNotifications typeNotif) {
@@ -113,9 +112,13 @@ public class RappelSommeilActivity extends AppCompatActivity {
             if (clickable) {
                 final int index = i;
                 tv.setOnClickListener(v -> {
-                    String[] parts = values[index].split("h");
-                    int hour = Integer.parseInt(parts[0]);
-                    int minute = (parts.length > 1) ? Integer.parseInt(parts[1]) : 0;
+                    int hour = 0;
+                    int minute = 0;
+                    if(!values[index].isEmpty()){
+                        String[] parts = values[index].split("h");
+                        hour = Integer.parseInt(parts[0]);
+                        minute = (parts.length > 1) ? Integer.parseInt(parts[1]) : 0;
+                    }
 
                     TimePickerDialog tpd = new TimePickerDialog(context,
                             (view, h, m) -> setListenerRappelCoucher(h, m, index, tv, typeNotif)
