@@ -12,4 +12,5 @@
     <string name="dsec_img_bouteille_d_eau">Bouteille d\'eau</string>
     <string name="text_notif_hydratation">Toc toc, c\'est l\'heure de s\'hydrater</string>
     <string name="hello_with_name">Hello %1$s</string>
+    <string name="param_tres">Paramètres</string>
 </resources>

@@ -56,11 +56,14 @@ public class SettingsActivity extends AppCompatActivity {
                 etNom.setHint("Nom");
             }
         }
-
+        TextView helloText = findViewById(R.id.hello_name);
         if (etPrenom != null) {
             if (userdata.containsKey(ConstDB.USERDATA_PRENOM) && userdata.get(ConstDB.USERDATA_PRENOM) != null) {
                 etPrenom.setText(userdata.get(ConstDB.USERDATA_PRENOM));
+                String helloMessage =  getString(R.string.hello_with_name, userdata.get(ConstDB.USERDATA_PRENOM));
+                helloText.setText(helloMessage);
             } else {
+                helloText.setText(R.string.param_tres);
                 etPrenom.setHint("Prénom");
             }
         }
@@ -93,12 +96,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        String prenomValue = etPrenom.getText().toString().trim();
-        TextView helloText = findViewById(R.id.hello_name);
-        if (!prenomValue.isEmpty()) {
-            String helloMessage = getString(R.string.hello_with_name, prenomValue);
-            helloText.setText(helloMessage);
-        }
+       // String prenomValue = etPrenom.getText().toString().trim();
+
 
         Button confirmBtn = findViewById((R.id.btn_ok));
         confirmBtn.setOnClickListener(new View.OnClickListener() {
