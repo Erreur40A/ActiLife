@@ -1,11 +1,14 @@
 
 package com.cgp.actilife;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,14 +42,32 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
     private int objectifDuJour = 500;
     private TextView tester;
 
+    private Handler handler = new Handler();
+    private Runnable delayedUpdate;
+    private final long DELAI_ECRITURE = 5000;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (checkSelfPermission(android.Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 1001);
+            }
+        }
+
         setContentView(R.layout.activity_pas);
 
         db = new DatabaseOpenHelper(this);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+        if (stepCounterSensor == null) {
+            Toast.makeText(this, " Capteur de pas non disponible sur cet appareil", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Capteur détecté, prêt à compter vos pas !", Toast.LENGTH_SHORT).show();
+        }
 
         inputQuantite_pas = findViewById(R.id.inputQuantite_pas);
         bar_pas = findViewById(R.id.bar_pas);
@@ -54,7 +76,7 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
         texte_motivation_pas = findViewById(R.id.texte_moitivation_pas);
         btnAjouterPas = findViewById(R.id.btn_para_pas);
         ImageView backArrow = findViewById(R.id.backArrow);
-        //tester = findViewById(R.id.tester);
+        tester = findViewById(R.id.tester);
 
         dateAujourdhui = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
@@ -99,9 +121,10 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
     @Override
     protected void onResume() {
         super.onResume();
-        if (stepCounterSensor != null)
-            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
+        if (stepCounterSensor != null) sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
     }
+
+
 
     @Override
     protected void onPause() {
@@ -112,15 +135,28 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+
+            Toast.makeText(this, "🦶 Pas détecté !", Toast.LENGTH_LONG).show();
+
             int totalSteps = (int) event.values[0];
+
 
             if (baseSteps == -1) baseSteps = totalSteps; // Initialisation au 1er appel
 
             currentSteps = totalSteps - baseSteps;
 
-            Map<String, Object> fields = new HashMap<>();
-            fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps);
-            db.updateTableWithoutId(ConstDB.PAS, fields);
+            if(delayedUpdate != null) handler.removeCallbacks(delayedUpdate);
+
+            delayedUpdate = () ->{
+
+                Map<String, Object> fields = new HashMap<>();
+                fields.put(ConstDB.PAS_DATE_DU_JOUR, dateAujourdhui);
+                fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps);
+                db.updateTableWithoutId(ConstDB.PAS, fields);
+
+            };
+
+            handler.postDelayed(delayedUpdate, DELAI_ECRITURE);
 
             runOnUiThread(() -> updateUI(currentSteps, objectifDuJour)); // ✅ Sécurisé pour l’UI
 
