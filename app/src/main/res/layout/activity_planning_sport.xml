@@ -24,43 +24,49 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp" />
 
-    <!-- Liste des médicaments -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/conteneurRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:maxHeight="300dp"
-        android:layout_below="@id/titreActivitesSportives"
-        android:layout_marginStart="4dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        android:background="@drawable/card_border"
-        app:cardBackgroundColor="@android:color/transparent">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewActivitesSportives"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:fadeScrollbars="false"
+        android:background="@drawable/card_border"
+        android:layout_below="@id/titreActivitesSportives"
+        android:layout_margin="8dp">
+    <!-- Liste des médicaments -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/conteneurRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:maxHeight="300dp"
 
-        android:overScrollMode="ifContentScrolls"
-        android:nestedScrollingEnabled="true"
-        android:layout_margin="4dp" />
-</androidx.cardview.widget.CardView>
+            android:layout_marginStart="4dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewActivitesSportives"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+
+            android:overScrollMode="ifContentScrolls"
+            android:nestedScrollingEnabled="true"
+            android:layout_margin="4dp" />
+    </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
 
 
     <TextView
         android:id="@+id/messageMotivation"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="130dp"
         android:layout_above="@id/btnAjouterActivite"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -70,7 +76,7 @@
         android:text="@string/mdm"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:textStyle="italic" />
+        />
     <!--suppr une activite -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSupprimerActivites"
