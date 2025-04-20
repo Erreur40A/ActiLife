@@ -43,7 +43,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         } else if (idLayout == R.layout.notifications_faire_sport || idLayout == R.layout.notifications_prochaine_activite) {
             idAndName = "Sport";
             createChannel(notif_manager, idAndName, idAndName);
-        } else if (idLayout == R.layout.notification_medicament) {
+        }
+        if (idLayout == R.layout.notification_medicament) {
             idAndName = "Medicament";
             createChannel(notif_manager, idAndName, idAndName);
         }
