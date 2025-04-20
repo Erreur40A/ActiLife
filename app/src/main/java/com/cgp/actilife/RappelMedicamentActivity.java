@@ -1,6 +1,9 @@
 package com.cgp.actilife;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,8 +12,9 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.Calendar;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +57,32 @@ public class RappelMedicamentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1002);
+            }
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 10); // alarme dans 1 minute
+
+        AlarmScheduler.setAlarm(
+                this,
+                cal.get(Calendar.DAY_OF_MONTH),
+                cal.get(Calendar.HOUR_OF_DAY),
+                cal.get(Calendar.MINUTE),
+                LesNotifications.RAPPEL_MEDICAMENT
+        );
+
+
         setContentView(R.layout.activity_rappel_medicament);
+
+        // ✅ Test d'envoi manuel de l'alarme
+        Intent testIntent = new Intent(this, AlarmReceiver.class);
+        testIntent.setAction("com.cgp.actilife.ALARME_MEDICAMENT");
+        testIntent.putExtra("type_notif", LesNotifications.RAPPEL_MEDICAMENT);
+        sendBroadcast(testIntent);
 
         medicamentList = chargerMedicamentsDepuisBDD();
 
