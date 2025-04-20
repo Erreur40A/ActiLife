@@ -25,11 +25,11 @@ public class RappelHydratationWorker extends Worker {
         );
 
         if (rappelHydratation) {
-            int[] heures = {9, 15, 14};
+            int[] heures = {9, 15, 17};
             for (int heure : heures) {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, heure);
-                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.MINUTE, 5);
                 cal.set(Calendar.SECOND, 0);
                 cal.set(Calendar.MILLISECOND, 0);
 
@@ -42,7 +42,7 @@ public class RappelHydratationWorker extends Worker {
                         cal.get(Calendar.DAY_OF_MONTH),
                         cal.get(Calendar.HOUR_OF_DAY),
                         cal.get(Calendar.MINUTE),
-                        LesNotifications.RAPPEL_HEURE_COUCHER
+                        LesNotifications.RAPPEL_HYDRATATION
                 );
 
                 Log.i("RappelWorker", "Alarm set for: " + cal.getTime());
@@ -52,24 +52,4 @@ public class RappelHydratationWorker extends Worker {
         return Result.success();
     }
 
-    public static void cancelAllAlarms(Context context) {
-        int[] heures = {9, 15, 20};
-
-        for (int i = 0; i < heures.length; i++) {
-            Intent intent = new Intent(context, AlarmReceiver.class); // ta classe de BroadcastReceiver
-            PendingIntent pi = PendingIntent.getBroadcast(
-                    context,
-                    i,
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-            );
-
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            if (am != null) {
-                am.cancel(pi);
-            }
-
-            Log.i("RappelWorker", "Alarm " + heures[i] + "h annulée");
-        }
-    }
 }

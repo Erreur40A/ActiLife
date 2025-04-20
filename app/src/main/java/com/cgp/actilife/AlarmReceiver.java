@@ -31,9 +31,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         } else if (idLayout == R.layout.notifcation_reveil || idLayout == R.layout.notification_couchez) {
             idAndName = "Rappel Sommeil";
             createChannel(notif_manager, idAndName, idAndName);
+        } else if (idLayout == R.layout.notification_hydratation) {
+            idAndName = "Rappel Hydratation";
+            createChannel(notif_manager, idAndName, idAndName);
         }
 
-        Intent intentActivity = new Intent();
+        Intent intentActivity = new Intent(context, MainActivity.class);
+        intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
@@ -91,6 +95,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             case RAPPEL_MEDICAMENT:
                 layout = R.layout.notification_medicament;
                 break;
+
+            case RAPPEL_HYDRATATION:
+                layout = R.layout.notification_hydratation;
+                break;
+
 
             default:
                 layout = -1;

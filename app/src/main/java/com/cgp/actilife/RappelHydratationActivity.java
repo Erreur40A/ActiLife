@@ -35,7 +35,7 @@ public class RappelHydratationActivity extends AppCompatActivity {
             for (int heure : heures) {
                 Calendar calendrier = Calendar.getInstance();
                 calendrier.set(Calendar.HOUR_OF_DAY, heure);
-                calendrier.set(Calendar.MINUTE, 5);
+                calendrier.set(Calendar.MINUTE, 10);
                 calendrier.set(Calendar.SECOND, 0);
 
                 // Si l'heure est déjà passée aujourd'hui, on programme pour demain

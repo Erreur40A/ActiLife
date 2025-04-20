@@ -1,7 +1,10 @@
 package com.cgp.actilife;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
@@ -10,6 +13,8 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.work.PeriodicWorkRequest;
+
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -148,14 +154,19 @@ public class SettingsActivity extends AppCompatActivity {
                     // Log.i("test-motivation", mot);
                     if (userdata != null && ! userdata.isEmpty()){
                         db.updateTableWithoutId(ConstDB.USERDATA, fields);
-                        if (!isHydratationActive){
-                            RappelHydratationWorker.cancelAllAlarms(context);
-                        }
+
                     }
                     else{
                         db.insertData(ConstDB.USERDATA, fields);
                     }
 
+                    if (!isHydratationActive){
+                        cancelAllAlarms(context);
+                    } else{
+                        PeriodicWorkRequest rappelWorkRequest =
+                                new PeriodicWorkRequest.Builder(RappelHydratationWorker.class, 1, TimeUnit.DAYS)
+                                        .build();
+                    }
                     Toast.makeText(getApplicationContext(), "Informations enregistrées", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -178,6 +189,28 @@ public class SettingsActivity extends AppCompatActivity {
         );
 
         datePickerDialog.show();
+    }
+
+
+        public static void cancelAllAlarms(Context context) {
+        int[] heures = {9, 15, 20};
+
+        for (int i = 0; i < heures.length; i++) {
+            Intent intent = new Intent(context, AlarmReceiver.class); // ta classe de BroadcastReceiver
+            PendingIntent pi = PendingIntent.getBroadcast(
+                    context,
+                    i,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (am != null) {
+                am.cancel(pi);
+            }
+
+            Log.i("RappelWorker", "Alarm " + heures[i] + "h annulée");
+        }
     }
 
 }
