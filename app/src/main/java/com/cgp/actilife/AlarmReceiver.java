@@ -123,7 +123,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 layout = R.layout.notification_medicament;
                 
             case RAPPEL_MEDICAMENT:
-                layout = R.layout.; // à créer dans res/layout
+                layout = R.layout.notification_medicament;
                 break;
 
             case PROCHAINE_ACTIVITE_SPORTIF:
