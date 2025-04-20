@@ -64,16 +64,16 @@ public class RappelMedicamentActivity extends AppCompatActivity {
             }
         }
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 10); // alarme dans 1 minute
+        //Calendar cal = Calendar.getInstance();
+        //cal.add(Calendar.SECOND, 10); // alarme dans 1 minute
 
-        AlarmScheduler.setAlarm(
+        /*AlarmScheduler.setAlarm(
                 this,
                 cal.get(Calendar.DAY_OF_MONTH),
                 cal.get(Calendar.HOUR_OF_DAY),
                 cal.get(Calendar.MINUTE),
                 LesNotifications.RAPPEL_MEDICAMENT
-        );
+        );*/
 
 
         setContentView(R.layout.activity_rappel_medicament);
