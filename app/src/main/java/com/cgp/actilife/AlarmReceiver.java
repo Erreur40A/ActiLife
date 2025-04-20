@@ -10,7 +10,6 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -122,6 +121,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             case RAPPEL_MEDICAMENT:
                 layout = R.layout.notification_medicament;
+                
+            case RAPPEL_MEDICAMENT:
+                layout = R.layout.; // à créer dans res/layout
+                break;
+
             case PROCHAINE_ACTIVITE_SPORTIF:
                 layout = R.layout.notifications_prochaine_activite;
                 break;
