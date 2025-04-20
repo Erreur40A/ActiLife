@@ -1,6 +1,7 @@
 package com.cgp.actilife;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
@@ -10,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Context context = this;
 
         ImageView btnRetour = findViewById(R.id.iconBack);
         btnRetour.setOnClickListener(v -> finish());
@@ -144,6 +148,9 @@ public class SettingsActivity extends AppCompatActivity {
                     // Log.i("test-motivation", mot);
                     if (userdata != null && ! userdata.isEmpty()){
                         db.updateTableWithoutId(ConstDB.USERDATA, fields);
+                        if (!isHydratationActive){
+                            RappelHydratationWorker.cancelAllAlarms(context);
+                        }
                     }
                     else{
                         db.insertData(ConstDB.USERDATA, fields);

@@ -1,18 +1,28 @@
 package com.cgp.actilife;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +37,24 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        
+        // Permission (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
+        // Dans onCreate de MainActivity
+        PeriodicWorkRequest rappelWorkRequest =
+                new PeriodicWorkRequest.Builder(RappelHydratationWorker.class, 1, TimeUnit.DAYS)
+                        .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "rappel_hydratation_daily",
+                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+                rappelWorkRequest
+        );
+
+
         ImageView iconSettings = findViewById(R.id.iconSettings);
         iconSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Ajouter un clic pour ouvrir l'activité correspondante
             menu.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, item.activityClass);
-                startActivity(intent);
+                Intent intent2 = new Intent(MainActivity.this, item.activityClass);
+                startActivity(intent2);
             });
         }
     }
