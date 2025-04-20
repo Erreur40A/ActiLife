@@ -151,7 +151,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
 
                         // Notifier le RecyclerView
                         medicamentAdapter.notifyDataSetChanged();
-
+                        planifierAlarmesMedicaments();
 
                     }
                 }
@@ -194,6 +194,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
                         if (cal.before(now)) {
                             cal.add(Calendar.DAY_OF_MONTH, 1);
                         }
+                        Log.d("DEBUG_ALARME_MEDOC", "Planification : " + nom + " à " + h + "h" + m);
 
                         AlarmScheduler.setAlarm(this,
                                 cal.get(Calendar.DAY_OF_MONTH),

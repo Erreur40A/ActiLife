@@ -10,7 +10,6 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -20,7 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         NotificationManager notif_manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         LesNotifications type_notif = (LesNotifications) intent.getSerializableExtra("type_notif");
-        Log.d("ALARM_RECEIVER", "🔔 Alarme reçue ! morel");
+
         int idLayout = getLayoutNotif(type_notif);
 
         String idAndName = null;
@@ -44,7 +43,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         } else if (idLayout == R.layout.notifications_faire_sport || idLayout == R.layout.notifications_prochaine_activite) {
             idAndName = "Sport";
             createChannel(notif_manager, idAndName, idAndName);
+        } else if (idLayout == R.layout.notification_medicament) {
+            idAndName = "Medicament";
+            createChannel(notif_manager, idAndName, idAndName);
         }
+
 
         Intent intentActivity = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);

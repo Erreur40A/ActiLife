@@ -13,6 +13,7 @@ import java.util.Calendar;
 public class AlarmScheduler {
     public static void setAlarm(Context context, int jour, int heure, int minute, LesNotifications type_notif){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Log.d("ALARM_SCHEDULER", "🔧 setAlarm appelée pour : " + type_notif + " à " + heure + "h" + minute);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
