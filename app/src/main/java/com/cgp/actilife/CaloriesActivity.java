@@ -24,42 +24,43 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+import android.text.InputType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CaloriesActivity extends AppCompatActivity {
+
     private ProgressBar progressCalories;
     private TextView textProgressPercent;
-    private DatabaseOpenHelper dbHelper;
-
     private TextView nbCaloriesTextView;
+    private DatabaseOpenHelper dbHelper;
     private List<FoodItem> foodItems = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_calories);
+
+        // Initialisation des vues
         progressCalories = findViewById(R.id.progressCalories);
         textProgressPercent = findViewById(R.id.textProgressPercentC);
-        nbCaloriesTextView = findViewById(R.id.nb_cal); // Liez le TextView
+        nbCaloriesTextView = findViewById(R.id.nb_cal);
         dbHelper = new DatabaseOpenHelper(this);
 
+        // Chargement des calories enregistrées
         loadCaloriesFromDatabase();
 
-
+        // Gestion des insets système
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-
-        // Initialisation de quelques exemples de plats
+        // Initialisation des plats par défaut
         initializeSampleFoodItems();
 
         // Gestion du bouton retour
@@ -74,30 +75,24 @@ public class CaloriesActivity extends AppCompatActivity {
         TextView textDefil = findViewById(R.id.text_defil);
         textDefil.setOnClickListener(v -> showFoodListPopup());
 
-        // Gestion de l'edit text quantité
+        // Forcer l'input de quantité à être un nombre
         EditText inputQuantite = findViewById(R.id.inputQuantite);
-        inputQuantite.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
-
-
-
-
+        inputQuantite.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 
     private void loadCaloriesFromDatabase() {
         new Thread(() -> {
             try {
-                // Récupération depuis la DB
                 String caloriesStr = dbHelper.getAttributeWithoutId(
                         ConstDB.CALORIES,
                         ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI
                 );
 
-                // Mise à jour UI sur le thread principal
                 runOnUiThread(() -> {
                     if (caloriesStr != null && !caloriesStr.isEmpty()) {
                         nbCaloriesTextView.setText(caloriesStr);
                     } else {
-                        nbCaloriesTextView.setText("0"); // Valeur par défaut
+                        nbCaloriesTextView.setText("0");
                     }
                 });
             } catch (Exception e) {
@@ -108,29 +103,27 @@ public class CaloriesActivity extends AppCompatActivity {
     }
 
     private void updateCaloriesDisplay(int newCalories) {
-        // Mettre à jour le TextView
         nbCaloriesTextView.setText(String.valueOf(newCalories));
-
-        // Mettre à jour la progress bar
         updateProgressBar(newCalories);
 
-        // Mettre à jour la base de données
         new Thread(() -> {
             Map<String, Object> updateFields = new HashMap<>();
             updateFields.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, newCalories);
             dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
         }).start();
     }
+
+    private void updateProgressBar(int calories) {
+        int progress = (int) (((float) calories / 2000) * 100); // 2000 = besoin quotidien
+        progressCalories.setProgress(progress);
+        textProgressPercent.setText(progress + "%");
+    }
+
     private void initializeSampleFoodItems() {
         foodItems.add(new FoodItem("Pomme", 52, 100));
         foodItems.add(new FoodItem("Poulet grillé", 165, 100));
         foodItems.add(new FoodItem("Pâtes", 131, 100));
         foodItems.add(new FoodItem("Salade César", 350, 100));
-    }
-    private void updateProgressBar(int calories) {
-        int progress = (int) (((float) calories / 2000) * 100); // 2000 = daily need
-        progressCalories.setProgress(progress);
-        textProgressPercent.setText(progress + "%");
     }
 
     private void showAddFoodPopup() {
@@ -139,21 +132,18 @@ public class CaloriesActivity extends AppCompatActivity {
         builder.setView(popupView);
         AlertDialog dialog = builder.create();
 
-        // Récupération des vues
         EditText nomPlat = popupView.findViewById(R.id.NomPlat);
         EditText nbCal = popupView.findViewById(R.id.nbcal);
         EditText quantite = popupView.findViewById(R.id.editQuant);
         Button btnAjouter = popupView.findViewById(R.id.btnAjouter);
         Button btnAnnuler = popupView.findViewById(R.id.btnAnnuler);
 
-
-
         btnAjouter.setOnClickListener(v -> {
             String nom = nomPlat.getText().toString();
             String calStr = nbCal.getText().toString();
             String quantStr = quantite.getText().toString();
 
-            if(nom.isEmpty() || calStr.isEmpty() || quantStr.isEmpty()) {
+            if (nom.isEmpty() || calStr.isEmpty() || quantStr.isEmpty()) {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -162,38 +152,20 @@ public class CaloriesActivity extends AppCompatActivity {
                 int calories = Integer.parseInt(calStr);
                 int quant = Integer.parseInt(quantStr);
 
-                // Ajout du nouveau plat à la liste
                 foodItems.add(new FoodItem(nom, calories, quant));
-
                 Toast.makeText(this, "Plat ajouté avec succès", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
 
-                // Mettre à jour la liste des plats si nécessaire
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "Veuillez entrer des nombres valides", Toast.LENGTH_SHORT).show();
-            }
-
-            try {
-                int calories = Integer.parseInt(calStr);
-                int quant = Integer.parseInt(quantStr);
-
-                // Calcul des nouvelles calories
                 int currentCalories = Integer.parseInt(nbCaloriesTextView.getText().toString());
                 int newCalories = currentCalories + calories;
-
-                // Mise à jour de l'affichage
                 updateCaloriesDisplay(newCalories);
 
+                dialog.dismiss();
             } catch (NumberFormatException e) {
-                // ... gestion d'erreur ...
+                Toast.makeText(this, "Veuillez entrer des nombres valides", Toast.LENGTH_SHORT).show();
             }
         });
 
         btnAnnuler.setOnClickListener(v -> dialog.dismiss());
-
-
-
-
         dialog.show();
     }
 
@@ -205,14 +177,16 @@ public class CaloriesActivity extends AppCompatActivity {
 
         Spinner foodSpinner = popupView.findViewById(R.id.food_spinner);
 
-        // Création de la liste des noms de plats pour le Spinner
         List<String> foodNames = new ArrayList<>();
         for (FoodItem item : foodItems) {
             foodNames.add(item.getName() + " - " + item.getCalories() + "kcal/" + item.getQuantity() + "g");
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, foodNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                foodNames
+        );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         foodSpinner.setAdapter(adapter);
 
@@ -223,7 +197,6 @@ public class CaloriesActivity extends AppCompatActivity {
                 FoodItem selectedFood = foodItems.get(selectedPosition);
                 EditText inputQuantite = findViewById(R.id.inputQuantite);
                 inputQuantite.setText(String.valueOf(selectedFood.getQuantity()));
-                // Vous pouvez aussi mettre à jour d'autres champs si nécessaire
             }
             dialog.dismiss();
         });
@@ -231,11 +204,11 @@ public class CaloriesActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Classe interne pour représenter un plat
+    // Classe interne représentant un plat
     private static class FoodItem {
-        private String name;
-        private int calories;
-        private int quantity;
+        private final String name;
+        private final int calories;
+        private final int quantity;
 
         public FoodItem(String name, int calories, int quantity) {
             this.name = name;

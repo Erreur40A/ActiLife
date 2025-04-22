@@ -155,10 +155,10 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:progress="26"
+                android:layout_marginTop="8dp"
                 android:max="100"
-                android:progressDrawable="@drawable/custom_bar"
-                android:layout_marginTop="8dp" />
+                android:progress="26"
+                android:progressDrawable="@drawable/custom_bar" />
 
             <TextView
                 android:id="@+id/textProgressPercentC"
