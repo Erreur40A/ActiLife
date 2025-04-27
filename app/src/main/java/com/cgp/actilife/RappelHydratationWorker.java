@@ -25,12 +25,12 @@ public class RappelHydratationWorker extends Worker {
         );
 
         if (rappelHydratation) {
-            int[] heures = {9, 15, 17};
+            int[] heures = {9, 16, 17};
             for (int heure : heures) {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, heure);
-                cal.set(Calendar.MINUTE, 5);
-                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MINUTE, 8);
+                cal.set(Calendar.SECOND, 59);
                 cal.set(Calendar.MILLISECOND, 0);
 
                 if (cal.before(Calendar.getInstance())) {
