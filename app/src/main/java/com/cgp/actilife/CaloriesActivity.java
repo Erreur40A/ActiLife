@@ -31,7 +31,21 @@ import java.util.List;
 import java.util.Map;
 
 public class CaloriesActivity extends AppCompatActivity {
+    private static class FoodItem {
+        private final String name;
+        private final int calories;
+        private final int quantity;
 
+        public FoodItem(String name, int calories, int quantity) {
+            this.name = name;
+            this.calories = calories;
+            this.quantity = quantity;
+        }
+
+        public String getName() { return name; }
+        public int getCalories() { return calories; }
+        public int getQuantity() { return quantity; }
+    }
     private ProgressBar progressCalories;
     private TextView textProgressPercent;
     private TextView nbCaloriesTextView;
@@ -49,6 +63,18 @@ public class CaloriesActivity extends AppCompatActivity {
         textProgressPercent = findViewById(R.id.textProgressPercentC);
         nbCaloriesTextView = findViewById(R.id.nb_cal);
         dbHelper = new DatabaseOpenHelper(this);
+
+        Button btnValider = findViewById(R.id.btnValider);
+        btnValider.setOnClickListener(v -> {
+            String caloriesNecessaires = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR);
+
+            if (caloriesNecessaires != null && !caloriesNecessaires.isEmpty()) {
+                // Exemple : afficher dans un Toast
+                Toast.makeText(this, "Calories nécessaires : " + caloriesNecessaires, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Aucune donnée trouvée.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Chargement des calories enregistrées
         loadCaloriesFromDatabase();
@@ -138,6 +164,7 @@ public class CaloriesActivity extends AppCompatActivity {
         Button btnAjouter = popupView.findViewById(R.id.btnAjouter);
         Button btnAnnuler = popupView.findViewById(R.id.btnAnnuler);
 
+        // ➡️ Ici, seulement une seule fois btnAjouter.setOnClickListener
         btnAjouter.setOnClickListener(v -> {
             String nom = nomPlat.getText().toString();
             String calStr = nbCal.getText().toString();
@@ -152,7 +179,17 @@ public class CaloriesActivity extends AppCompatActivity {
                 int calories = Integer.parseInt(calStr);
                 int quant = Integer.parseInt(quantStr);
 
+                // ➔ Ajouter dans la liste locale
                 foodItems.add(new FoodItem(nom, calories, quant));
+
+                // ➔ Ajouter dans la base de données (table repas)
+                Map<String, Object> foodData = new HashMap<>();
+                foodData.put(ConstDB.REPAS_NOM, nom);
+                foodData.put(ConstDB.REPAS_CALORIES , calories);
+                foodData.put(ConstDB.REPAS_QUANTITE_G, quant);
+
+                dbHelper.insertData(ConstDB.REPAS, foodData);
+
                 Toast.makeText(this, "Plat ajouté avec succès", Toast.LENGTH_SHORT).show();
 
                 int currentCalories = Integer.parseInt(nbCaloriesTextView.getText().toString());
@@ -166,9 +203,9 @@ public class CaloriesActivity extends AppCompatActivity {
         });
 
         btnAnnuler.setOnClickListener(v -> dialog.dismiss());
+
         dialog.show();
     }
-
     private void showFoodListPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_food_list, null);
@@ -195,29 +232,20 @@ public class CaloriesActivity extends AppCompatActivity {
             int selectedPosition = foodSpinner.getSelectedItemPosition();
             if (selectedPosition >= 0 && selectedPosition < foodItems.size()) {
                 FoodItem selectedFood = foodItems.get(selectedPosition);
+
+                // ➡️ Remplir le TextView text_defil
+                TextView textDefil = findViewById(R.id.text_defil);
+                textDefil.setText(selectedFood.getName());
+
+                // ➡️ Remplir le champ inputQuantite
                 EditText inputQuantite = findViewById(R.id.inputQuantite);
                 inputQuantite.setText(String.valueOf(selectedFood.getQuantity()));
             }
             dialog.dismiss();
         });
 
-        dialog.show();
+        dialog.show(); // ← Ici et pas à l'intérieur du setOnClickListener !
     }
 
-    // Classe interne représentant un plat
-    private static class FoodItem {
-        private final String name;
-        private final int calories;
-        private final int quantity;
 
-        public FoodItem(String name, int calories, int quantity) {
-            this.name = name;
-            this.calories = calories;
-            this.quantity = quantity;
-        }
-
-        public String getName() { return name; }
-        public int getCalories() { return calories; }
-        public int getQuantity() { return quantity; }
-    }
 }
