@@ -58,49 +58,18 @@ public class CaloriesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_calories);
 
-        // Initialisation des vues
-        new Thread(() -> {
-            try {
-                Map<String, String> userdata = dbHelper.getOneWithoutId(ConstDB.USERDATA);
-                if (userdata != null && userdata.containsKey(ConstDB.USERDATA_TAILLE_CM) && userdata.containsKey(ConstDB.USERDATA_POIDS_CIBLE)) {
-                    String tailleStr = userdata.get(ConstDB.USERDATA_TAILLE_CM);
-                    String poidsStr = userdata.get(ConstDB.USERDATA_POIDS_CIBLE);
-                    String dateNaissanceStr = userdata.get(ConstDB.USERDATA_DATE_NAISSANCE); // Il faut aussi récupérer la date de naissance pour calculer l'âge !
-
-                    if (tailleStr != null && poidsStr != null && dateNaissanceStr != null) {
-                        int taille = Integer.parseInt(tailleStr);
-                        int poids = Integer.parseInt(poidsStr);
-                        int age = calculerAge(dateNaissanceStr);
-
-                        int caloriesNecessaires = (int) (10 * poids + 6.25 * taille - 5 * age - 78);
-
-                        // Mettre à jour dans la base de données
-                        Map<String, Object> updateFields = new HashMap<>();
-                        updateFields.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, caloriesNecessaires);
-                        dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
-
-                        // Et mettre à jour l'affichage
-                        runOnUiThread(() -> {
-                            nbCaloriesTextView.setText(String.valueOf(caloriesNecessaires));
-                            updateProgressBar(caloriesNecessaires);
-                        });
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        // Initialiser d'abord dbHelper et les vues
+        dbHelper = new DatabaseOpenHelper(this);
         progressCalories = findViewById(R.id.progressCalories);
         textProgressPercent = findViewById(R.id.textProgressPercentC);
         nbCaloriesTextView = findViewById(R.id.nb_cal);
-        dbHelper = new DatabaseOpenHelper(this);
 
+        // Bouton "Valider"
         Button btnValider = findViewById(R.id.btnValider);
         btnValider.setOnClickListener(v -> {
-            String caloriesNecessaires = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR);
+            String caloriesNecessaires = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
 
             if (caloriesNecessaires != null && !caloriesNecessaires.isEmpty()) {
-                // Exemple : afficher dans un Toast
                 Toast.makeText(this, "Calories nécessaires : " + caloriesNecessaires, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Aucune donnée trouvée.", Toast.LENGTH_SHORT).show();
@@ -109,6 +78,9 @@ public class CaloriesActivity extends AppCompatActivity {
 
         // Chargement des calories enregistrées
         loadCaloriesFromDatabase();
+
+        // Calcul automatique des calories nécessaires au lancement
+        calculerEtMettreAJourCaloriesNecessaires();
 
         // Gestion des insets système
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -136,13 +108,12 @@ public class CaloriesActivity extends AppCompatActivity {
         EditText inputQuantite = findViewById(R.id.inputQuantite);
         inputQuantite.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
-
     private void loadCaloriesFromDatabase() {
         new Thread(() -> {
             try {
                 String caloriesStr = dbHelper.getAttributeWithoutId(
                         ConstDB.CALORIES,
-                        ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI
+                        ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR
                 );
 
                 runOnUiThread(() -> {
@@ -160,18 +131,45 @@ public class CaloriesActivity extends AppCompatActivity {
     }
 
     private void updateCaloriesDisplay(int newCalories) {
-        nbCaloriesTextView.setText(String.valueOf(newCalories));
+        // Ne pas mettre à jour nbCaloriesTextView ici
         updateProgressBar(newCalories);
 
         new Thread(() -> {
             Map<String, Object> updateFields = new HashMap<>();
+            // Mettre à jour seulement les calories consommées aujourd'hui
             updateFields.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, newCalories);
             dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
         }).start();
     }
-
     private void updateProgressBar(int calories) {
-        int progress = (int) (((float) calories / 2000) * 100); // 2000 = besoin quotidien
+        // Récupérer les calories nécessaires par jour
+        String caloriesNecessairesStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR);
+        // Récupérer les calories déjà consommées aujourd'hui
+        String caloriesConsommeesStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
+
+        int caloriesNecessaires = 2000; // Par défaut si erreur
+        int caloriesConsommees = 0;      // Par défaut
+
+        try {
+            if (caloriesNecessairesStr != null && !caloriesNecessairesStr.isEmpty()) {
+                caloriesNecessaires = Integer.parseInt(caloriesNecessairesStr);
+            }
+            if (caloriesConsommeesStr != null && !caloriesConsommeesStr.isEmpty()) {
+                caloriesConsommees = Integer.parseInt(caloriesConsommeesStr);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        int progress = 0;
+
+        if (caloriesNecessaires > 0) {
+            progress = (int) (((float) caloriesConsommees / caloriesNecessaires) * 100);
+        }
+
+        // S'assurer que le pourcentage reste entre 0% et 100%
+        progress = Math.max(0, Math.min(progress, 100));
+
         progressCalories.setProgress(progress);
         textProgressPercent.setText(progress + "%");
     }
@@ -195,11 +193,10 @@ public class CaloriesActivity extends AppCompatActivity {
         Button btnAjouter = popupView.findViewById(R.id.btnAjouter);
         Button btnAnnuler = popupView.findViewById(R.id.btnAnnuler);
 
-        // ➡️ Ici, seulement une seule fois btnAjouter.setOnClickListener
         btnAjouter.setOnClickListener(v -> {
-            String nom = nomPlat.getText().toString();
-            String calStr = nbCal.getText().toString();
-            String quantStr = quantite.getText().toString();
+            String nom = nomPlat.getText().toString().trim();
+            String calStr = nbCal.getText().toString().trim();
+            String quantStr = quantite.getText().toString().trim();
 
             if (nom.isEmpty() || calStr.isEmpty() || quantStr.isEmpty()) {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
@@ -210,19 +207,20 @@ public class CaloriesActivity extends AppCompatActivity {
                 int calories = Integer.parseInt(calStr);
                 int quant = Integer.parseInt(quantStr);
 
-                // ➔ Ajouter dans la liste locale
+                // ➔ Ajouter dans la liste locale (mémoire RAM)
                 foodItems.add(new FoodItem(nom, calories, quant));
 
                 // ➔ Ajouter dans la base de données (table repas)
                 Map<String, Object> foodData = new HashMap<>();
                 foodData.put(ConstDB.REPAS_NOM, nom);
-                foodData.put(ConstDB.REPAS_CALORIES , calories);
+                foodData.put(ConstDB.REPAS_CALORIES, calories);
                 foodData.put(ConstDB.REPAS_QUANTITE_G, quant);
 
                 dbHelper.insertData(ConstDB.REPAS, foodData);
 
-                Toast.makeText(this, "Plat ajouté avec succès", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Plat ajouté dans la base de données", Toast.LENGTH_SHORT).show();
 
+                // ➔ Mettre à jour les calories consommées aujourd'hui
                 int currentCalories = Integer.parseInt(nbCaloriesTextView.getText().toString());
                 int newCalories = currentCalories + calories;
                 updateCaloriesDisplay(newCalories);
@@ -245,9 +243,22 @@ public class CaloriesActivity extends AppCompatActivity {
 
         Spinner foodSpinner = popupView.findViewById(R.id.food_spinner);
 
+        // Lire la liste des repas depuis la base de données
+        List<Map<String, String>> repasList = dbHelper.getAll(ConstDB.REPAS);
+
         List<String> foodNames = new ArrayList<>();
-        for (FoodItem item : foodItems) {
-            foodNames.add(item.getName() + " - " + item.getCalories() + "kcal/" + item.getQuantity() + "g");
+        List<FoodItem> databaseFoodItems = new ArrayList<>();
+        List<Integer> repasIds = new ArrayList<>(); // ➡️ Pour stocker les IDs aussi !
+
+        for (Map<String, String> repas : repasList) {
+            String nom = repas.get(ConstDB.REPAS_NOM);
+            int calories = Integer.parseInt(repas.get(ConstDB.REPAS_CALORIES));
+            int quantite = Integer.parseInt(repas.get(ConstDB.REPAS_QUANTITE_G));
+            int id = Integer.parseInt(repas.get(ConstDB.REPAS_ID)); // ➡️ Récupérer l'ID du repas
+
+            databaseFoodItems.add(new FoodItem(nom, calories, quantite));
+            foodNames.add(nom + " - " + calories + "kcal/" + quantite + "g");
+            repasIds.add(id);
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -259,10 +270,12 @@ public class CaloriesActivity extends AppCompatActivity {
         foodSpinner.setAdapter(adapter);
 
         Button btnSelect = popupView.findViewById(R.id.btn_select_food);
+        Button btnDelete = popupView.findViewById(R.id.btn_suppr_food); // ➡️ Ton bouton Supprimer
+
         btnSelect.setOnClickListener(v -> {
             int selectedPosition = foodSpinner.getSelectedItemPosition();
-            if (selectedPosition >= 0 && selectedPosition < foodItems.size()) {
-                FoodItem selectedFood = foodItems.get(selectedPosition);
+            if (selectedPosition >= 0 && selectedPosition < databaseFoodItems.size()) {
+                FoodItem selectedFood = databaseFoodItems.get(selectedPosition);
 
                 // ➡️ Remplir le TextView text_defil
                 TextView textDefil = findViewById(R.id.text_defil);
@@ -271,11 +284,91 @@ public class CaloriesActivity extends AppCompatActivity {
                 // ➡️ Remplir le champ inputQuantite
                 EditText inputQuantite = findViewById(R.id.inputQuantite);
                 inputQuantite.setText(String.valueOf(selectedFood.getQuantity()));
+
+                dialog.dismiss();
             }
-            dialog.dismiss();
         });
 
-        dialog.show(); // ← Ici et pas à l'intérieur du setOnClickListener !
+        btnDelete.setOnClickListener(v -> {
+            int selectedPosition = foodSpinner.getSelectedItemPosition();
+            if (selectedPosition >= 0 && selectedPosition < repasIds.size()) {
+                int idToDelete = repasIds.get(selectedPosition);
+
+                // ➡️ Supprimer dans la base de données
+                dbHelper.effacerEnregistrement(ConstDB.REPAS, idToDelete);
+
+                Toast.makeText(this, "Plat supprimé avec succès", Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+    private int calculerAge(String dateNaissanceStr) {
+        try {
+            String[] parts = dateNaissanceStr.split("-"); // Supposé format "YYYY-MM-DD"
+            int anneeNaissance = Integer.parseInt(parts[0]);
+            int moisNaissance = Integer.parseInt(parts[1]);
+            int jourNaissance = Integer.parseInt(parts[2]);
+
+            java.util.Calendar today = java.util.Calendar.getInstance();
+            int anneeActuelle = today.get(java.util.Calendar.YEAR);
+            int moisActuel = today.get(java.util.Calendar.MONTH) + 1;
+            int jourActuel = today.get(java.util.Calendar.DAY_OF_MONTH);
+
+            int age = anneeActuelle - anneeNaissance;
+            if (moisActuel < moisNaissance || (moisActuel == moisNaissance && jourActuel < jourNaissance)) {
+                age--;
+            }
+            return age;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 25; // Valeur par défaut si erreur
+        }
+    }
+    private void calculerEtMettreAJourCaloriesNecessaires() {
+        new Thread(() -> {
+            try {
+                Map<String, String> userdata = dbHelper.getOneWithoutId(ConstDB.USERDATA);
+
+                int taille = 170; // Taille par défaut en cm
+                int poids = 80;   // Poids par défaut en kg
+                int age = 25;     // Âge par défaut en années
+
+                if (userdata != null) {
+                    String tailleStr = userdata.get(ConstDB.USERDATA_TAILLE_CM);
+                    String poidsStr = userdata.get(ConstDB.USERDATA_POIDS_CIBLE);
+                    String dateNaissanceStr = userdata.get(ConstDB.USERDATA_DATE_NAISSANCE);
+
+                    if (tailleStr != null && !tailleStr.isEmpty()) {
+                        taille = Integer.parseInt(tailleStr);
+                    }
+                    if (poidsStr != null && !poidsStr.isEmpty()) {
+                        poids = Integer.parseInt(poidsStr);
+                    }
+                    if (dateNaissanceStr != null && !dateNaissanceStr.isEmpty()) {
+                        age = calculerAge(dateNaissanceStr);
+                    }
+                }
+
+                int caloriesNecessaires = (int) (10 * poids + 6.25 * taille - 5 * age - 78);
+
+                // Mettre à jour dans la base de données
+                Map<String, Object> updateFields = new HashMap<>();
+                updateFields.put(ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR, caloriesNecessaires);
+                dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
+
+                // Mettre à jour l'affichage
+                runOnUiThread(() -> {
+                    nbCaloriesTextView.setText(String.valueOf(caloriesNecessaires));
+                    updateProgressBar(caloriesNecessaires);
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
 
