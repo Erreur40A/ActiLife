@@ -59,6 +59,37 @@ public class CaloriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calories);
 
         // Initialisation des vues
+        new Thread(() -> {
+            try {
+                Map<String, String> userdata = dbHelper.getOneWithoutId(ConstDB.USERDATA);
+                if (userdata != null && userdata.containsKey(ConstDB.USERDATA_TAILLE_CM) && userdata.containsKey(ConstDB.USERDATA_POIDS_CIBLE)) {
+                    String tailleStr = userdata.get(ConstDB.USERDATA_TAILLE_CM);
+                    String poidsStr = userdata.get(ConstDB.USERDATA_POIDS_CIBLE);
+                    String dateNaissanceStr = userdata.get(ConstDB.USERDATA_DATE_NAISSANCE); // Il faut aussi récupérer la date de naissance pour calculer l'âge !
+
+                    if (tailleStr != null && poidsStr != null && dateNaissanceStr != null) {
+                        int taille = Integer.parseInt(tailleStr);
+                        int poids = Integer.parseInt(poidsStr);
+                        int age = calculerAge(dateNaissanceStr);
+
+                        int caloriesNecessaires = (int) (10 * poids + 6.25 * taille - 5 * age - 78);
+
+                        // Mettre à jour dans la base de données
+                        Map<String, Object> updateFields = new HashMap<>();
+                        updateFields.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, caloriesNecessaires);
+                        dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
+
+                        // Et mettre à jour l'affichage
+                        runOnUiThread(() -> {
+                            nbCaloriesTextView.setText(String.valueOf(caloriesNecessaires));
+                            updateProgressBar(caloriesNecessaires);
+                        });
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         progressCalories = findViewById(R.id.progressCalories);
         textProgressPercent = findViewById(R.id.textProgressPercentC);
         nbCaloriesTextView = findViewById(R.id.nb_cal);
