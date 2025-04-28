@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (userdata.containsKey(ConstDB.USERDATA_NOM) && userdata.get(ConstDB.USERDATA_NOM) != null) {
                 etNom.setText(userdata.get(ConstDB.USERDATA_NOM));
             } else {
-                etNom.setHint("Nom");
+                etNom.setHint("Saisir votre nom");
             }
         }
         TextView helloText = findViewById(R.id.hello_name);
@@ -74,7 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
                 helloText.setText(helloMessage);
             } else {
                 helloText.setText(R.string.param_tres);
-                etPrenom.setHint("Prénom");
+                etPrenom.setHint("Saisir votre prénom");
             }
         }
 
@@ -82,7 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (userdata.containsKey(ConstDB.USERDATA_DATE_NAISSANCE) && userdata.get(ConstDB.USERDATA_DATE_NAISSANCE) != null) {
                 etAge.setText(userdata.get(ConstDB.USERDATA_DATE_NAISSANCE));
             } else {
-                etAge.setHint("Date de naissance");
+                etAge.setHint("Saisir votre date de naissance");
             }
             etAge.setInputType(InputType.TYPE_NULL);
             etAge.setOnClickListener(v -> showDatePickerDialog(etAge));
@@ -90,9 +90,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (etPoids != null) {
             if (userdata.containsKey(ConstDB.USERDATA_TAILLE_CM) && userdata.get(ConstDB.USERDATA_TAILLE_CM) != null) {
-                etPoids.setText(userdata.get(ConstDB.USERDATA_TAILLE_CM ) + " cm");
+                etPoids.setText(userdata.get(ConstDB.USERDATA_TAILLE_CM ));
             } else {
-                etPoids.setHint("Taille");
+                etPoids.setHint("Saisir votre taille");
             }
             etPoids.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         }

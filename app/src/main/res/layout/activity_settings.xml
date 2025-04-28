@@ -11,7 +11,7 @@
         android:id="@+id/appBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/grey"
+
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
@@ -59,18 +59,54 @@
             android:orientation="vertical"
             android:padding="4dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/nomE">
+            </TextView>
             <include
                 android:id="@+id/etNom"
                 layout="@layout/edit_text_with_icon" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/pr_nom">
+            </TextView>
             <include
                 android:id="@+id/etPrenom"
                 layout="@layout/edit_text_with_icon" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/date_de_naissance">
+            </TextView>
             <include
                 android:id="@+id/etAge"
                 layout="@layout/edit_text_with_icon" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/taille_cm">
+            </TextView>
             <include
                 android:id="@+id/etPoids"
                 layout="@layout/edit_text_with_icon" />
