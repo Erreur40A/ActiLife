@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -26,13 +27,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlanningSportActivity extends AppCompatActivity {
 
     private final ArrayList<Activite> listeActivitesSportives = new ArrayList<>();
     private RecyclerView recyclerView;
     private ActiviteAdapter activiteAdapter;
+    private int lastId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +52,29 @@ public class PlanningSportActivity extends AppCompatActivity {
         Button btnAjouter = findViewById(R.id.btnAjouterActivite);
         Button btnSupprimer = findViewById(R.id.btnSupprimerActivites);
         ImageView btnRetour = findViewById(R.id.btnRetour);
+        CardView conteneurRecycler = findViewById(R.id.conteneurRecycler);
+        TextView messageMotivation = findViewById((R.id.messageMotivation));
+
+        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
+
+        messageMotivation.setText(db.getMotivation(ConstDB.MOTIVATIONS_TYPE_SPORT));
 
        // btnRetour.setOnClickListener(view -> finish());
+        List<Map<String, String >> allActivites = db.getAll(ConstDB.ACTIVITES_SPORTIVES);
+        if (!allActivites.isEmpty()){
+            allActivites.forEach((map-> {
+                Activite activite = new Activite(
+                        Integer.parseInt(map.get(ConstDB.ACTIVITES_SPORTIVES_ID)),
+                        map.get(ConstDB.ACTIVITES_SPORTIVES_NOM),
+                        map.get(ConstDB.ACTIVITES_SPORTIVES_HEURE_DEBUT),
+                        map.get(ConstDB.ACTIVITES_SPORTIVES_HEURE_FIN),
+                        new ArrayList<>(List.of(map.get(ConstDB.ACTIVITES_SPORTIVES_JOURS_ACTIFS).split(";")))
+                );
+                listeActivitesSportives.add(activite);
+            }));
+            Map<String, String> lastActivity = allActivites.get(allActivites.size() - 1);
+            lastId = Integer.parseInt(lastActivity.get(ConstDB.ACTIVITES_SPORTIVES_ID));
+        }
 
         //test de rappel medicament au btn retour
         btnRetour.setOnClickListener(view -> {
@@ -60,7 +85,7 @@ public class PlanningSportActivity extends AppCompatActivity {
 
 
         PopUp pop_up_ajout_activite = new PopUp(this, R.layout.popup_ajout_activite);
-        CardView conteneurRecycler = findViewById(R.id.conteneurRecycler);
+
 
         btnAjouter.setOnClickListener(view -> pop_up_ajout_activite.show());
 
@@ -157,8 +182,60 @@ public class PlanningSportActivity extends AppCompatActivity {
                 }
             }
             // dès que tout est bon ?
-            Activite nouvelle = new Activite(nom, heureDebut, heureFin, joursSelectionnes);
+            lastId ++;
+            Activite nouvelle = new Activite(lastId, nom, heureDebut, heureFin, joursSelectionnes);
+            Map<String, Object> activityFields = new HashMap<>();
+            activityFields.put(ConstDB.ACTIVITES_SPORTIVES_ID, lastId);
+            activityFields.put(ConstDB.ACTIVITES_SPORTIVES_NOM, nom);
+            activityFields.put(ConstDB.ACTIVITES_SPORTIVES_HEURE_DEBUT, heureDebut);
+            activityFields.put(ConstDB.ACTIVITES_SPORTIVES_HEURE_FIN, heureFin);
+            activityFields.put(ConstDB.ACTIVITES_SPORTIVES_JOURS_ACTIFS, String.join(";", joursSelectionnes));
+            db.insertData(ConstDB.ACTIVITES_SPORTIVES, activityFields);
             listeActivitesSportives.add(nouvelle);
+
+            for (String jour : nouvelle.getJours()){
+                // Nouvelle partie : Planifier une alarme pour chaque jour et chaque activité
+                try {
+                    // Convertir le "jour" en date
+                    String[] dateParts = jour.split("/");
+                    int day = Integer.parseInt(dateParts[0]);
+                    int month = Integer.parseInt(dateParts[1]) - 1; // Attention : Calendar.MONTH est de 0 à 11
+                    int year = Integer.parseInt(dateParts[2]);
+
+                    // Convertir l'heure de début (exemple "14:30") en heures et minutes
+                    String[] heureParts = nouvelle.getHeureDebut().split(":");
+                    int heure = Integer.parseInt(heureParts[0]);
+                    int minute = Integer.parseInt(heureParts[1]);
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(Calendar.YEAR, year);
+                    cal.set(Calendar.MONTH, month);
+                    cal.set(Calendar.DAY_OF_MONTH, day);
+                    cal.set(Calendar.HOUR_OF_DAY, heure);
+                    cal.set(Calendar.MINUTE, minute);
+                    cal.set(Calendar.SECOND, 0);
+                    cal.set(Calendar.MILLISECOND, 0);
+
+                    // Décaler 5 minutes avant l'heure de début
+                    cal.add(Calendar.MINUTE, -5);
+
+                    if (cal.before(Calendar.getInstance())) {
+                        cal.add(Calendar.DAY_OF_YEAR, 1); // Si l'heure est déjà passée aujourd'hui
+                    }
+
+                    AlarmScheduler.setAlarm(
+                            getApplicationContext(),
+                            cal.get(Calendar.DAY_OF_MONTH),
+                            cal.get(Calendar.HOUR_OF_DAY),
+                            cal.get(Calendar.MINUTE),
+                            LesNotifications.PROCHAINE_ACTIVITE_SPORTIF
+                    );
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("AlarmSetup", "Erreur lors de la création de l'alarme pour l'activité : " + nouvelle.getNom() + " jour: " + jour);
+                }
+            }
 
             // Mise à jour du RecyclerView
             ArrayList<Pair<Activite, String>> nouvelleListeAPlat = new ArrayList<>();
@@ -167,6 +244,7 @@ public class PlanningSportActivity extends AppCompatActivity {
                     nouvelleListeAPlat.add(new Pair<>(act, jour));
                 }
             }
+
             activiteAdapter.updateData(nouvelleListeAPlat);
 
             // Réinitialisation UI
@@ -182,10 +260,18 @@ public class PlanningSportActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewActivitesSportives);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialisation à vide
-        activiteAdapter = new ActiviteAdapter(new ArrayList<>());
-        recyclerView.setAdapter(activiteAdapter);
+        if (!listeActivitesSportives.isEmpty()){
+            // Initialisation avec les donnees dans la bd
+            ArrayList<Pair<Activite, String>> listDePair = new ArrayList<>();
+            for (Activite act : listeActivitesSportives) {
+                for (String jour : act.getJours()) {
+                    listDePair.add(new Pair<>(act, jour));
+                }
+            }
+            activiteAdapter = new ActiviteAdapter(listDePair);
+            recyclerView.setAdapter(activiteAdapter);
+            conteneurRecycler.setVisibility(View.VISIBLE);
+        }
 
         pop_up_ajout_activite.setOnClickListener(R.id.btnRetour2, v -> pop_up_ajout_activite.dismiss());
 
@@ -213,6 +299,19 @@ public class PlanningSportActivity extends AppCompatActivity {
                         if (activite.getJours().isEmpty()) {
                             listeActivitesSportives.remove(activite);
                         }
+                        Map<String, String> fields = db.getOneWithId(ConstDB.ACTIVITES_SPORTIVES, activite.getId());
+                        String joursActifs = fields.get(ConstDB.ACTIVITES_SPORTIVES_JOURS_ACTIFS);
+                        if (joursActifs.contains(jour)){
+                            joursActifs = joursActifs.replace(jour + ";", "").replace(jour, "");
+                        }
+                        if (joursActifs.isEmpty()){
+                            db.effacerEnregistrement(ConstDB.ACTIVITES_SPORTIVES, activite.getId());
+                        } else{
+                            Map<String, Object> fieldToUpdate = new HashMap<>();
+                            fieldToUpdate.put(ConstDB.ACTIVITES_SPORTIVES_JOURS_ACTIFS, joursActifs);
+                            db.updateTableWithId(ConstDB.ACTIVITES_SPORTIVES, fieldToUpdate, activite.getId());
+                        }
+
 
                         // Met à jour les données de la liste principale
                         ArrayList<Pair<Activite, String>> nouvelleListe = new ArrayList<>();

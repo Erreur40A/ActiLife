@@ -49,7 +49,7 @@ public class ActiviteAdapter extends RecyclerView.Adapter<ActiviteAdapter.ViewHo
             Date date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(jour);
             String jourFormate = new SimpleDateFormat("dd/MM", Locale.FRENCH).format(date);
 
-            String ligne = jourFormate + " " + activite.getHeureDebut() + "h-" + activite.getHeureFin() + "h : " + activite.getNom();
+            String ligne = jourFormate + " " + activite.getHeureDebut() + "-" + activite.getHeureFin() + " : " + activite.getNom();
             holder.textActivite.setText(ligne);
         } catch (Exception e) {
             holder.textActivite.setText("Erreur de date");
