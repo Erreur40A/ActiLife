@@ -3,12 +3,15 @@ package com.cgp.actilife;
 import java.util.List;
 
 public class Activite {
+
+    private int id;
     private String nom;
     private String heureDebut;
     private String heureFin;
     private List<String> jours;
 
-    public Activite(String nom, String heureDebut, String heureFin, List<String> jours) {
+    public Activite(int id, String nom, String heureDebut, String heureFin, List<String> jours) {
+        this.id = id;
         this.nom = nom;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
@@ -39,6 +42,13 @@ public class Activite {
         return heureFin;
     }
 
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public int getId(){
+        return this.id;
+    }
     public void setHeureFin(String heureFin) {
         this.heureFin = heureFin;
     }
