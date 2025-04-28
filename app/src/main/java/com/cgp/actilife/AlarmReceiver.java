@@ -10,7 +10,6 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -32,6 +31,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             idAndName = "Sport";
             createChannel(notif_manager, idAndName, idAndName);
         }
+        if (idLayout == R.layout.notification_medicament) {
+            idAndName = "Medicament";
+            createChannel(notif_manager, idAndName, idAndName);
+        }
+
 
         Intent intentActivity = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -82,6 +86,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         switch (type) {
             case BIENTOT_HEURE_SPORT:
                 layout = R.layout.notifications_faire_sport;
+                break;
+
+            case RAPPEL_MEDICAMENT:
+                layout = R.layout.notification_medicament;
                 break;
 
             case PROCHAINE_ACTIVITE_SPORTIF:
