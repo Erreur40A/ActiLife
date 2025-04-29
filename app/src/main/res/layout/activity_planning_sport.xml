@@ -34,8 +34,8 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/conteneurRecycler"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:maxHeight="200dp"
+            android:layout_height="250dp"
+            android:maxHeight="250dp"
 
             android:layout_marginStart="4dp"
             android:paddingStart="4dp"
