@@ -154,6 +154,10 @@ public class SettingsActivity extends AppCompatActivity {
                     hasError = true;
                 }
 
+                Map<String, String > test = db.getOneWithoutId(ConstDB.CALORIES);
+                Log.d("Calories", test.toString());
+
+                String current
                 if (!hasError) {
                     // Crée le dictionnaire pour la mise à jour
                     Map<String, Object> fields = new HashMap<>();
