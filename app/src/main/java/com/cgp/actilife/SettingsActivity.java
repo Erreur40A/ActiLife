@@ -36,6 +36,8 @@ import java.util.concurrent.TimeUnit;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    int genre = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         Context context = this;
+
+
 
         ImageView btnRetour = findViewById(R.id.iconBack);
         btnRetour.setOnClickListener(v -> finish());
@@ -62,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         EditText etAge = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etAge)).findViewById(R.id.edit_text);
         EditText etPoids = ((LinearLayout) findViewById(R.id.formCont).findViewById(R.id.etPoids)).findViewById(R.id.edit_text);
         SwitchCompat switchHydratation = findViewById(R.id.switch_hydratation);
+        Spinner spinner_genre = findViewById(R.id.spinner_genre);
 
         if (etNom != null) {
             if (userdata.containsKey(ConstDB.USERDATA_NOM) && userdata.get(ConstDB.USERDATA_NOM) != null) {
@@ -110,19 +115,23 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
+        if (spinner_genre != null) {
+            if (userdata.containsKey(ConstDB.USERDATA_SEXE)) {
+                genre = Integer.parseInt(userdata.get(ConstDB.USERDATA_SEXE));
+                spinner_genre.setSelection(genre); // Sélectionne "Homme" si genre est 0, "Femme" si genre est 1
+            } else {
+                spinner_genre.setSelection(genre); // Sélectionne "Homme" par défaut si la clé n'est pas présente
+            }
+        }
 
-        Spinner spinner_genre = findViewById(R.id.spinner_genre);
 
         spinner_genre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), ""+ i,Toast.LENGTH_LONG).show();
+               genre = i;
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast.makeText(getApplicationContext(), "ZERO SELECTED",Toast.LENGTH_LONG).show();
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
         Button confirmBtn = findViewById((R.id.btn_ok));
@@ -167,6 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
                     fields.put(ConstDB.USERDATA_DATE_NAISSANCE, etAge.getText().toString().trim());
                     fields.put(ConstDB.USERDATA_TAILLE_CM, etPoids.getText().toString().trim());
                     fields.put(ConstDB.USERDATA_RAPPEL_HYDRATATION_ACTIVE, isHydratationActive);
+                    fields.put(ConstDB.USERDATA_SEXE, genre);
                     Map<String, String> userdata = db.getOneWithoutId(ConstDB.USERDATA);
 
                     // test getMotivation
