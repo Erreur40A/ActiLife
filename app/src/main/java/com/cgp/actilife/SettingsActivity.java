@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -154,10 +155,10 @@ public class SettingsActivity extends AppCompatActivity {
                     hasError = true;
                 }
 
-                Map<String, String > test = db.getOneWithoutId(ConstDB.CALORIES);
+               List< Map<String, String >> test = db.getAll(ConstDB.CALORIES);
                 Log.d("Calories", test.toString());
 
-                String current
+                String current;
                 if (!hasError) {
                     // Crée le dictionnaire pour la mise à jour
                     Map<String, Object> fields = new HashMap<>();
