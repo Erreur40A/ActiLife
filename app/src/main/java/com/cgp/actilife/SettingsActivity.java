@@ -18,10 +18,13 @@ import androidx.work.PeriodicWorkRequest;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,7 +109,70 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-       // String prenomValue = etPrenom.getText().toString().trim();
+
+        Spinner spinner_genre = findViewById(R.id.spinner_genre);
+
+        ArrayAdapter<CharSequence> adapter_genre = ArrayAdapter.createFromResource(this,
+                R.array.genre_array, android.R.layout.simple_spinner_item);
+
+        adapter_genre.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_genre.setAdapter(adapter_genre);
+
+        // Configuration de l'adaptateur pour le Spinner_type
+        ArrayAdapter<CharSequence> adapter_type = ArrayAdapter.createFromResource(this,
+                R.array.type_de_personne_array, android.R.layout.simple_spinner_item);
+        adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_type.setAdapter(adapter_type);
+
+        int position = 0;
+
+        if(user.getGenre().equals(Genre.FEMME))
+            position=1;
+
+        spinner_genre.setSelection(position);
+
+        // OnItemSelectedListener sur le Spinner_genre
+        spinner_genre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Récupérer l'élément sélectionné
+                Genre genre;
+                if(position == 0) {
+                    genre = Genre.HOMME;
+                } else {
+                    genre = Genre.FEMME;
+                }
+                user.setGenre(genre, db_helper);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                int selection=0;
+
+                if(user.getGenre().equals(Genre.FEMME))
+                    selection=1;
+
+                spinner_genre.setSelection(selection);
+            }
+        });
+
+        spinner_type.setSelection(user.getType_de_personne()-1);
+
+        // Définir un OnItemSelectedListener sur le Spinner_type
+        spinner_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Récupérer l'élément sélectionné
+                position++;
+                user.setType_de_personne(position, db_helper);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                int selection = user.getType_de_personne();
+                spinner_type.setSelection(selection-1);
+            }
+        });
 
 
         Button confirmBtn = findViewById((R.id.btn_ok));
