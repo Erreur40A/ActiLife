@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation (libs.work.runtime)
     implementation(libs.sqliteassethelper)
     implementation(libs.appcompat)
     implementation(libs.material)
