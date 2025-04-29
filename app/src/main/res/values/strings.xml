@@ -23,6 +23,7 @@
     <string name="pr_nom">Prénom</string>
     <string name="date_de_naissance">Date de naissance</string>
     <string name="taille_cm">Taille (cm)</string>
+    <string name="genre">Genre</string>
     <string-array name="genre_array">
         <item>Homme</item>
         <item>Femme</item>
