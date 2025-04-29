@@ -52,6 +52,8 @@ public class CaloriesActivity extends AppCompatActivity {
     private DatabaseOpenHelper dbHelper;
     private List<FoodItem> foodItems = new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,16 +66,74 @@ public class CaloriesActivity extends AppCompatActivity {
         textProgressPercent = findViewById(R.id.textProgressPercentC);
         nbCaloriesTextView = findViewById(R.id.nb_cal);
 
+        new Thread(() -> {
+            String caloriesAjd = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
+            if (caloriesAjd == null || caloriesAjd.isEmpty()) {
+                Map<String, Object> init = new HashMap<>();
+                init.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, 0);
+                dbHelper.updateTableWithoutId(ConstDB.CALORIES, init);
+            }
+        }).start();
+
+
         // Bouton "Valider"
         Button btnValider = findViewById(R.id.btnValider);
-        btnValider.setOnClickListener(v -> {
-            String caloriesNecessaires = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
+        TextView textDefil = findViewById(R.id.text_defil); // OK, une seule fois
 
-            if (caloriesNecessaires != null && !caloriesNecessaires.isEmpty()) {
-                Toast.makeText(this, "Calories nécessaires : " + caloriesNecessaires, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Aucune donnée trouvée.", Toast.LENGTH_SHORT).show();
+        btnValider.setOnClickListener(v -> {
+            String nomPlat = textDefil.getText().toString().trim();
+
+            if (nomPlat.isEmpty() || nomPlat.equals("Qu’avez-vous mangé ?")) {
+                Toast.makeText(this, "Aucun plat sélectionné", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            List<Map<String, String>> repasList = dbHelper.getAll(ConstDB.REPAS);
+            int caloriesDuPlat = 0;
+
+            for (Map<String, String> repas : repasList) {
+                String nom = repas.get(ConstDB.REPAS_NOM);
+                if (nom != null && nom.equalsIgnoreCase(nomPlat)) {
+                    try {
+                        caloriesDuPlat = Integer.parseInt(repas.get(ConstDB.REPAS_CALORIES));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+
+            if (caloriesDuPlat == 0) {
+                Toast.makeText(this, "Plat introuvable dans la base", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String currentStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
+            Log.i("Test :"," "+(currentStr==null));
+            int currentValue;
+
+            try {
+                if (currentStr != null && !currentStr.trim().isEmpty()) {
+                    currentValue = Integer.parseInt(currentStr.trim());
+                } else {
+                    currentValue = 0; // Si null ou vide → on part de 0
+                }
+            } catch (NumberFormatException e) {
+                currentValue = 0;
+            }
+
+            int total = currentValue + caloriesDuPlat;
+
+            // Mise à jour en base
+            Map<String, Object> updateFields = new HashMap<>();
+            updateFields.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, total);
+            dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
+
+            // Mise à jour UI
+            nbCaloriesTextView.setText(String.valueOf(total));
+            updateProgressBar();
+
+            Toast.makeText(this, nomPlat + " ajouté. Total aujourd'hui : " + total + " kcal", Toast.LENGTH_SHORT).show();
         });
 
         // Chargement des calories enregistrées
@@ -92,6 +152,7 @@ public class CaloriesActivity extends AppCompatActivity {
         // Initialisation des plats par défaut
         initializeSampleFoodItems();
 
+
         // Gestion du bouton retour
         ImageView backArrow = findViewById(R.id.backArrow);
         backArrow.setOnClickListener(v -> finish());
@@ -101,12 +162,14 @@ public class CaloriesActivity extends AppCompatActivity {
         btnAjouterPlat.setOnClickListener(v -> showAddFoodPopup());
 
         // Gestion du texte "Qu'avez-vous mangé ?"
-        TextView textDefil = findViewById(R.id.text_defil);
+
         textDefil.setOnClickListener(v -> showFoodListPopup());
 
         // Forcer l'input de quantité à être un nombre
         EditText inputQuantite = findViewById(R.id.inputQuantite);
         inputQuantite.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
     }
     private void loadCaloriesFromDatabase() {
         new Thread(() -> {
@@ -132,7 +195,7 @@ public class CaloriesActivity extends AppCompatActivity {
 
     private void updateCaloriesDisplay(int newCalories) {
         // Ne pas mettre à jour nbCaloriesTextView ici
-        updateProgressBar(newCalories);
+        updateProgressBar();
 
         new Thread(() -> {
             Map<String, Object> updateFields = new HashMap<>();
@@ -141,7 +204,7 @@ public class CaloriesActivity extends AppCompatActivity {
             dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
         }).start();
     }
-    private void updateProgressBar(int calories) {
+    private void updateProgressBar() {
         // Récupérer les calories nécessaires par jour
         String caloriesNecessairesStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR);
         // Récupérer les calories déjà consommées aujourd'hui
@@ -362,7 +425,7 @@ public class CaloriesActivity extends AppCompatActivity {
                 // Mettre à jour l'affichage
                 runOnUiThread(() -> {
                     nbCaloriesTextView.setText(String.valueOf(caloriesNecessaires));
-                    updateProgressBar(caloriesNecessaires);
+                    updateProgressBar();
                 });
 
             } catch (Exception e) {
