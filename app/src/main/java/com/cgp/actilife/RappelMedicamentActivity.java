@@ -53,7 +53,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
         return liste;
     }
 
-
+    //ImageView btnderetour = findViewById(R.id.btnRetour);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +100,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SupprimmerMedicamentActivity.class);
             startActivityForResult(intent, 1);
         });
+        //btnderetour.setOnClickListener(v->finish());
 
         btnAjouterMedicament.setOnClickListener(view -> {
             Intent intent = new Intent(RappelMedicamentActivity.this, AjoutMedicamentActivity.class);

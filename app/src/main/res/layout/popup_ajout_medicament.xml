@@ -3,25 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/main"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_pop_up"
-    android:padding="16dp">
+    android:layout_height="wrap_content"
+    android:background="@drawable/pop_up_medoc_border"
+    android:padding="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical">
 
         <!-- Bloc : Nom du médicament -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/border_edittext_blue"
             android:padding="18dp">
 
             <TextView
@@ -44,15 +39,17 @@
                 android:paddingTop="8dp"/>
         </LinearLayout>
 
+        <!-- Ligne blanche -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+
         <!-- Bloc : Heure de prise -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:orientation="vertical"
-            android:background="@drawable/border_edittext_blue"
             android:padding="18dp">
 
             <TextView
@@ -76,27 +73,34 @@
                 android:paddingTop="8dp"/>
         </LinearLayout>
 
+
+
         <!-- Liste des heures ajoutées dynamiquement -->
         <LinearLayout
             android:id="@+id/layoutHeuresAjoutees"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:divider="?android:attr/dividerVertical"
             android:showDividers="middle"
             android:dividerPadding="4dp" />
+
+        <!-- Ligne blanche -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
 
         <!-- Boutons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:gravity="center"
-            android:weightSum="2">
+            android:paddingTop="16dp"
+            android:weightSum="2"
+            android:paddingBottom="4dp"
+            android:gravity="center">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRetour1"
@@ -122,5 +126,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
     </LinearLayout>
+
 </RelativeLayout>
