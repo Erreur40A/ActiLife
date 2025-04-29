@@ -2,25 +2,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/main"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_pop_up"
+    android:background="@drawable/popup_border"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical">
 
         <!-- Bloc : Nom de l’activité -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/border_edittext"
             android:orientation="vertical"
             android:padding="18dp">
 
@@ -36,24 +30,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="ecrire ici..."
+                android:hint="écrire ici..."
                 android:inputType="text"
                 android:textColorHint="@android:color/darker_gray"
-
-                android:paddingTop="8dp"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:paddingTop="8dp"/>
         </LinearLayout>
+
+        <!-- Ligne blanche -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
 
         <!-- Bloc : Heure de début -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:orientation="vertical"
-            android:background="@drawable/border_edittext"
             android:padding="18dp">
 
             <TextView
@@ -67,25 +62,26 @@
                 android:id="@+id/heureDebutActivite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ecrire ici..."
+                android:hint="écrire ici..."
                 android:focusable="false"
                 android:clickable="true"
                 android:textColorHint="@android:color/darker_gray"
-
-                android:textSize="20sp"
                 android:textColor="@android:color/white"
+                android:textSize="20sp"
                 android:paddingTop="8dp"/>
         </LinearLayout>
+
+        <!-- Ligne blanche -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
 
         <!-- Bloc : Heure de fin -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:orientation="vertical"
-            android:background="@drawable/border_edittext"
             android:padding="18dp">
 
             <TextView
@@ -99,24 +95,26 @@
                 android:id="@+id/heureFinActivite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ecrire ici"
+                android:hint="écrire ici..."
                 android:focusable="false"
-                android:textColorHint="@android:color/darker_gray"
-
                 android:clickable="true"
-                android:textSize="20sp"
+                android:textColorHint="@android:color/darker_gray"
                 android:textColor="@android:color/white"
+                android:textSize="20sp"
                 android:paddingTop="8dp"/>
         </LinearLayout>
 
+        <!-- Ligne blanche -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+
+        <!-- Bloc : Jour -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:orientation="vertical"
-            android:background="@drawable/border_edittext"
             android:padding="18dp">
 
             <TextView
@@ -130,12 +128,12 @@
                 android:id="@+id/jourActivite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ecrire ici"
+                android:hint="écrire ici..."
                 android:focusable="false"
-                android:textColorHint="@android:color/darker_gray"
                 android:clickable="true"
-                android:textSize="20sp"
+                android:textColorHint="@android:color/darker_gray"
                 android:textColor="@android:color/white"
+                android:textSize="20sp"
                 android:paddingTop="8dp"/>
 
             <GridLayout
@@ -145,24 +143,23 @@
                 android:columnCount="3"
                 android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:padding="8dp" />
-
+                android:padding="8dp"/>
         </LinearLayout>
 
+        <!-- Ligne blanche -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
 
-
+        <!-- Boutons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/black"
             android:gravity="center"
-            android:weightSum="2">
-
-            <!-- Boutons -->
+            android:weightSum="2"
+            android:paddingTop="15dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRetour2"
@@ -188,6 +185,5 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
     </LinearLayout>
 </RelativeLayout>
