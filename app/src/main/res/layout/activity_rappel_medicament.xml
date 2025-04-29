@@ -29,7 +29,7 @@
         android:layout_height="350dp"
         android:background="@drawable/card_border"
         android:layout_below="@+id/titreMedicaments"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="0dp"
         android:layout_margin="8dp">
     <include
         android:id="@+id/medicamentList"

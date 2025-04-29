@@ -29,7 +29,7 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
         Medicament medicament = medicamentList.get(position);
 
         // ✅ Nom du médicament
-        holder.nomTextView.setText(medicament.getNom());
+        holder.nomTextView.setText(medicament.getNom() + " : ");
 
         // ✅ Format de l'heure : 08:30 → 08h30
         String heureOriginale = medicament.getHeure(); // Ex: "08:30"
