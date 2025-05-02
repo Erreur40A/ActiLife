@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/demande_objectif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/demande_objectif_poids"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/saisi_objectif"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <EditText
+        android:id="@+id/saisi_objectif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/gris"
+        android:inputType="number"
+        android:gravity="center"
+        android:hint="@string/objectif_poids_initial"
+        android:layout_margin="5dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/demande_objectif"
+        app:layout_constraintBottom_toTopOf="@id/bouton_ok"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bouton_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bouton_ok"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:paddingVertical="15dp"
+        android:background="@drawable/background_bouton"
+        app:layout_constraintTop_toBottomOf="@id/saisi_objectif"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
