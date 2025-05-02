@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/background_pop_up_calories"
+    android:elevation="8dp">
+
+    <!-- Titre -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ajouter un plat"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#003366"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Champ Nom du plat -->
+    <EditText
+        android:id="@+id/NomPlat"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Nom du plat"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:paddingStart="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Champ Nb de kcal -->
+    <EditText
+        android:id="@+id/nbcal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Nb de kcal"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:paddingStart="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Champ Quantité -->
+    <EditText
+        android:id="@+id/editQuant"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Quantité"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:paddingStart="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Boutons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAnnuler"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="ANNULER"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:background="@drawable/bouton"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAjouter"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="AJOUTER"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:background="@drawable/bouton"/>
+    </LinearLayout>
+</LinearLayout>

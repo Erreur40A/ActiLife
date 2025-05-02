@@ -64,4 +64,11 @@
     <string name="text_poids_restant2">de votre objectif</string>
     <string name="text_poids_restant1">Vous êtes à</string>
     <string name="demande_poids_actuelle">Quelle est votre poids actuelle ?</string>
+    <string name="ajouter_un_plat">Ajouter un plat</string>
+    <string name="calories_ing_r_s_aujourd_hui">calories ingérés aujourd’hui</string>
+    <string name="_26">26%</string>
+    <string name="actilife">ActiLife</string>
+    <string name="quantit">Quantité</string>
+    <string name="annuler">Annuler</string>
+    <string name="ajouter">Ajouter</string>
 </resources>
