@@ -14,9 +14,6 @@
     <color name="switch_track_inactive">#000000</color> <!-- Votre couleur désirée pour l'état non sélectionné (track inactif) -->
     <color name="switch_track_active">#0047AB</color> <!-- Votre couleur pour l'état sélectionné (track actif) -->
     <color name="switch_thumb">#FFFFFF</color> <!-- Votre couleur pour le bouton (thumb) -->
-    <color name="jaune">#E88D00</color>
-    <color name="bleu_nuit">#003366</color>
-    <color name="bleu_clair">#007aff</color>
     <color name="primaryColor">#033C75</color>
     <color name="gris">#DCDCDC</color>
     <color name="jaune">#E88D00</color>
