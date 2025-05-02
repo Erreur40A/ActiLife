@@ -27,7 +27,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String idAndName = null;
         // A compléter dans les autres branches
-        if (idLayout == -1) {
+        if(idLayout == -1){
             //Ne devrai jamais arriver théoriquement
             throw new InternalError("Le type de notifications spécifier n'existe pas");
         } else if (idLayout == R.layout.notifcation_reveil || idLayout == R.layout.notification_couchez) {
@@ -42,7 +42,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-    }
+        } else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
+            idAndName = "Sport";
+            createChannel(notif_manager, idAndName, idAndName);
+        }
 
         Intent intentActivity = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -106,6 +109,19 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             case RAPPEL_HYDRATATION:
                 layout = R.layout.notification_hydratation;
+                break;
+
+
+            case BIENTOT_HEURE_SPORT:
+                layout = R.layout.notifications_faire_sport;
+                break;
+
+            case RAPPEL_HEURE_REVEIL:
+                layout = R.layout.notifcation_reveil;
+                break;
+
+            case RAPPEL_MEDICAMENT:
+                layout = R.layout.notification_medicament;
                 break;
 
             default:
