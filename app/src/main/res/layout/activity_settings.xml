@@ -5,22 +5,185 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".SettingsActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:gravity="center">
+        android:id="@+id/appBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- Icône de réglages en haut à gauche -->
+        <ImageView
+            android:id="@+id/iconBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:clickable="true"
+            android:contentDescription="@string/icone_retour"
+            android:focusable="true"
+            android:src="@drawable/arrow_left_long_solid" />
+
         <TextView
+            android:id="@+id/hello_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:text="@string/hello_with_name"
+            android:textColor="@color/blueColor"
             android:textSize="20sp"
-            android:text="This is my settings page">
-
-        </TextView>
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:fillViewport="true"
+        android:paddingTop="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar">
+
+        <LinearLayout
+            android:id="@+id/formCont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/nomE">
+            </TextView>
+            <include
+                android:id="@+id/etNom"
+                layout="@layout/edit_text_with_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/pr_nom">
+            </TextView>
+            <include
+                android:id="@+id/etPrenom"
+                layout="@layout/edit_text_with_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/genre">
+            </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_custom"
+                android:layout_marginBottom="15dp">
+                <Spinner
+                    android:id="@+id/spinner_genre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:entries="@array/genre_array"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/date_de_naissance">
+            </TextView>
+            <include
+                android:id="@+id/etAge"
+                layout="@layout/edit_text_with_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@string/taille_cm">
+            </TextView>
+            <include
+                android:id="@+id/etPoids"
+                layout="@layout/edit_text_with_icon" />
+
+            <!-- Ligne contenant le texte et le switch -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/edittext_custom"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/rappel_hydratation"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_hydratation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    app:thumbTint="@color/blueColor"
+                    app:trackTint="@color/grey"
+                    android:trackTintMode="src_in" />
+
+            </LinearLayout>
+
+            <!-- Bouton OK -->
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                app:backgroundTint="@color/blueColor"
+                android:background="@drawable/edittext_custom"
+                android:gravity="center"
+                android:text="@string/ok"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

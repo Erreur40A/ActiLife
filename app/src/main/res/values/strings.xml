@@ -3,4 +3,29 @@
     <string name="icon_settings">Icon settings</string>
     <string name="bienvenue_sur_actilife">Bienvenue sur ActiLife</string>
     <string name="icone_de_l_activite">Icone de l\'activite</string>
+    <string name="icone_retour">Icone retour</string>
+    <string name="edit_icon">edit-icon</string>
+    <string name="nom">Nom</string>
+    <string name="edit">Edit</string>
+    <string name="ok">OK</string>
+    <string name="rappel_hydratation">Rappel Hydratation</string>
+    <string name="dsec_img_bouteille_d_eau">Bouteille d\'eau</string>
+    <string name="text_notif_hydratation">Toc toc, c\'est l\'heure de s\'hydrater</string>
+    <string name="hello_with_name">Hello %1$s</string>
+    <string name="param_tres">Paramètres</string>
+    <string name="desc_img_soleil">image de soleil</string>
+    <string name="desc_img_lune">image de lune</string>
+    <string name="desc_img_medicament">image de médicament</string>
+    <string name="text_notif_reveil">C’est l’heure de se réveillez</string>
+    <string name="text_notif_couchez">C’est l’heure de se couchez</string>
+    <string name="text_notif_médicament">C’est l’heure de prendre vos</string>
+    <string name="nomE">Nom</string>
+    <string name="pr_nom">Prénom</string>
+    <string name="date_de_naissance">Date de naissance</string>
+    <string name="taille_cm">Taille (cm)</string>
+    <string name="genre">Genre</string>
+    <string-array name="genre_array">
+        <item>Homme</item>
+        <item>Femme</item>
+    </string-array>
 </resources>
