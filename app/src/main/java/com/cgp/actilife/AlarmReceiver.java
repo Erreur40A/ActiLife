@@ -24,7 +24,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String idAndName = null;
         // A compléter dans les autres branches
-        if(idLayout == -1){
+        if (idLayout == -1) {
             //Ne devrai jamais arriver théoriquement
             throw new InternalError("Le type de notifications spécifier n'existe pas");
         } else if (idLayout == R.layout.notifcation_reveil || idLayout == R.layout.notification_couchez) {
@@ -39,7 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         // PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        } else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
+        else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
         } else if (idLayout == R.layout.notifications_faire_sport || idLayout == R.layout.notifications_prochaine_activite) {
             idAndName = "Sport";
             createChannel(notif_manager, idAndName, idAndName);
@@ -56,7 +56,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
 
         //Ne devrai jamais arriver théoriquement
-        if(idAndName == null)
+        if (idAndName == null)
             throw new InternalError("L'id du channel n'existe pas");
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, idAndName);
@@ -66,16 +66,14 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .setCustomContentView(layout_notif)
                 .setContentIntent(pendingIntent)
-                .setDefaults(NotificationCompat.DEFAULT_ALL);
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setContentIntent(pendingIntent);
 
         notif_manager.notify(type_notif.ordinal(), builder.build());
-    
-                .setContentIntent(pendingIntent);
 
         notif_manager.notify(type_notif.ordinal(), builder.build());
-    
 
+    }
     public void createChannel(NotificationManager manager, String nameChannel, String idChannel){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(idChannel, nameChannel, NotificationManager.IMPORTANCE_HIGH);
@@ -106,7 +104,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 layout = R.layout.notification_couchez;
                 break;
 
-
             case RAPPEL_MEDICAMENT:
                 layout = R.layout.notification_medicament;
                 break;
@@ -122,13 +119,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             case RAPPEL_HEURE_REVEIL:
                 layout = R.layout.notifcation_reveil;
-                break;
-
-            case RAPPEL_MEDICAMENT:
-                layout = R.layout.notification_medicament;
-                
-            case RAPPEL_MEDICAMENT:
-                layout = R.layout.notification_medicament;
                 break;
 
             case PROCHAINE_ACTIVITE_SPORTIF:
