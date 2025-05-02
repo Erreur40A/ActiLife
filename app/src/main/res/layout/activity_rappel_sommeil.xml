@@ -6,5 +6,136 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RappelSommeilActivity">
+<!--en tete ici-->
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/entete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/motivation_sommeil">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/box_rappel_coucher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/box_rappel_reveil">
+
+            <TextView
+                android:id="@+id/text_rappel_coucher"
+                android:text="@string/rappel_de_coucher"
+                android:textSize="18sp"
+                android:textColor="@color/blueColor"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/planning_coucher"/>
+
+            <HorizontalScrollView
+                android:id="@+id/planning_coucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_rappel_coucher">
+                <GridLayout
+                    android:id="@+id/bedGrid"
+                    android:columnCount="7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alignmentMode="alignMargins"
+                    android:rowCount="2"/>
+            </HorizontalScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/box_rappel_reveil"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/box_rappel_coucher"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/text_rappel_reveil"
+                android:text="@string/rappel_de_r_veil"
+                android:textSize="18sp"
+                android:textColor="@color/blueColor"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/planning_reveil"/>
+
+            <HorizontalScrollView
+                android:id="@+id/planning_reveil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_rappel_reveil">
+                        <GridLayout
+                            android:id="@+id/wakeGrid"
+                            android:columnCount="7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:rowCount="2"
+                            android:layout_marginBottom="16dp"/>
+            </HorizontalScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--   Message de motivation ici     -->
+    <TextView
+        android:id="@+id/motivation_sommeil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/motivation_sommeil"
+        android:textColor="@color/blueColor"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:background="@drawable/rounded_container"
+        app:layout_constraintTop_toBottomOf="@id/scrollView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

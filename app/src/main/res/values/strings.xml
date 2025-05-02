@@ -28,4 +28,15 @@
         <item>Homme</item>
         <item>Femme</item>
     </string-array>
+    <string name="rappel_de_coucher">Rappel de coucher</string>
+    <string name="rappel_de_r_veil">Rappel de réveil</string>
+    <string name="btnRetour_desc">Bouton retour</string>
+    <string name="logo_app_desc">logo de l\'apk</string>
+    <string name="motivation_sommeil">motivation_sommeil</string>
+    <string name="desc_img_soleil">image de soleil</string>
+    <string name="desc_img_lune">image de lune</string>
+    <string name="desc_img_medicament">image de médicament</string>
+    <string name="text_notif_reveil">C’est l’heure de se réveillez</string>
+    <string name="text_notif_couchez">C’est l’heure de se couchez</string>
+    <string name="text_notif_médicament">C’est l’heure de prendre vos</string>
 </resources>
