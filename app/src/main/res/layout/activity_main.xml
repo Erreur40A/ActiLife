@@ -1,11 +1,182 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:id="@+id/main"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/secondBlue"
+      tools:context=".MainActivity">
+
+  <!-- Icône de réglages en haut à gauche -->
+  <ImageView
+      android:id="@+id/iconSettings"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:contentDescription="@string/icon_settings"
+      android:src="@drawable/icon_settings"
+      android:background="@drawable/border_icon"
+      android:clickable="true"
+      android:focusable="true"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      android:layout_marginTop="10dp"
+      android:layout_marginStart="10dp"/>
+
+  <!-- Conteneur pour le logo + texte (centré en largeur mais en haut) -->
+  <LinearLayout
+      android:id="@+id/headerSection"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:gravity="center"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:paddingBottom="20dp"
+      android:layout_marginTop="20dp">
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/monImage"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/logo"
+        android:contentDescription="Logo"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Texte -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bienvenue_sur_actilife"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"/>
+  </LinearLayout>
+
+
+  <!-- Deuxième section (fond blanc avec les menus) -->
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:fillViewport="true"
+      app:layout_constraintTop_toBottomOf="@id/headerSection"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="4dp">
+
+      <!-- Rows des menus -->
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center"
+          android:layout_marginBottom="2dp">
+
+        <include
+            android:id="@+id/menu1"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="1dp"/>
+
+        <include
+            android:id="@+id/menu2"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="1dp"/>
+      </LinearLayout>
+
+
+      <!-- Rows des menus -->
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center"
+          android:layout_marginBottom="2dp">
+
+        <include
+            android:id="@+id/menu3"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="1dp"/>
+
+        <include
+            android:id="@+id/menu4"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="1dp"/>
+      </LinearLayout>
+
+      <!-- Rows des menus -->
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center"
+          android:layout_marginBottom="2dp">
+
+        <include
+            android:id="@+id/menu5"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="1dp"/>
+
+        <include
+            android:id="@+id/menu6"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="1dp"/>
+      </LinearLayout>
+
+      <!-- Rows des menus -->
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center"
+          android:layout_marginBottom="2dp">
+
+        <include
+            android:id="@+id/menu7"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="1dp"/>
+
+        <include
+            android:id="@+id/menu8"
+            android:visibility="invisible"
+            layout="@layout/menu_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="1dp"/>
+      </LinearLayout>
+
+    </LinearLayout>
+  </ScrollView>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
