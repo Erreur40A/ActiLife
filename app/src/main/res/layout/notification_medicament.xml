@@ -31,7 +31,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/image_fait_exo1"
-        app:layout_constraintRight_toLeftOf="@id/image_fait_exo2"
         android:layout_marginStart="5sp"
         android:layout_marginEnd="5sp">
 
@@ -47,18 +46,10 @@
             android:maxLines="2"
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/nom_medicament"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             />
 
-        <TextView
-            android:id="@+id/nom_medicament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:ellipsize="end"
-            android:maxLines="2"/>
 
         <ImageView
             android:id="@+id/image_fait_exo2"
@@ -75,4 +66,5 @@
             android:scaleX="-1"
             />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
