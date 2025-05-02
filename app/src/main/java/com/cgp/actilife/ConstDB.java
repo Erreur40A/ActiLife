@@ -6,6 +6,7 @@ public final class ConstDB {
     public static final String USERDATA = "userdata";
     public static final String USERDATA_PRENOM = "prenom";
     public static final String USERDATA_NOM = "nom";
+    public static final String USERDATA_SEXE = "sexe";
     public static final String USERDATA_DATE_NAISSANCE = "date_naissance";
     public static final String USERDATA_TAILLE_CM = "taille_cm";
     public static final String USERDATA_POIDS_CIBLE = "poids_cible";
