@@ -1,10 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PlanningSportActivity">
+    android:id="@+id/main"
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/entete_planning_sport"/>
+
+    <!-- Titre "Rappel de médicaments" -->
+    <TextView
+        android:id="@+id/titreActivitesSportives"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titre_liste_activites"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:textColor="@color/primaryColor"
+        android:layout_below="@id/header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_border"
+        android:layout_below="@id/titreActivitesSportives"
+        android:layout_margin="8dp">
+    <!-- Liste des médicaments -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/conteneurRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:maxHeight="250dp"
+
+            android:layout_marginStart="4dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewActivitesSportives"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+
+            android:overScrollMode="ifContentScrolls"
+            android:nestedScrollingEnabled="true"
+            android:layout_margin="4dp" />
+    </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+
+
+    <TextView
+        android:id="@+id/messageMotivation"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_above="@id/btnAjouterActivite"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/gris_clair"
+        android:gravity="center"
+        android:text="@string/mdm"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        />
+    <!--suppr une activite -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSupprimerActivites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texte_suppr_activites"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Bouton Ajouter : juste au-dessus -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAjouterActivite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnSupprimerActivites"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/texte_ajout_activite"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>

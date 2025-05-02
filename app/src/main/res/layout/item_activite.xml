@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <!-- Texte de l’activité (ligne) -->
+    <TextView
+        android:id="@+id/textActivite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Activité"
+        android:layout_marginBottom="5dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- Ligne de séparation propre -->
+    <View
+        android:id="@+id/separateur"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+</LinearLayout>

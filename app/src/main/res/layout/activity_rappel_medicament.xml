@@ -1,10 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RappelMedicamentActivity">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- En-tête -->
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/entete_rappel_medicament"/>
+
+    <!-- Titre "Rappel de médicaments" -->
+    <TextView
+        android:id="@+id/titreMedicaments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titre_liste_medocs"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:textColor="@color/primaryColor"
+        android:layout_below="@id/header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Liste des médicaments -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@drawable/card_border"
+        android:layout_below="@+id/titreMedicaments"
+        android:layout_marginStart="0dp"
+        android:layout_margin="8dp">
+    <include
+        android:id="@+id/medicamentList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/titreMedicaments"
+        layout="@layout/liste_medicaments"/>
+    </FrameLayout>
+
+    <!-- Bouton Supprimer : tout en bas -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSupprimerMedicament"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_suppr_medoc"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Bouton Ajouter : juste au-dessus -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAjouterMedicament"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_ajout_medicament"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rounded_button"
+        android:layout_above="@id/btnSupprimerMedicament"
+        android:textSize="20sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp" />
+
+
+
+</RelativeLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/layout_notif_reveil"
+    android:background="@color/black"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/image_fait_exo1"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/faire_de_lexercice"
+        android:contentDescription="@string/desc_img_faire_exo"
+        android:layout_marginEnd="5dp"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:id="@+id/text_notification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="@string/text_notification_prochaine_activite"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAlignment="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"/>
+
+    <ImageView
+        android:id="@+id/image_fait_exo2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/faire_de_lexercice"
+        android:contentDescription="@string/desc_img_faire_exo"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:scaleType="centerInside"
+        android:scaleX="-1"/>
+</LinearLayout>

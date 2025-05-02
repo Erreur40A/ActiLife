@@ -13,6 +13,7 @@ import java.util.Calendar;
 public class AlarmScheduler {
     public static void setAlarm(Context context, int jour, int heure, int minute, LesNotifications type_notif){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Log.d("ALARM_SCHEDULER", "🔧 setAlarm appelée pour : " + type_notif + " à " + heure + "h" + minute);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
@@ -30,10 +31,13 @@ public class AlarmScheduler {
 
         Calendar date = Calendar.getInstance();
 
+<<<<<<< HEAD
         if (date.get(Calendar.DAY_OF_MONTH) + jour > date.getActualMaximum(Calendar.DAY_OF_MONTH)){
             date.add(Calendar.MONTH, 1);
         }
 
+=======
+>>>>>>> 1a2f7dd (ajout back-end notifications planning_sport)
         date.set(Calendar.DAY_OF_MONTH, jour);
         date.set(Calendar.HOUR_OF_DAY, heure);
         date.set(Calendar.MINUTE, minute);

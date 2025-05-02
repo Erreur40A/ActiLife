@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Ligne avec nom + espace + heure -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical">
+
+        <!-- Nom du médicament -->
+        <TextView
+            android:id="@+id/nomMedicament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom du médicament"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:layout_marginEnd="19dp"/>
+
+
+        <!-- Heure du médicament -->
+        <TextView
+            android:id="@+id/heureMedicament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="08:00"
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <!-- Ligne de séparation -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+</LinearLayout>

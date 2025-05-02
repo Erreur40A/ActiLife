@@ -32,8 +32,11 @@ android {
 }
 
 dependencies {
+<<<<<<< HEAD
     implementation (libs.work.runtime)
     implementation(libs.sqliteassethelper)
+=======
+>>>>>>> 1a2f7dd (ajout back-end notifications planning_sport)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -41,4 +44,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.material.v1110)
+
+
+
+
+
 }
