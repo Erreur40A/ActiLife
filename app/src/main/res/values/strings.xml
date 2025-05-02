@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ActiLife</string>
-<<<<<<< HEAD
     <string name="icon_settings">Icon settings</string>
     <string name="bienvenue_sur_actilife">Bienvenue sur ActiLife</string>
     <string name="icone_de_l_activite">Icone de l\'activite</string>
@@ -37,10 +36,6 @@
     <string name="desc_img_faire_exo">image humain qui fait du sport</string>
     <string name="text_notification_prochaine_activite">C\'est bientôt l\'heure de passer à la prochaine activité</string>
     <string name="text_notification_faire_sport">C\'est bientôt l\'heure de votre séance de sport</string>
-=======
-    <string name="btnRetour_desc">le bouton de retour</string>
-    <string name="logo_app_desc">le logo de l\'appli</string>
->>>>>>> b915fac (ajout xml poids_activity)
     <string name="titre_liste_medocs">Rappel de medicaments</string>
     <string name="heure_prise_medoc">heure de prise</string>
     <string name="nom_medoc">nom du medicament</string>
