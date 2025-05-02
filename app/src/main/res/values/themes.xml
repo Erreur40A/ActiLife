@@ -12,12 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+<!--        <item name="android:windowBackground">@drawable/background_pop_up_white</item>-->
+<!--        <item name="android:windowIsFloating">true</item>-->
+<!--        <item name="android:backgroundDimEnabled">true</item>-->
     </style>
 
-    <!-- Ton style de pop-up personnalisé -->
-    <style name="PopUpArrondi">
-        <item name="android:windowBackground">@drawable/background_pop_up</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
 </resources>
