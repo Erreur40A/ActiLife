@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,19 +21,6 @@
         android:layout_marginEnd="5dp"
         android:scaleX="-1"
         android:scaleType="centerInside" />
-
-    <TextView
-        android:id="@+id/text_notification"
-        android:layout_width="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/text_notification"
-        android:contentDescription="@string/desc_img_lune"
-        android:layout_marginStart="5sp"
-        android:layout_marginEnd="5sp"
-        android:scaleX="-1"
-        />
 
     <TextView
         android:id="@+id/text_notification"
@@ -67,4 +54,4 @@
         android:layout_marginEnd="5sp"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

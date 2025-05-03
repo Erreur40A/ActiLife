@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -35,6 +36,10 @@ import java.util.Map;
 public class RappelSommeilActivity extends AppCompatActivity {
     private DatabaseOpenHelper db;
 
+    private static final String[] days = {"L", "Ma", "Me", "J", "V", "S", "D"};
+    private static String[] bedTime = {"", "", "", "", "", "", ""};
+    private static String[] wakeTime = {"", "", "", "", "", "", ""};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +67,31 @@ public class RappelSommeilActivity extends AppCompatActivity {
         GridLayout bedGrid = findViewById(R.id.bedGrid);
         GridLayout wakeGrid = findViewById(R.id.wakeGrid);
 
-        String[] days = {"L", "Ma", "Me", "J", "V", "S", "D"};
-        String[] bedAndWakeTime = {"", "", "", "", "", "", ""};
+        //db.viderTable(ConstDB.RAPPELS_SOMMEIL);
+        List<Map<String, String>> all = db.getAll(ConstDB.RAPPELS_SOMMEIL);
+
+
+        if (!all.isEmpty()) {
+            Log.i("RAPPEL SOMMEIL : ", all.toString());
+            for (Map<String, String> row : all) {
+                try {
+                    int dayIndex = Integer.parseInt(row.get("id")) - 1; // id = 1 pour Lundi → index = 0
+                    if (dayIndex >= 0 && dayIndex < 7) {
+                        wakeTime[dayIndex] = row.get("heure_reveil") != null ? row.get("heure_reveil") : "";
+                        bedTime[dayIndex] = row.get("heure_coucher") != null ? row.get("heure_coucher") : "";
+                    }
+                } catch (NumberFormatException e) {
+                    // Ignore les entrées corrompues
+                    e.printStackTrace();
+                }
+            }
+        }
 
         addRowToGrid(this, bedGrid, days, false, null);
-        addRowToGrid(this, bedGrid, bedAndWakeTime, true, LesNotifications.RAPPEL_HEURE_COUCHER);
+        addRowToGrid(this, bedGrid, bedTime, true, LesNotifications.RAPPEL_HEURE_COUCHER);
 
         addRowToGrid(this, wakeGrid, days, false, null);
-        addRowToGrid(this, wakeGrid, bedAndWakeTime, true, LesNotifications.RAPPEL_HEURE_REVEIL);
+        addRowToGrid(this, wakeGrid, wakeTime, true, LesNotifications.RAPPEL_HEURE_REVEIL);
     }
 
     private void addRowToGrid(Context context, GridLayout grid, String[] values, boolean clickable, LesNotifications typeNotif) {
@@ -132,7 +154,7 @@ public class RappelSommeilActivity extends AppCompatActivity {
     }
 
     private void setListenerRappelCoucher(int heure, int minute, int jourChosit, TextView tv, LesNotifications typeNotif){
-        String time = heure + "h" + (minute < 10 ? "0" : "") + minute;
+        String time = formatHeure(heure, minute);
         tv.setText(time);
         Calendar date = Calendar.getInstance();
 
@@ -147,18 +169,37 @@ public class RappelSommeilActivity extends AppCompatActivity {
 
         date.add(Calendar.DAY_OF_MONTH, jourRestant);
         int jour = date.get(Calendar.DAY_OF_MONTH);
-        int id = (date.get(Calendar.DAY_OF_WEEK) + 5) % 7;
-        String h = heure + ":" + minute;
-
+        int id = jourChosit + 1; // jourChosit ∈ [0,6] donc id ∈ [1,7]
+        String h = time;
+        int index = id - 1;
         Map<String, Object> fields = new HashMap<>();
-        if(typeNotif == LesNotifications.RAPPEL_HEURE_COUCHER)
+        if(typeNotif == LesNotifications.RAPPEL_HEURE_COUCHER) {
             fields.put(ConstDB.RAPPELS_SOMMEIL_HEURE_COUCHER, h);
+            if (bedTime[index].isEmpty() && wakeTime[index].isEmpty()){
+                fields.put(ConstDB.RAPPELS_SOMMEIL_ID, id);
+                db.insertData(ConstDB.RAPPELS_SOMMEIL, fields);
+            } else {
+                db.updateTableWithId(ConstDB.RAPPELS_SOMMEIL, fields, id);
+            }
+            bedTime[index] = h;
+        }
 
-        if (typeNotif == LesNotifications.RAPPEL_HEURE_REVEIL)
+        if (typeNotif == LesNotifications.RAPPEL_HEURE_REVEIL){
             fields.put(ConstDB.RAPPELS_SOMMEIL_HEURE_REVEIL, h);
-
-        db.updateTableWithId(ConstDB.RAPPELS_SOMMEIL, fields, id);
+            if (wakeTime[index].isEmpty() && bedTime[index].isEmpty()){
+                fields.put(ConstDB.RAPPELS_SOMMEIL_ID, id);
+                db.insertData(ConstDB.RAPPELS_SOMMEIL, fields);
+            } else{
+                db.updateTableWithId(ConstDB.RAPPELS_SOMMEIL, fields, id);
+            }
+            wakeTime[index] = h;
+        }
 
         AlarmScheduler.setAlarm(RappelSommeilActivity.this, jour, heure, minute, typeNotif);
     }
+
+    private String formatHeure(int heure, int minute) {
+        return String.format("%02dh%02d", heure, minute);
+    }
+
 }
