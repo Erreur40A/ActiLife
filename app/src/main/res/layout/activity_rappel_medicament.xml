@@ -31,12 +31,11 @@
         android:layout_below="@+id/titreMedicaments"
         android:layout_marginStart="0dp"
         android:layout_margin="8dp">
-    <include
-        android:id="@+id/medicamentList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/titreMedicaments"
-        layout="@layout/liste_medicaments"/>
+        <include
+            android:id="@+id/medicamentList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/liste_medicaments"/>
     </FrameLayout>
 
     <!-- Bouton Supprimer : tout en bas -->

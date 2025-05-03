@@ -15,9 +15,11 @@ import java.util.Map;
 public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<MedicamentSuppressionAdapter.ViewHolder> {
 
     private final List<Medicament> medicamentList;
+    private final MedicamentSuppresionListener listener;
 
-    public MedicamentSuppressionAdapter(List<Medicament> list) {
+    public MedicamentSuppressionAdapter(List<Medicament> list, MedicamentSuppresionListener listener) {
         this.medicamentList = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,7 +35,7 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
         Medicament medicament = medicamentList.get(position);
 
         holder.nomTextView.setText(medicament.getNom());
-        holder.heureTextView.setText(" - " + medicament.getHeure());
+        holder.heureTextView.setText(String.format(" - %s", medicament.getHeure()));
 
         holder.btnSupprimer.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
@@ -43,6 +45,7 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
 
             // Rechercher l’enregistrement correspondant dans la BDD
             List<Map<String, String>> tous = db.getAll(ConstDB.MEDICAMENTS);
+
             for (Map<String, String> ligne : tous) {
                 if (ligne.get(ConstDB.MEDICAMENTS_NOM).equals(medicament.getNom())) {
                     String heuresConcat = ligne.get(ConstDB.MEDICAMENTS_HEURES_PRISE);
@@ -70,7 +73,6 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
                                 (int) id
                         );
                     }
-
                     break;
                 }
             }
@@ -78,6 +80,11 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
             // Supprimer visuellement de la liste
             medicamentList.remove(pos);
             notifyItemRemoved(pos);
+            db.close();
+
+            if(listener!=null){
+                listener.onMedicamentSupprimer();
+            }
         });
     }
 
@@ -86,7 +93,7 @@ public class MedicamentSuppressionAdapter extends RecyclerView.Adapter<Medicamen
         return medicamentList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nomTextView, heureTextView;
         ImageButton btnSupprimer;
 

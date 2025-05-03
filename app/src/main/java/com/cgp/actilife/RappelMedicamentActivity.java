@@ -1,6 +1,7 @@
 package com.cgp.actilife;
 
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -8,7 +9,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class RappelMedicamentActivity extends AppCompatActivity {
@@ -25,12 +31,13 @@ public class RappelMedicamentActivity extends AppCompatActivity {
     private RecyclerView recyclerViewMedicaments;
     private MedicamentAdapter medicamentAdapter;
 
-
     public static List<Medicament> medicamentList = new ArrayList<>();
+    //private final ArrayList<String> heures = new ArrayList<>();
 
     private Button btnAjouterMedicament;
     private Button btnSupprimerMedicamen;
-
+    private PopUp pop_up_ajout_medoc;
+    private PopUp pop_up_suppr_medoc;
 
     private List<Medicament> chargerMedicamentsDepuisBDD() {
         DatabaseOpenHelper db = new DatabaseOpenHelper(this);
@@ -50,7 +57,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
                 }
             }
         }
-
+        db.close();
         return liste;
     }
 
@@ -64,18 +71,6 @@ public class RappelMedicamentActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1002);
             }
         }
-
-        //Calendar cal = Calendar.getInstance();
-        //cal.add(Calendar.SECOND, 10); // alarme dans 1 minute
-
-        /*AlarmScheduler.setAlarm(
-                this,
-                cal.get(Calendar.DAY_OF_MONTH),
-                cal.get(Calendar.HOUR_OF_DAY),
-                cal.get(Calendar.MINUTE),
-                LesNotifications.RAPPEL_MEDICAMENT
-        );*/
-
 
         setContentView(R.layout.activity_rappel_medicament);
 
@@ -99,19 +94,103 @@ public class RappelMedicamentActivity extends AppCompatActivity {
         ImageView btnRetour = findViewById(R.id.btnRetour);
         btnRetour.setOnClickListener(v->finish());
 
-        Log.d("DEBUG_MEDICAMENT", "Adapter initialisé avec " + medicamentList.size() + " éléments");
+        pop_up_suppr_medoc = new PopUp(this, R.layout.popup_suppression_medoc);
+        setPopUpSupprMedocListener(pop_up_suppr_medoc);
 
         btnSupprimerMedicamen.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SupprimmerMedicamentActivity.class);
-            startActivityForResult(intent, 1);
+            pop_up_suppr_medoc.show();
         });
 
+        pop_up_ajout_medoc = new PopUp(this, R.layout.popup_ajout_medicament);
+        setPopUpAjoutMedocListener(pop_up_ajout_medoc);
 
         btnAjouterMedicament.setOnClickListener(view -> {
-            Intent intent = new Intent(RappelMedicamentActivity.this, AjoutMedicamentActivity.class);
-            ajoutMedicamentLauncher.launch(intent);
+            pop_up_ajout_medoc.show();
         });
         planifierAlarmesMedicaments();
+    }
+
+    private void setPopUpAjoutMedocListener(PopUp popUp){
+        EditText editNom = popUp.getView(R.id.nomMedicament);
+        LinearLayout layoutHeuresAjoutees = popUp.getView(R.id.layoutHeuresAjoutees);
+        ArrayList<String> heures = new ArrayList<>();
+        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
+        Map<String, Object> fields = new HashMap<>();
+
+        popUp.setOnClickListener(R.id.heureMedicament, v -> {
+            Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Utilise un style classique avec spinner (défilement)
+            TimePickerDialog picker = new TimePickerDialog(
+                    this,
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                    (view, selectedHour, selectedMinute) -> {
+                        final String heure = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute);
+                        final String nomMedoc = editNom.getText().toString().trim();
+
+                        if (nomMedoc.isEmpty()) {
+                            Toast.makeText(this, "Entrez le nom du médicament d'abord", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // 🟢 Vérification dans la liste temporaire
+                        if (!heures.contains(heure)) {
+                            heures.add(heure);
+                            TextView tv = new TextView(popUp.context);
+                            tv.setText(String.format("• %s ", heure));
+                            tv.setTextSize(18);
+                            layoutHeuresAjoutees.addView(tv);
+                        } else {
+                            Toast.makeText(this, "Heure déjà ajoutée", Toast.LENGTH_SHORT).show();
+                        }
+                    },
+                    hour,
+                    minute,
+                    true
+            );
+
+            // Important : applique un fond transparent pour un effet plus fluide
+            picker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            picker.show();
+        });
+
+        popUp.setOnClickListener(R.id.btnRetour1, v -> {
+            popUp.dismiss();
+        });
+
+        popUp.setOnClickListener(R.id.btnAjouterMedicament2, v -> {
+            String nom = editNom.getText().toString().trim();
+
+            if (TextUtils.isEmpty(nom) || heures.isEmpty()) {
+                Toast.makeText(this, "Remplis tous les champs et ajoute au moins une heure", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String lesHeures = String.join(", ", heures);
+            fields.put(ConstDB.MEDICAMENTS_HEURES_PRISE, lesHeures);
+            fields.put(ConstDB.MEDICAMENTS_NOM, nom);
+            db.insertData(ConstDB.MEDICAMENTS, fields);
+
+            medicamentAdapter.addMedicament(new Medicament(nom, lesHeures));
+
+            popUp.dismiss();
+        });
+
+        db.close();
+    }
+
+    private void setPopUpSupprMedocListener(PopUp popUp){
+        RecyclerView recyclerView = popUp.getView(R.id.recyclerViewMedicaments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new MedicamentSuppressionAdapter(medicamentList, () -> {
+            medicamentAdapter.notifyDataSetChanged();
+        }));
+
+        popUp.setOnClickListener(R.id.btnRetourDeSuppression, v -> {
+            popUp.dismiss();
+        });
     }
 
     private final androidx.activity.result.ActivityResultLauncher<Intent> ajoutMedicamentLauncher =

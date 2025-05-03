@@ -42,7 +42,7 @@ public class SupprimmerMedicamentActivity extends AppCompatActivity {
 
         recyclerView = popupView.findViewById(R.id.recyclerViewMedicaments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MedicamentSuppressionAdapter(listeMedocs);
+        adapter = new MedicamentSuppressionAdapter(listeMedocs, () -> {});
         recyclerView.setAdapter(adapter);
 
         AppCompatButton btnRetour = popupView.findViewById(R.id.btnRetourDeSuppression);

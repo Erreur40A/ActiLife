@@ -76,5 +76,8 @@
     <string name="motivation">Motivation</string>
     <string name="logo_actilife">Logo ActiLife</string>
     <string name="retour">Retour</string>
+    <string name="heure_de_prise_medicament">Heure de prise :</string>
+    <string name="demande_nom_du_medicament">Nom du médicament :</string>
+    <string name="fermer">Fermer</string>
 
 </resources>

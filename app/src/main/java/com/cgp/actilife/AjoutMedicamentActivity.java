@@ -123,6 +123,7 @@ public class AjoutMedicamentActivity extends AppCompatActivity {
 
             if (TextUtils.isEmpty(nom) || heures.isEmpty()) {
                 Toast.makeText(this, "Remplis tous les champs et ajoute au moins une heure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Remplis tous les champs et ajoute au moins une heure", Toast.LENGTH_SHORT).show();
                 return;
             }
 

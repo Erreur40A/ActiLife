@@ -21,6 +21,7 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
     public MedicamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_medicament, parent, false);
+
         return new MedicamentViewHolder(itemView);
     }
 
@@ -40,6 +41,19 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
     @Override
     public int getItemCount() {
         return medicamentList.size();
+    }
+
+    public void addMedicament(Medicament medicament) {
+        medicamentList.add(medicament);
+        notifyItemInserted(medicamentList.size() - 1);
+    }
+
+    public void removeMedicament(Medicament medicament){
+        int pos = medicamentList.indexOf(medicament);
+        if(pos!=-1){
+            medicamentList.remove(medicament);
+            notifyItemRemoved(pos);
+        }
     }
 
     public static class MedicamentViewHolder extends RecyclerView.ViewHolder {

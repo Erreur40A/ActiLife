@@ -1,15 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@drawable/background_pop_up"
-    android:layout_height="wrap_content"
-    android:padding="4dp">
+    android:layout_height="wrap_content">
 
     <!-- Bouton Fermer simple -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRetourDeSuppression"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fermer"
+        android:text="@string/fermer"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/rounded_button"
