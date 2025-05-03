@@ -60,12 +60,7 @@
 
         <activity
             android:name=".CaloriesActivity"
-<<<<<<< HEAD
             android:exported="false" />
-=======
-            android:exported="true" />
-
->>>>>>> 54ce29f (backend pas finalisé)
 
         <activity
             android:name=".PoidsActivity"
