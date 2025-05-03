@@ -40,6 +40,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         // PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
+        if(idLayout == -1){
+            //Ne devrai jamais arriver théoriquement
+            throw new InternalError("Le type de notifications spécifier n'existe pas");
         } else if (idLayout == R.layout.notifications_faire_sport || idLayout == R.layout.notifications_prochaine_activite) {
             idAndName = "Sport";
             createChannel(notif_manager, idAndName, idAndName);
@@ -57,6 +60,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //Ne devrai jamais arriver théoriquement
         if (idAndName == null)
+        if(idAndName == null)
             throw new InternalError("L'id du channel n'existe pas");
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, idAndName);
@@ -74,6 +78,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         notif_manager.notify(type_notif.ordinal(), builder.build());
 
     }
+                .setDefaults(NotificationCompat.DEFAULT_ALL);
+
+        notif_manager.notify(type_notif.ordinal(), builder.build());
+    }
+
     public void createChannel(NotificationManager manager, String nameChannel, String idChannel){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(idChannel, nameChannel, NotificationManager.IMPORTANCE_HIGH);
@@ -119,6 +128,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             case RAPPEL_HEURE_REVEIL:
                 layout = R.layout.notifcation_reveil;
+            case RAPPEL_MEDICAMENT:
+                layout = R.layout.notification_medicament;
                 break;
 
             case PROCHAINE_ACTIVITE_SPORTIF:

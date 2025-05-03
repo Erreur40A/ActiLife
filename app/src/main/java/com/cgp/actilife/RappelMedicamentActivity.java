@@ -166,7 +166,6 @@ public class RappelMedicamentActivity extends AppCompatActivity {
         }
     }
 
-
     private void planifierAlarmesMedicaments() {
         DatabaseOpenHelper db = new DatabaseOpenHelper(this);
         List<Map<String, String>> enregistrements = db.getAll(ConstDB.MEDICAMENTS);
