@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:gravity="center" android:width="900dp" android:height="900dp">
+    <item android:gravity="center">
         <bitmap
-            android:src="@drawable/logoactilife"
+            android:src="@drawable/logoactilife2"
             android:gravity="center" />
     </item>
 </layer-list>
