@@ -19,7 +19,7 @@ public class PopUp {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         viewPopup = inflater.inflate(layout, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.PopUpArrondi);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.RoundedDialogTheme);
         builder.setView(viewPopup);
 
         popup = builder.create();

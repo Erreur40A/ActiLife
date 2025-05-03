@@ -79,8 +79,6 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
         text_bar_pas = findViewById(R.id.text_bar_pas);
         texte_motivation_pas = findViewById(R.id.texte_moitivation_pas);
         btnAjouterPas = findViewById(R.id.btn_para_pas);
-        ImageView backArrow = findViewById(R.id.backArrow);
-       // tester = findViewById(R.id.tester);
 
         dateAujourdhui = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
@@ -119,7 +117,7 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
             }
         });
 
-        backArrow.setOnClickListener(v -> finish());
+        btnRetour.setOnClickListener(v -> finish());
     }
 
     @Override
@@ -139,9 +137,6 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-
-            Toast.makeText(this, "🦶 Pas détecté !", Toast.LENGTH_LONG).show();
-
             int totalSteps = (int) event.values[0];
 
 
@@ -152,7 +147,6 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
             if(delayedUpdate != null) handler.removeCallbacks(delayedUpdate);
 
             delayedUpdate = () ->{
-
                 Map<String, Object> fields = new HashMap<>();
                 fields.put(ConstDB.PAS_DATE_DU_JOUR, dateAujourdhui);
                 fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps);
@@ -163,10 +157,6 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
             handler.postDelayed(delayedUpdate, DELAI_ECRITURE);
 
             runOnUiThread(() -> updateUI(currentSteps, objectifDuJour)); // ✅ Sécurisé pour l’UI
-
-            //tester la detection de pas
-            //tester.setText("Total capteur : " + totalSteps + "\nPas aujourd'hui : " + currentSteps);
-
         }
     }
 

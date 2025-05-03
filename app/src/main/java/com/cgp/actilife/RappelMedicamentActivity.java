@@ -193,55 +193,6 @@ public class RappelMedicamentActivity extends AppCompatActivity {
         });
     }
 
-    private final androidx.activity.result.ActivityResultLauncher<Intent> ajoutMedicamentLauncher =
-            registerForActivityResult(new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    ArrayList<Medicament> nouveaux = (ArrayList<Medicament>) result.getData().getSerializableExtra("liste_medocs");
-
-                    if (nouveaux != null && !nouveaux.isEmpty()) {
-                            //  Enregistrement dans la BDD
-                        DatabaseOpenHelper db = new DatabaseOpenHelper(this);
-
-                        // Regrouper les heures par nom
-                        Map<String, List<String>> mapNomVersHeures = new HashMap<>();
-
-                        for (Medicament medicament : nouveaux) {
-                            String nom = medicament.getNom();
-                            String heure = medicament.getHeure();
-
-                            if (!mapNomVersHeures.containsKey(nom)) {
-                                mapNomVersHeures.put(nom, new ArrayList<>());
-                            }
-
-                            mapNomVersHeures.get(nom).add(heure);
-                        }
-
-                        // ✅ Insérer une seule fois chaque médicament avec ses heures concaténées
-                        for (Map.Entry<String, List<String>> entry : mapNomVersHeures.entrySet()) {
-                            String nom = entry.getKey();
-                            String heuresConcat = TextUtils.join(",", entry.getValue());
-
-                            Map<String, Object> fields = new HashMap<>();
-                            fields.put(ConstDB.MEDICAMENTS_NOM, nom);
-                            fields.put(ConstDB.MEDICAMENTS_HEURES_PRISE, heuresConcat);
-
-                            db.insertData(ConstDB.MEDICAMENTS, fields);
-                        }
-
-                        // Vider l'ancienne liste d'affichage
-                        medicamentList.clear();
-
-                        //  Recharger depuis la BDD en splittant les heures
-                        medicamentList.addAll(chargerMedicamentsDepuisBDD());
-
-                        // Notifier le RecyclerView
-                        medicamentAdapter.notifyDataSetChanged();
-                        planifierAlarmesMedicaments();
-
-                    }
-                }
-            });
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

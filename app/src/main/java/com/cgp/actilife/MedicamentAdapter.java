@@ -48,14 +48,6 @@ public class MedicamentAdapter extends RecyclerView.Adapter<MedicamentAdapter.Me
         notifyItemInserted(medicamentList.size() - 1);
     }
 
-    public void removeMedicament(Medicament medicament){
-        int pos = medicamentList.indexOf(medicament);
-        if(pos!=-1){
-            medicamentList.remove(medicament);
-            notifyItemRemoved(pos);
-        }
-    }
-
     public static class MedicamentViewHolder extends RecyclerView.ViewHolder {
         public TextView nomTextView, heureTextView;
 
