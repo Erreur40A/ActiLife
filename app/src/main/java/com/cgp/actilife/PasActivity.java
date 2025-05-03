@@ -76,7 +76,7 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
         texte_motivation_pas = findViewById(R.id.texte_moitivation_pas);
         btnAjouterPas = findViewById(R.id.btn_para_pas);
         ImageView backArrow = findViewById(R.id.backArrow);
-        tester = findViewById(R.id.tester);
+       // tester = findViewById(R.id.tester);
 
         dateAujourdhui = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
