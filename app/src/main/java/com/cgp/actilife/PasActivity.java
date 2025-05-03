@@ -59,6 +59,10 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
 
         setContentView(R.layout.activity_pas);
 
+
+        ImageView btnRetour = findViewById(R.id.backArrow);
+        btnRetour.setOnClickListener(v -> finish());
+
         db = new DatabaseOpenHelper(this);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);

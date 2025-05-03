@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="PopUpArrondi">
+    <style name="PopUpArrondi2">
         <item name="android:windowBackground">@drawable/background_pop_up_calories</item>
         <item name="android:windowIsFloating">true</item>
     </style>

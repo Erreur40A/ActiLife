@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 new MenuItem(R.id.menu4, R.drawable.person_running_solid, "Planning de sport", PlanningSportActivity.class),
                 new MenuItem(R.id.menu5, R.drawable.prescription_bottle_medical_solid, "Rappel medocs", RappelMedicamentActivity.class),
                 new MenuItem(R.id.menu6, R.drawable.bed_solid, "Rappel sommeil", RappelSommeilActivity.class),
-                new MenuItem(R.id.menu7, R.drawable.bottle_water_solid, "Rappel hydratation", RappelHydratationActivity.class)
+                new MenuItem(R.id.menu7, R.drawable.bottle_water_solid, "Rappel hydratation", SettingsActivity.class)
         );
 
         // Boucle pour configurer les menus dynamiquement

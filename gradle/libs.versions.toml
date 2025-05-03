@@ -11,7 +11,6 @@ constraintlayout = "2.1.4"
 materialVersion = "1.11.0"
 sqliteassethelper = "2.0.1"
 workRuntime = "2.10.0"
-materialVersion = "1.11.0"
 mpandroidchart = "v3.1.0"
 systembartint = "1.0.4"
 
@@ -27,7 +26,6 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 material-v1110 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 sqliteassethelper = { module = "com.readystatesoftware.sqliteasset:sqliteassethelper", version.ref = "sqliteassethelper" }
 work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
-material-v1110 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 mpandroidchart = {group = "com.github.PhilJay", name = "mpandroidchart", version.ref = "mpandroidchart" }
 systembartint = { module = "com.readystatesoftware.systembartint:systembartint", version.ref = "systembartint" }
 

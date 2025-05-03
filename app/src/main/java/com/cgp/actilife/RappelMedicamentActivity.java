@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -90,9 +91,13 @@ public class RappelMedicamentActivity extends AppCompatActivity {
         btnAjouterMedicament = findViewById(R.id.btnAjouterMedicament);
         btnSupprimerMedicamen = findViewById(R.id.btnSupprimerMedicament);
 
+
         recyclerViewMedicaments.setLayoutManager(new LinearLayoutManager(this));
         medicamentAdapter = new MedicamentAdapter(medicamentList);
         recyclerViewMedicaments.setAdapter(medicamentAdapter);
+
+        ImageView btnRetour = findViewById(R.id.btnRetour);
+        btnRetour.setOnClickListener(v->finish());
 
         Log.d("DEBUG_MEDICAMENT", "Adapter initialisé avec " + medicamentList.size() + " éléments");
 
@@ -100,7 +105,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SupprimmerMedicamentActivity.class);
             startActivityForResult(intent, 1);
         });
-        //btnderetour.setOnClickListener(v->finish());
+
 
         btnAjouterMedicament.setOnClickListener(view -> {
             Intent intent = new Intent(RappelMedicamentActivity.this, AjoutMedicamentActivity.class);

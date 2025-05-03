@@ -2,6 +2,7 @@ package com.cgp.actilife;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +46,8 @@ public class PoidsActivity extends AppCompatActivity {
         graph.getAxisRight().setEnabled(false);
         graph.setDescription(null);
 
+        ImageView btnRetour = findViewById(R.id.btnRetour);
+        btnRetour.setOnClickListener(v->finish());
         // Les points du graphe
         ArrayList<Entry> lesPoints = new ArrayList<>(7);
 

@@ -59,7 +59,8 @@ public class PlanningSportActivity extends AppCompatActivity {
 
         messageMotivation.setText(db.getMotivation(ConstDB.MOTIVATIONS_TYPE_SPORT));
 
-       // btnRetour.setOnClickListener(view -> finish());
+       btnRetour.setOnClickListener(view -> finish());
+
         List<Map<String, String >> allActivites = db.getAll(ConstDB.ACTIVITES_SPORTIVES);
         if (!allActivites.isEmpty()){
             allActivites.forEach((map-> {
@@ -77,11 +78,11 @@ public class PlanningSportActivity extends AppCompatActivity {
         }
 
         //test de rappel medicament au btn retour
-        btnRetour.setOnClickListener(view -> {
-            Intent intent = new Intent(PlanningSportActivity.this, RappelMedicamentActivity.class);
-            startActivity(intent);
-            finish(); // Optionnel : ferme la page actuelle pour ne pas empiler les écrans
-        });
+//        btnRetour.setOnClickListener(view -> {
+//            Intent intent = new Intent(PlanningSportActivity.this, RappelMedicamentActivity.class);
+//            startActivity(intent);
+//            finish(); // Optionnel : ferme la page actuelle pour ne pas empiler les écrans
+//        });
 
 
         PopUp pop_up_ajout_activite = new PopUp(this, R.layout.popup_ajout_activite);
