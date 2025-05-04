@@ -2,7 +2,6 @@ package com.cgp.actilife;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -261,18 +260,23 @@ public class PlanningSportActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewActivitesSportives);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        if (!listeActivitesSportives.isEmpty()){
-            // Initialisation avec les donnees dans la bd
-            ArrayList<Pair<Activite, String>> listDePair = new ArrayList<>();
-            for (Activite act : listeActivitesSportives) {
-                for (String jour : act.getJours()) {
-                    listDePair.add(new Pair<>(act, jour));
-                }
+        // Toujours initialiser, même s’il n’y a rien
+        ArrayList<Pair<Activite, String>> listDePair = new ArrayList<>();
+        for (Activite act : listeActivitesSportives) {
+            for (String jour : act.getJours()) {
+                listDePair.add(new Pair<>(act, jour));
             }
-            activiteAdapter = new ActiviteAdapter(listDePair);
-            recyclerView.setAdapter(activiteAdapter);
+        }
+        activiteAdapter = new ActiviteAdapter(listDePair);
+        recyclerView.setAdapter(activiteAdapter);
+
+        // Gère la visibilité du conteneur après coup
+        if (listDePair.isEmpty()) {
+            conteneurRecycler.setVisibility(View.GONE);
+        } else {
             conteneurRecycler.setVisibility(View.VISIBLE);
         }
+
 
         pop_up_ajout_activite.setOnClickListener(R.id.btnRetour2, v -> pop_up_ajout_activite.dismiss());
 
@@ -324,9 +328,13 @@ public class PlanningSportActivity extends AppCompatActivity {
                         activiteAdapter.updateData(nouvelleListe);
                         recyclerViewSupprimer.getAdapter().notifyDataSetChanged();
 
-                        if (listeActivitesSportives.isEmpty()) {
+                        /*if (listeActivitesSportives.isEmpty()) {
                             conteneurRecycler.setVisibility(View.GONE);
                             conteneurRecyclerSuppr.setVisibility(View.GONE);
+                        }*/
+                        if (listeActivitesSportives.isEmpty()) {
+                            recyclerViewSupprimer.setVisibility(View.GONE);
+                            
                         }
                     }
             );
