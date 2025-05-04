@@ -334,7 +334,7 @@ public class PlanningSportActivity extends AppCompatActivity {
                         }*/
                         if (listeActivitesSportives.isEmpty()) {
                             recyclerViewSupprimer.setVisibility(View.GONE);
-                            
+
                         }
                     }
             );
