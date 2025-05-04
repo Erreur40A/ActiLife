@@ -18,7 +18,7 @@
     <string name="desc_img_medicament">image de médicament</string>
     <string name="text_notif_reveil">C’est l’heure de se réveillez</string>
     <string name="text_notif_couchez">C’est l’heure de se couchez</string>
-    <string name="text_notif_médicament">C’est l’heure de prendre vos</string>
+    <string name="text_notif_médicament">C’est l’heure de prendre vos médicaments</string>
     <string name="nomE">Nom</string>
     <string name="pr_nom">Prénom</string>
     <string name="date_de_naissance">Date de naissance</string>

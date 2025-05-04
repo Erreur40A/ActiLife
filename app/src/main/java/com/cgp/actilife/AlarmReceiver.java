@@ -14,6 +14,8 @@ import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 
+import java.util.Calendar;
+
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,54 +35,31 @@ public class AlarmReceiver extends BroadcastReceiver {
         } else if (idLayout == R.layout.notification_hydratation) {
             idAndName = "Rappel Hydratation";
             createChannel(notif_manager, idAndName, idAndName);
+        } else if (idLayout == R.layout.notifications_faire_sport || idLayout == R.layout.notifications_prochaine_activite) {
+            idAndName = "Sport";
+            createChannel(notif_manager, idAndName, idAndName);
+        }else if (idLayout == R.layout.notification_medicament) {
+            idAndName = "Medicament";
+            createChannel(notif_manager, idAndName, idAndName);
         }
 
-        // Intent intentActivity = new Intent(context, MainActivity.class);
-        // intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        Intent intentActivity = new Intent(context, MainActivity.class);
+        intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        else if (idLayout == R.layout.notifications_prochaine_activite || idLayout == R.layout.notifications_faire_sport) {
-            if (idLayout == -1) {
-                //Ne devrai jamais arriver théoriquement
-                throw new InternalError("Le type de notifications spécifier n'existe pas");
-            } else if (idLayout == R.layout.notifications_faire_sport || idLayout == R.layout.notifications_prochaine_activite) {
-                idAndName = "Sport";
-                createChannel(notif_manager, idAndName, idAndName);
-            }
-            if (idLayout == R.layout.notification_medicament) {
-                idAndName = "Medicament";
-                createChannel(notif_manager, idAndName, idAndName);
-            }
+        RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, idAndName);
 
-            Intent intentActivity = new Intent();
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, type_notif.ordinal(), intentActivity, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        builder.setSmallIcon(R.drawable.logoactilife)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setCustomContentView(layout_notif)
+                .setContentIntent(pendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setContentIntent(pendingIntent);
 
-            RemoteViews layout_notif = new RemoteViews(context.getPackageName(), idLayout);
-
-            //Ne devrai jamais arriver théoriquement
-            if (idAndName == null)
-                if (idAndName == null)
-                    throw new InternalError("L'id du channel n'existe pas");
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, idAndName);
-
-            builder.setSmallIcon(R.drawable.logoactilife)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(true)
-                    .setCustomContentView(layout_notif)
-                    .setContentIntent(pendingIntent)
-                    .setDefaults(NotificationCompat.DEFAULT_ALL)
-                    .setContentIntent(pendingIntent);
-
-            notif_manager.notify(type_notif.ordinal(), builder.build());
-
-            // notif_manager.notify(type_notif.ordinal(), builder.build());
-
-        }
-              //  .setDefaults(NotificationCompat.DEFAULT_ALL);
-
-       // notif_manager.notify(type_notif.ordinal(), builder.build());
+        notif_manager.notify(type_notif.ordinal(), builder.build());
     }
 
     public void createChannel(NotificationManager manager, String nameChannel, String idChannel){
