@@ -193,6 +193,7 @@ public class PlanningSportActivity extends AppCompatActivity {
             db.insertData(ConstDB.ACTIVITES_SPORTIVES, activityFields);
             listeActivitesSportives.add(nouvelle);
 
+            int i = 0;
             for (String jour : nouvelle.getJours()){
                 // Nouvelle partie : Planifier une alarme pour chaque jour et chaque activité
                 try {
@@ -223,18 +224,28 @@ public class PlanningSportActivity extends AppCompatActivity {
                         cal.add(Calendar.DAY_OF_YEAR, 1); // Si l'heure est déjà passée aujourd'hui
                     }
 
-                    AlarmScheduler.setAlarm(
-                            getApplicationContext(),
-                            cal.get(Calendar.DAY_OF_MONTH),
-                            cal.get(Calendar.HOUR_OF_DAY),
-                            cal.get(Calendar.MINUTE),
-                            LesNotifications.PROCHAINE_ACTIVITE_SPORTIF
-                    );
+                    if(i==0){
+                        AlarmScheduler.setAlarm(
+                                getApplicationContext(),
+                                cal.get(Calendar.DAY_OF_MONTH),
+                                cal.get(Calendar.HOUR_OF_DAY),
+                                cal.get(Calendar.MINUTE),
+                                LesNotifications.BIENTOT_HEURE_SPORT
+                        );
+                    }else{
+                        AlarmScheduler.setAlarm(
+                                getApplicationContext(),
+                                cal.get(Calendar.DAY_OF_MONTH),
+                                cal.get(Calendar.HOUR_OF_DAY),
+                                cal.get(Calendar.MINUTE),
+                                LesNotifications.PROCHAINE_ACTIVITE_SPORTIF
+                        );
+                    }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e("AlarmSetup", "Erreur lors de la création de l'alarme pour l'activité : " + nouvelle.getNom() + " jour: " + jour);
+                    Log.e("AlarmSetup", "Erreur lors de la création de l'alarme pour l'activité : " + nouvelle.getNom() + " jour: " + jour, e);
                 }
+                i++;
             }
 
             // Mise à jour du RecyclerView
