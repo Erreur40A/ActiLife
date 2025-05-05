@@ -121,7 +121,10 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
                     fields.put(ConstDB.PAS_NB_PAS_AUJOURDHUI, currentSteps);
                 }
 
-                db.updateTableWithoutId(ConstDB.PAS, fields);
+                if (dataExistante.isEmpty() || dataExistante.get(ConstDB.PAS_DATE_DU_JOUR) == null) {
+                    db.insertData(ConstDB.PAS, fields);
+                } else {
+                    db.updateTableWithoutId(ConstDB.PAS, fields);}
                 updateUI(currentSteps, newGoal);
 
                 texte_motivation_pas.setText(db.getMotivation(ConstDB.MOTIVATIONS_TYPE_PAS));
