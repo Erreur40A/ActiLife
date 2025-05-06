@@ -63,15 +63,13 @@ public class CaloriesActivity extends AppCompatActivity {
 
         calculerEtMettreAJourCaloriesNecessaires();
 
-        new Thread(() -> {
-            String caloriesAjd = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
-            Log.i(" Calorie T", "caloriesAjd " + caloriesAjd);
-            if (caloriesAjd == null || caloriesAjd.isEmpty()) {
-                Map<String, Object> init = new HashMap<>();
-                init.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, 0);
-                dbHelper.updateTableWithoutId(ConstDB.CALORIES, init);
-            }
-        }).start();
+        String caloriesAjd = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
+        if (caloriesAjd == null || caloriesAjd.isEmpty()) {
+            Map<String, Object> init = new HashMap<>();
+            init.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, 0);
+            dbHelper.updateTableWithoutId(ConstDB.CALORIES, init);
+        }
+
 
         // Bouton "Valider"
         Button btnValider = findViewById(R.id.btnValider);
@@ -160,35 +158,30 @@ public class CaloriesActivity extends AppCompatActivity {
     }
 
     private void loadCaloriesFromDatabase() {
-        new Thread(() -> {
-            try {
-                String caloriesStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR);
-                int caloriesNecessaires = caloriesStr != null && !caloriesStr.isEmpty() ? Integer.parseInt(caloriesStr) : 0;
+        try {
+            String caloriesStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR);
+            int caloriesNecessaires = caloriesStr != null && !caloriesStr.isEmpty() ? Integer.parseInt(caloriesStr) : 0;
 
-                String caloriesAjdStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
-                Log.i("Calorie T", "caloriesAjdStr" + caloriesAjdStr);
-                int caloriesAjd = caloriesAjdStr != null && !caloriesAjdStr.isEmpty() ? Integer.parseInt(caloriesAjdStr) : 0;
+            String caloriesAjdStr = dbHelper.getAttributeWithoutId(ConstDB.CALORIES, ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI);
+            int caloriesAjd = caloriesAjdStr != null && !caloriesAjdStr.isEmpty() ? Integer.parseInt(caloriesAjdStr) : 0;
 
-                int caloriesRestantes = Math.max(0, caloriesNecessaires - caloriesAjd);
+            int caloriesRestantes = Math.max(0, caloriesNecessaires - caloriesAjd);
 
-                runOnUiThread(() -> nbCaloriesTextView.setText(String.valueOf(caloriesRestantes)));
-
-            } catch (Exception e) {
-                Log.e("Calories", "Erreur de chargement", e);
-                runOnUiThread(() -> nbCaloriesTextView.setText("Erreur"));
-            }
-        }).start();
+            nbCaloriesTextView.setText(String.valueOf(caloriesRestantes));
+        } catch (Exception e) {
+            e.printStackTrace();
+            nbCaloriesTextView.setText("Erreur");
+        }
     }
 
     private void updateCaloriesDisplay(int newCalories) {
         updateProgressBar();
 
-        new Thread(() -> {
-            Map<String, Object> updateFields = new HashMap<>();
-            Log.i("Calorie T", "updateCaloriesDisplay newCalories =" + newCalories );
-            updateFields.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, newCalories);
-            dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
-        }).start();
+        Map<String, Object> updateFields = new HashMap<>();
+        Log.i("Calorie T", "updateCaloriesDisplay newCalories =" + newCalories );
+        updateFields.put(ConstDB.CALORIES_NB_CALORIES_AUJOURDHUI, newCalories);
+        dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
+
     }
 
     private void updateProgressBar() {
@@ -348,44 +341,36 @@ public class CaloriesActivity extends AppCompatActivity {
     }
 
     private void calculerEtMettreAJourCaloriesNecessaires() {
-        new Thread(() -> {
-            try {
-                Map<String, String> userdata = dbHelper.getOneWithoutId(ConstDB.USERDATA);
 
-                int taille = 170;
-                int poids = 80;
-                int age = 25;
+        try {
+            Map<String, String> userdata = dbHelper.getOneWithoutId(ConstDB.USERDATA);
 
-                if (userdata != null) {
-                    String tailleStr = userdata.get(ConstDB.USERDATA_TAILLE_CM);
-                    String poidsStr = userdata.get(ConstDB.USERDATA_POIDS_CIBLE);
-                    String dateNaissanceStr = userdata.get(ConstDB.USERDATA_DATE_NAISSANCE);
+            int taille = 170;
+            int poids = 80;
+            int age = 25;
 
-                    if (tailleStr != null && !tailleStr.isEmpty()) {
-                        taille = Integer.parseInt(tailleStr);
-                    }
-                    if (poidsStr != null && !poidsStr.isEmpty()) {
-                        poids = Integer.parseInt(poidsStr);
-                    }
-                    if (dateNaissanceStr != null && !dateNaissanceStr.isEmpty()) {
-                        age = calculerAge(dateNaissanceStr);
-                    }
-                }
+            if (userdata != null) {
+                String tailleStr = userdata.get(ConstDB.USERDATA_TAILLE_CM);
+                String poidsStr = userdata.get(ConstDB.USERDATA_POIDS_CIBLE);
+                String dateNaissanceStr = userdata.get(ConstDB.USERDATA_DATE_NAISSANCE);
 
-                int caloriesNecessaires = (int) (10 * poids + 6.25 * taille - 5 * age - 78);
-
-                Map<String, Object> updateFields = new HashMap<>();
-                updateFields.put(ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR, caloriesNecessaires);
-                dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
-
-                runOnUiThread(() -> {
-                    updateProgressBar();
-                    loadCaloriesFromDatabase();
-                });
-
-            } catch (Exception e) {
-                e.printStackTrace();
+                if (tailleStr != null && !tailleStr.isEmpty()) taille = Integer.parseInt(tailleStr);
+                if (poidsStr != null && !poidsStr.isEmpty()) poids = Integer.parseInt(poidsStr);
+                if (dateNaissanceStr != null && !dateNaissanceStr.isEmpty()) age = calculerAge(dateNaissanceStr);
             }
-        }).start();
+
+            int caloriesNecessaires = (int) (10 * poids + 6.25 * taille - 5 * age - 78);
+
+            Map<String, Object> updateFields = new HashMap<>();
+            updateFields.put(ConstDB.CALORIES_CALORIES_NECESSAIRES_PAR_JOUR, caloriesNecessaires);
+            dbHelper.updateTableWithoutId(ConstDB.CALORIES, updateFields);
+
+            updateProgressBar();
+            loadCaloriesFromDatabase();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
