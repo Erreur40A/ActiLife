@@ -10,6 +10,7 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -19,6 +20,7 @@ import java.util.Calendar;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("onReceive ALARM", "alarme recu" + intent.toString());
         NotificationManager notif_manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         LesNotifications type_notif = (LesNotifications) intent.getSerializableExtra("type_notif");
 

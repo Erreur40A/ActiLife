@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -74,18 +75,11 @@ public class RappelMedicamentActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_rappel_medicament);
 
-        // ✅ Test d'envoi manuel de l'alarme
-        Intent testIntent = new Intent(this, AlarmReceiver.class);
-        testIntent.setAction("com.cgp.actilife.ALARME_MEDICAMENT");
-        testIntent.putExtra("type_notif", LesNotifications.RAPPEL_MEDICAMENT);
-        sendBroadcast(testIntent);
-
         medicamentList = chargerMedicamentsDepuisBDD();
 
         recyclerViewMedicaments = findViewById(R.id.recyclerViewMedicaments);
         btnAjouterMedicament = findViewById(R.id.btnAjouterMedicament);
         btnSupprimerMedicamen = findViewById(R.id.btnSupprimerMedicament);
-
 
         recyclerViewMedicaments.setLayoutManager(new LinearLayoutManager(this));
         medicamentAdapter = new MedicamentAdapter(medicamentList);
@@ -119,7 +113,7 @@ public class RappelMedicamentActivity extends AppCompatActivity {
 
         popUp.setOnClickListener(R.id.heureMedicament, v -> {
             Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR);
+            int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
             // Utilise un style classique avec spinner (défilement)
@@ -151,12 +145,23 @@ public class RappelMedicamentActivity extends AppCompatActivity {
                     true
             );
 
+            Log.d("les heures edit text heure", heures.toString());
             // Important : applique un fond transparent pour un effet plus fluide
             picker.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             picker.show();
         });
 
         popUp.setOnClickListener(R.id.btnRetour1, v -> {
+            editNom.getText().clear();
+            int nbenfant = layoutHeuresAjoutees.getChildCount();
+
+            for (int i = 0; i < nbenfant; i++) {
+                TextView view = (TextView) layoutHeuresAjoutees.getChildAt(i);
+                view.setText("");
+            }
+
+            heures.clear();
+
             popUp.dismiss();
         });
 
@@ -173,8 +178,33 @@ public class RappelMedicamentActivity extends AppCompatActivity {
             fields.put(ConstDB.MEDICAMENTS_NOM, nom);
             db.insertData(ConstDB.MEDICAMENTS, fields);
 
+            Log.d("les heures bouton ajout medoc", heures.toString());
+
+            for (String horaire: heures) {
+                String heure = horaire.split(":")[0];
+                String minute = horaire.split(":")[1];
+
+                Calendar calendar = Calendar.getInstance();
+
+                AlarmScheduler.setAlarm(
+                        this,
+                        calendar.get(Calendar.DAY_OF_MONTH),
+                        Integer.parseInt(heure),
+                        Integer.parseInt(minute),
+                        LesNotifications.RAPPEL_MEDICAMENT);
+            }
+
             medicamentAdapter.addMedicament(new Medicament(nom, lesHeures));
 
+            editNom.getText().clear();
+            int nbenfant = layoutHeuresAjoutees.getChildCount();
+
+            for (int i = 0; i < nbenfant; i++) {
+                TextView view = (TextView) layoutHeuresAjoutees.getChildAt(i);
+                view.setText("");
+            }
+
+            heures.clear();
             popUp.dismiss();
         });
 
@@ -241,5 +271,4 @@ public class RappelMedicamentActivity extends AppCompatActivity {
             }
         }
     }
-
 }
