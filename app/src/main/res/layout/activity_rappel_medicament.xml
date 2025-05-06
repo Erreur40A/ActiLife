@@ -4,10 +4,10 @@
 
     <!-- En-tête -->
     <include
-        android:id="@+id/header"
+        android:id="@+id/backArrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/entete_rappel_medicament"/>
+        layout="@layout/entete" />
 
     <!-- Titre "Rappel de médicaments" -->
     <TextView
@@ -18,7 +18,7 @@
         android:textSize="35sp"
         android:textStyle="bold"
         android:textColor="@color/primaryColor"
-        android:layout_below="@id/header"
+        android:layout_below="@id/backArrow"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp" />

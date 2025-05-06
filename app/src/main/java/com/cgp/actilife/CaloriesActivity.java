@@ -142,7 +142,7 @@ public class CaloriesActivity extends AppCompatActivity {
         initializeSampleFoodItems();
 
         // Gestion du bouton retour
-        ImageView backArrow = findViewById(R.id.backArrow);
+        ImageView backArrow = findViewById(R.id.btnRetour);
         backArrow.setOnClickListener(v -> finish());
 
         // Bouton "Ajouter un plat"

@@ -5,10 +5,13 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/header"
+        android:id="@+id/backArrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/entete_planning_sport"/>
+        layout="@layout/entete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <!-- Titre "Rappel de médicaments" -->
     <TextView
@@ -19,7 +22,7 @@
         android:textSize="35sp"
         android:textStyle="bold"
         android:textColor="@color/primaryColor"
-        android:layout_below="@id/header"
+        android:layout_below="@id/backArrow"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp" />

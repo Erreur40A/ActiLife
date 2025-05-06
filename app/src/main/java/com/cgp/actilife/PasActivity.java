@@ -62,7 +62,7 @@ public class PasActivity extends AppCompatActivity implements SensorEventListene
 
         setContentView(R.layout.activity_pas);
 
-        ImageView btnRetour = findViewById(R.id.backArrow);
+        ImageView btnRetour = findViewById(R.id.btnRetour);
         btnRetour.setOnClickListener(v -> finish());
 
         db = new DatabaseOpenHelper(this);
