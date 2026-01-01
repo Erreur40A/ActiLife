@@ -14,3 +14,7 @@ ActiLife a été développée en Java. La base de données SQLite est intégrée
 Les interfaces ont été faites au moyen du fichier XML.
 
 ## Demo
+
+                              https://github.com/user-attachments/assets/045a37d6-6ebc-437a-b4ea-805859de8a8d
+
+                    
